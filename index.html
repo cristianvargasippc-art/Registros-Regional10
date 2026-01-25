@@ -229,29 +229,6 @@
             font-size: 1.2em;
         }
 
-        .password-container {
-            position: relative;
-            width: 100%;
-        }
-
-        .password-toggle {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.8em;
-            padding: 5px;
-            z-index: 10;
-            line-height: 1;
-        }
-
-        .password-toggle:hover {
-            opacity: 0.7;
-        }
-
         .form-group input {
             width: 100%;
             padding: 18px;
@@ -259,11 +236,6 @@
             border-radius: 10px;
             font-size: 1.1em;
             transition: all 0.3s;
-        }
-
-        .form-group input[type="password"],
-        .form-group input.password-input {
-            padding-right: 60px;
         }
 
         .form-group input:focus,
@@ -446,26 +418,6 @@
             color: #1a2a6c;
         }
 
-        .regional-checkbox {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .regional-checkbox input[type="checkbox"] {
-            width: 25px;
-            height: 25px;
-            cursor: pointer;
-            accent-color: #27ae60;
-        }
-
-        .regional-checkbox label {
-            color: #27ae60;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-
         .download-buttons {
             display: flex;
             gap: 15px;
@@ -551,14 +503,43 @@
             font-size: 1.1em;
             opacity: 0.9;
         }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #1a2a6c;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
     <div class="container">
         <div class="header">
             <div class="header-content">
-                <img src="imagenes/minerd.png" alt="Logo MINERD" class="logo" id="logoMinerd">
-                <img src="imagenes/plerd.jpg" alt="Logo PLERD" class="logo" id="logoPlerd">
                 <h1>CELIDER DISTRITALES REGISTROS</h1>
             </div>
         </div>
@@ -615,7 +596,6 @@
         </div>
     </div>
 
-    <!-- Modales (Login, Upload, Config, Student Search, WhatsApp, Rubrics, Assignments, Commissions) -->
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('loginModal')">&times;</span>
@@ -643,65 +623,12 @@
             <h2>📤 Subir Lista de Estudiantes</h2>
             
             <div class="alert alert-info">
-                <strong>📋 INSTRUCCIONES IMPORTANTES:</strong><br><br>
-                1. Tu archivo Excel debe tener <strong>EXACTAMENTE 3 columnas</strong> en este orden<br>
-                2. <strong>Columna 1:</strong> "Nombre Completo" - Nombre y apellido del estudiante<br>
-                3. <strong>Columna 2:</strong> "Centro Educativo" - Nombre completo de la escuela<br>
-                4. <strong>Columna 3:</strong> "Distrito" - Debe ser: 10-02, 10-04 o 10-06<br>
-                5. <strong>NO</strong> incluyas filas vacías entre los datos<br>
-                6. <strong>NO</strong> uses caracteres especiales en los nombres<br>
-                7. Los nombres de las columnas deben ser <strong>EXACTAMENTE</strong> como se muestran abajo<br>
-                8. Guarda el archivo en formato <strong>.xlsx</strong> o <strong>.xls</strong><br><br>
-                <strong style="color: #b21f1f;">⚠️ Si el formato no es exacto, el sistema NO podrá procesar el archivo.</strong>
-            </div>
-
-            <div class="excel-example">
-                <h4>📋 EJEMPLO EXACTO DE FORMATO EXCEL REQUERIDO:</h4>
-                <p style="margin-bottom: 15px; color: #856404;"><strong>⚠️ Los nombres de las columnas deben escribirse EXACTAMENTE como aparecen aquí:</strong></p>
-                <table class="excel-table">
-                    <thead>
-                        <tr>
-                            <th>Nombre Completo</th>
-                            <th>Centro Educativo</th>
-                            <th>Distrito</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Juan Pérez López</td>
-                            <td>Liceo María Montessori</td>
-                            <td>10-02</td>
-                        </tr>
-                        <tr>
-                            <td>Ana García Rodríguez</td>
-                            <td>Escuela Primaria San José</td>
-                            <td>10-04</td>
-                        </tr>
-                        <tr>
-                            <td>Carlos Martínez Santos</td>
-                            <td>Centro Educativo Las Américas</td>
-                            <td>10-06</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p style="margin-top: 15px; color: #b21f1f; font-weight: bold;">
-                    ⚠️ IMPORTANTE: No agregues columnas adicionales, no cambies el orden, no uses otros nombres.
-                </p>
-            </div>
-
-            <div class="alert alert-warning">
-                <strong>⚠️ ANTES DE SUBIR EL ARCHIVO:</strong><br>
-                • Verifica que los nombres estén completos (nombre y apellido)<br>
-                • Confirma que todos los distritos estén escritos correctamente (10-02, 10-04, 10-06)<br>
-                • Asegúrate de que NO haya celdas vacías<br>
-                • Revisa que los nombres de centros educativos estén completos<br>
-                • El archivo debe estar guardado y cerrado antes de subirlo
+                <strong>📋 INSTRUCCIONES:</strong><br>
+                El archivo Excel debe tener 3 columnas: Nombre Completo, Centro Educativo, Distrito
             </div>
 
             <div class="file-upload-area" onclick="document.getElementById('excelFile').click()">
                 <h3>📁 Click aquí para seleccionar archivo Excel</h3>
-                <p style="color: #666; margin-top: 10px;">Formatos aceptados: .xlsx, .xls</p>
-                <p style="color: #b21f1f; font-weight: bold; margin-top: 5px;">Solo se procesarán archivos con el formato correcto</p>
                 <input type="file" id="excelFile" accept=".xlsx,.xls" onchange="handleFileUpload(event)">
             </div>
             <div id="uploadResult"></div>
@@ -770,8 +697,24 @@
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
     <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyA2HicfJnEoNOdgjfERIgkiJ0GA260HyLA",
+            authDomain: "celider-distritales-f8753.firebaseapp.com",
+            databaseURL: "https://celider-distritales-f8753-default-rtdb.firebaseio.com",
+            projectId: "celider-distritales-f8753",
+            storageBucket: "celider-distritales-f8753.firebasestorage.app",
+            messagingSenderId: "252428103373",
+            appId: "1:252428103373:web:6a209f9de105f8474d0384"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
         const users = {
             'CUENTA1': { password: 'DISTRITO 10-02', district: '10-02' },
             'CUENTA2': { password: 'DISTRITO 10-04', district: '10-04' },
@@ -780,20 +723,20 @@
         };
 
         const commissions = [
-            { id: 'fao', name: 'FAO', fullName: 'FAO - Organización de las Naciones Unidas para la Alimentación y la Agricultura', topic: 'Impactos del cambio climático en la producción agrícola familiar y la seguridad alimentaria en el Caribe.', min: 30, max: 60, type: 'delegaciones' },
-            { id: 'oms', name: 'OMS', fullName: 'OMS - Organización Mundial de la Salud', topic: 'Acceso equitativo a vacunas y medicamentos en países de ingreso bajo y medio.', min: 30, max: 60, type: 'delegaciones' },
-            { id: 'unicef', name: 'UNICEF', fullName: 'UNICEF - Fondo de las Naciones Unidas para la Infancia', topic: 'Protección de los derechos de los niños en el contexto de la migración infantil en América Central.', min: 30, max: 60, type: 'delegaciones' },
-            { id: 'uit', name: 'UIT', fullName: 'UIT - Unión Internacional de Telecomunicaciones', topic: 'Cooperación internacional frente a la vulneración de derechos digitales en niños y adolescentes.', min: 30, max: 60, type: 'delegaciones' },
-            { id: 'unesco', name: 'UNESCO', fullName: 'UNESCO - Organización de las Naciones Unidas para la Educación, la Ciencia y la Cultura', topic: 'Preservación del patrimonio cultural inmaterial frente al turismo masivo y la mercantilización digital.', min: 30, max: 60, type: 'delegaciones' },
-            { id: 'oit', name: 'OIT', fullName: 'OIT - Organización Internacional del Trabajo', topic: 'Responsabilidad corporativa ante la explotación laboral de niños en la cadena de suministro global.', min: 30, max: 60, type: 'delegaciones' },
-            { id: 'bandung', name: '1955', fullName: '1955 - Conferencia de Bandung', topic: 'Descolonización, cooperación sur-sur y el nacimiento del movimiento de los no alineados.', min: 29, max: 58, type: 'delegaciones' },
-            { id: 'cij', name: 'CIJ', fullName: 'CIJ - Corte Internacional de Justicia', topic: 'Opinión consultiva: Legalidad de la explotación de recursos naturales en zonas marinas continentales en disputa territorial.', min: 15, max: 15, type: 'magistrados' },
-            { id: 'interpol', name: 'INTERPOL', fullName: 'INTERPOL - Organización Internacional de Policía Criminal', topic: 'Caso para preparar por la Secretaría General Académica del Modelo Distrital en coordinación con el Club Distrital y Regional correspondiente.', min: 50, max: 50, type: 'agentes' },
-            { id: 'otan', name: 'OTAN', fullName: 'OTAN - Organización del Tratado del Atlántico Norte', topic: 'Cooperación en defensa ante amenazas híbridas, ciberataques y desinformación en escenarios de guerra contemporánea.', min: 32, max: 64, type: 'delegaciones' },
-            { id: 'oas', name: 'OAS', fullName: 'OAS - Permanent Council of the Organization of American States', topic: 'Strengthening democratic institutions and electoral integrity in Latin America and the Caribbean.', min: 35, max: 35, type: 'states' }
+            { id: 'fao', name: 'FAO', fullName: 'FAO - Organización de las Naciones Unidas para la Alimentación y la Agricultura', topic: 'Impactos del cambio climático', min: 30, max: 60, type: 'delegaciones' },
+            { id: 'oms', name: 'OMS', fullName: 'OMS - Organización Mundial de la Salud', topic: 'Acceso equitativo a vacunas', min: 30, max: 60, type: 'delegaciones' },
+            { id: 'unicef', name: 'UNICEF', fullName: 'UNICEF - Fondo de las Naciones Unidas para la Infancia', topic: 'Protección de derechos infantiles', min: 30, max: 60, type: 'delegaciones' },
+            { id: 'uit', name: 'UIT', fullName: 'UIT - Unión Internacional de Telecomunicaciones', topic: 'Derechos digitales', min: 30, max: 60, type: 'delegaciones' },
+            { id: 'unesco', name: 'UNESCO', fullName: 'UNESCO - Organización de las Naciones Unidas para la Educación', topic: 'Preservación cultural', min: 30, max: 60, type: 'delegaciones' },
+            { id: 'oit', name: 'OIT', fullName: 'OIT - Organización Internacional del Trabajo', topic: 'Explotación laboral infantil', min: 30, max: 60, type: 'delegaciones' },
+            { id: 'bandung', name: '1955', fullName: '1955 - Conferencia de Bandung', topic: 'Descolonización', min: 29, max: 58, type: 'delegaciones' },
+            { id: 'cij', name: 'CIJ', fullName: 'CIJ - Corte Internacional de Justicia', topic: 'Recursos naturales en disputa', min: 15, max: 15, type: 'magistrados' },
+            { id: 'interpol', name: 'INTERPOL', fullName: 'INTERPOL - Organización Internacional de Policía Criminal', topic: 'Caso especial', min: 50, max: 50, type: 'agentes' },
+            { id: 'otan', name: 'OTAN', fullName: 'OTAN - Organización del Tratado del Atlántico Norte', topic: 'Amenazas híbridas', min: 32, max: 64, type: 'delegaciones' },
+            { id: 'oas', name: 'OAS', fullName: 'OAS - Organization of American States', topic: 'Electoral integrity', min: 35, max: 35, type: 'states' }
         ];
 
-        const countries = ['Argentina', 'Brasil', 'Chile', 'Colombia', 'México', 'Perú', 'Venezuela', 'Ecuador', 'Bolivia', 'Paraguay', 'Uruguay', 'Costa Rica', 'Panamá', 'Guatemala', 'Honduras', 'El Salvador', 'Nicaragua', 'Cuba', 'República Dominicana', 'Haití', 'España', 'Francia', 'Alemania', 'Italia', 'Reino Unido', 'Portugal', 'Países Bajos', 'Bélgica', 'Suiza', 'Austria', 'Suecia', 'Noruega', 'Dinamarca', 'Finlandia', 'Grecia', 'Estados Unidos', 'Canadá', 'Japón', 'China', 'India', 'Corea del Sur', 'Australia', 'Nueva Zelanda', 'Rusia', 'Turquía', 'Arabia Saudita', 'Emiratos Árabes', 'Egipto', 'Sudáfrica', 'Nigeria', 'Kenia', 'Marruecos', 'Argelia', 'Israel', 'Jordania', 'Pakistán', 'Bangladesh', 'Indonesia', 'Tailandia', 'Vietnam', 'Filipinas', 'Singapur'];
+        const countries = ['Argentina', 'Brasil', 'Chile', 'Colombia', 'México', 'Perú', 'Venezuela', 'Ecuador', 'Bolivia', 'Paraguay', 'Uruguay', 'Costa Rica', 'Panamá', 'Guatemala', 'Honduras', 'El Salvador', 'Nicaragua', 'Cuba', 'República Dominicana', 'Haití', 'España', 'Francia', 'Alemania', 'Italia', 'Reino Unido', 'Portugal', 'Estados Unidos', 'Canadá', 'Japón', 'China', 'India', 'Rusia', 'Australia'];
 
         const rubricCriteria = [
             { name: 'Investigación académica', maxPoints: 15 },
@@ -812,19 +755,13 @@
         let assignments = [];
         let selectedCommissions = [];
         let whatsappLinks = {};
-        let rubricScores = {};
 
-        function togglePasswordVisibility() {
-            const passwordInput = document.getElementById('password');
-            const eyeIcon = document.getElementById('eyeIcon');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                eyeIcon.textContent = '🙈';
-            } else {
-                passwordInput.type = 'password';
-                eyeIcon.textContent = '👁️';
-            }
+        function showLoading() {
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').style.display = 'none';
         }
 
         function showLogin() {
@@ -865,7 +802,6 @@
                 document.getElementById('mainContent').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
                 
-                // Actualizar sección de bienvenida
                 document.getElementById('welcomeUser').textContent = username;
                 document.getElementById('welcomeDistrict').textContent = currentUser.district === 'ADMIN' ? 'Administrador General' : 'Distrito ' + currentUser.district;
                 
@@ -874,22 +810,10 @@
                 document.getElementById('username').value = '';
                 document.getElementById('password').value = '';
                 loadData();
-                updateStats();
             } else {
                 loginError.style.display = 'block';
                 document.getElementById('password').value = '';
             }
-        }
-
-        function updateStats() {
-            // Actualizar estadísticas en tiempo real
-            const totalStudents = studentsData.length;
-            const totalCommissions = selectedCommissions.length;
-            const totalAssignments = assignments.length;
-
-            document.getElementById('statStudents').textContent = totalStudents;
-            document.getElementById('statCommissions').textContent = totalCommissions;
-            document.getElementById('statAssignments').textContent = totalAssignments;
         }
 
         function logout() {
@@ -939,17 +863,26 @@
                 const input = document.getElementById(`limit_${id}`);
                 if (input) customLimits[id] = parseInt(input.value);
             });
-            localStorage.setItem('selectedCommissions', JSON.stringify(selectedCommissions));
-            localStorage.setItem('customLimits', JSON.stringify(customLimits));
-            alert('✅ Configuración guardada');
-            closeModal('configModal');
-            if (studentsData.length > 0) assignStudents();
+            
+            showLoading();
+            database.ref('selectedCommissions').set(selectedCommissions).then(() => {
+                return database.ref('customLimits').set(customLimits);
+            }).then(() => {
+                hideLoading();
+                alert('✅ Configuración guardada');
+                closeModal('configModal');
+                if (studentsData.length > 0) assignStudents();
+            }).catch(error => {
+                hideLoading();
+                alert('Error al guardar: ' + error.message);
+            });
         }
 
         function handleFileUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
             
+            showLoading();
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
@@ -959,106 +892,102 @@
                     const jsonData = XLSX.utils.sheet_to_json(firstSheet);
 
                     if (jsonData.length === 0) {
-                        alert('❌ ERROR: El archivo está vacío.\n\nPor favor verifica que el archivo Excel contenga datos.');
+                        hideLoading();
+                        alert('❌ El archivo está vacío');
                         return;
                     }
 
                     const firstRow = jsonData[0];
                     if (!firstRow['Nombre Completo'] || !firstRow['Centro Educativo'] || !firstRow['Distrito']) {
-                        alert('❌ ERROR: El formato del Excel NO es correcto.\n\n' +
-                              'El archivo debe tener EXACTAMENTE estas 3 columnas:\n' +
-                              '1. Nombre Completo\n' +
-                              '2. Centro Educativo\n' +
-                              '3. Distrito\n\n' +
-                              'IMPORTANTE: Los nombres deben escribirse EXACTAMENTE como se muestran, respetando mayúsculas, minúsculas y espacios.\n\n' +
-                              'Revisa el ejemplo en pantalla y corrige tu archivo.');
+                        hideLoading();
+                        alert('❌ ERROR: Formato incorrecto. Verifica las columnas.');
                         return;
                     }
 
-                    // Validar que haya datos en el distrito
                     if (currentUser.district === 'ADMIN') {
                         studentsData = jsonData;
                     } else {
                         studentsData = jsonData.filter(row => row['Distrito'] === currentUser.district);
                         if (studentsData.length === 0) {
-                            alert(`⚠️ ADVERTENCIA: No se encontraron estudiantes del distrito ${currentUser.district}.\n\n` +
-                                  'Verifica que:\n' +
-                                  '• La columna "Distrito" contenga el valor correcto\n' +
-                                  '• El formato sea: 10-02, 10-04 o 10-06\n' +
-                                  '• No haya espacios adicionales\n' +
-                                  `• Haya al menos un estudiante con distrito ${currentUser.district}`);
+                            hideLoading();
+                            alert(`⚠️ No se encontraron estudiantes del distrito ${currentUser.district}`);
                             return;
                         }
                     }
 
-                    saveData();
-                    assignStudents();
-                    document.getElementById('uploadResult').innerHTML = `
-                        <div class="alert alert-info" style="margin-top: 20px;">
-                            <strong>✅ ARCHIVO CARGADO EXITOSAMENTE</strong><br><br>
-                            📊 <strong>Total de estudiantes procesados:</strong> ${studentsData.length}<br>
-                            📍 <strong>${currentUser.district === 'ADMIN' ? 'Todos los distritos' : 'Distrito: ' + currentUser.district}</strong><br>
-                            ✅ Los estudiantes han sido asignados a las comisiones seleccionadas
-                        </div>
-                    `;
+                    saveData().then(() => {
+                        return assignStudents();
+                    }).then(() => {
+                        hideLoading();
+                        document.getElementById('uploadResult').innerHTML = `
+                            <div class="alert alert-info" style="margin-top: 20px;">
+                                <strong>✅ ARCHIVO CARGADO</strong><br>
+                                📊 Total: ${studentsData.length} estudiantes
+                            </div>
+                        `;
+                    });
                 } catch (error) {
-                    alert('❌ ERROR AL PROCESAR EL ARCHIVO:\n\n' + error.message + '\n\n' +
-                          'Posibles causas:\n' +
-                          '• El archivo está corrupto o dañado\n' +
-                          '• El formato no es .xlsx o .xls válido\n' +
-                          '• El archivo está abierto en otro programa\n' +
-                          '• Hay caracteres especiales no soportados\n\n' +
-                          'Intenta:\n' +
-                          '1. Cerrar el archivo en Excel\n' +
-                          '2. Guardarlo nuevamente\n' +
-                          '3. Intentar subirlo de nuevo');
+                    hideLoading();
+                    alert('❌ ERROR: ' + error.message);
                 }
             };
             reader.readAsArrayBuffer(file);
         }
 
         function assignStudents() {
-            if (selectedCommissions.length === 0) {
-                alert('⚠️ Configura las comisiones primero');
-                return;
-            }
-            assignments = [];
-            const customLimits = JSON.parse(localStorage.getItem('customLimits') || '{}');
-            const activeCommissions = commissions.filter(c => selectedCommissions.includes(c.id));
-
-            studentsData.forEach((student, index) => {
-                const commIndex = index % activeCommissions.length;
-                const commission = activeCommissions[commIndex];
-                const limit = customLimits[commission.id] || commission.max;
-                const studentsInComm = assignments.filter(a => a.commission === commission.id).length;
-                
-                if (studentsInComm < limit) {
-                    let delegation = '';
-                    if (commission.type === 'magistrados') {
-                        delegation = `S.E. ${student['Nombre Completo'].split(' ').pop()}`;
-                    } else if (commission.type === 'agentes') {
-                        delegation = `Agente ${student['Nombre Completo'].split(' ')[0]}`;
-                    } else {
-                        delegation = countries[Math.floor(Math.random() * countries.length)];
-                    }
-
-                    assignments.push({
-                        name: student['Nombre Completo'],
-                        school: student['Centro Educativo'],
-                        district: student['Distrito'],
-                        commission: commission.id,
-                        commissionName: commission.fullName,
-                        delegation: delegation,
-                        attendance: '',
-                        scores: {},
-                        total: 0,
-                        regional: false
-                    });
+            return new Promise((resolve, reject) => {
+                if (selectedCommissions.length === 0) {
+                    alert('⚠️ Configura las comisiones primero');
+                    reject();
+                    return;
                 }
+                
+                assignments = [];
+                database.ref('customLimits').once('value').then(snapshot => {
+                    const customLimits = snapshot.val() || {};
+                    const activeCommissions = commissions.filter(c => selectedCommissions.includes(c.id));
+
+                    studentsData.forEach((student, index) => {
+                        const commIndex = index % activeCommissions.length;
+                        const commission = activeCommissions[commIndex];
+                        const limit = customLimits[commission.id] || commission.max;
+                        const studentsInComm = assignments.filter(a => a.commission === commission.id).length;
+                        
+                        if (studentsInComm < limit) {
+                            let delegation = '';
+                            if (commission.type === 'magistrados') {
+                                delegation = `S.E. ${student['Nombre Completo'].split(' ').pop()}`;
+                            } else if (commission.type === 'agentes') {
+                                delegation = `Agente ${student['Nombre Completo'].split(' ')[0]}`;
+                            } else {
+                                delegation = countries[Math.floor(Math.random() * countries.length)];
+                            }
+
+                            assignments.push({
+                                name: student['Nombre Completo'],
+                                school: student['Centro Educativo'],
+                                district: student['Distrito'],
+                                commission: commission.id,
+                                commissionName: commission.fullName,
+                                delegation: delegation,
+                                attendance: '',
+                                scores: {},
+                                total: 0,
+                                regional: false
+                            });
+                        }
+                    });
+                    
+                    return saveData();
+                }).then(() => {
+                    updateStats();
+                    alert(`✅ ${assignments.length} estudiantes asignados`);
+                    resolve();
+                }).catch(error => {
+                    alert('Error: ' + error.message);
+                    reject(error);
+                });
             });
-            saveData();
-            updateStats();
-            alert(`✅ ${assignments.length} estudiantes asignados`);
         }
 
         function showWhatsAppLinks() {
@@ -1079,9 +1008,16 @@
                 const input = document.getElementById(`wa_${comm.id}`);
                 if (input) whatsappLinks[comm.id] = input.value;
             });
-            localStorage.setItem('whatsappLinks', JSON.stringify(whatsappLinks));
-            alert('✅ Links guardados');
-            closeModal('whatsappModal');
+            
+            showLoading();
+            database.ref('whatsappLinks').set(whatsappLinks).then(() => {
+                hideLoading();
+                alert('✅ Links guardados');
+                closeModal('whatsappModal');
+            }).catch(error => {
+                hideLoading();
+                alert('Error: ' + error.message);
+            });
         }
 
         function updateAttendance(name, commId, value) {
@@ -1098,14 +1034,12 @@
                 if (!assignment.scores) assignment.scores = {};
                 assignment.scores[criterion] = parseFloat(value) || 0;
                 
-                // Calcular total
                 let total = 0;
                 rubricCriteria.forEach(crit => {
                     total += assignment.scores[crit.name] || 0;
                 });
                 assignment.total = total;
                 
-                // Actualizar visualización
                 document.getElementById(`total_${name}_${commId}`).textContent = total.toFixed(1);
                 saveData();
             }
@@ -1136,22 +1070,21 @@
                     <div class="rubric-header">
                         <h2>📊 RÚBRICA DE EVALUACIÓN</h2>
                         <h3>${comm.fullName}</h3>
-                        <h3>CELIDER DISTRITO ${currentUser.district}</h3>
                     </div>
                     
                     <div class="section">
                         <table class="rubric-table">
                             <thead>
                                 <tr>
-                                    <th>Nombre y Apellido</th>
+                                    <th>Nombre</th>
                                     <th>Delegación</th>
                                     ${currentUser.district === 'ADMIN' ? '<th>Distrito</th>' : ''}
-                                    <th>Presente y Votando</th>
-                                    <th>Presente</th>
-                                    <th>Ausente</th>
-                                    ${rubricCriteria.map(c => `<th>${c.name}<br>(${c.maxPoints}pts)</th>`).join('')}
-                                    <th>Total<br>(100pts)</th>
-                                    <th>Pasa a Regional</th>
+                                    <th>P y V</th>
+                                    <th>P</th>
+                                    <th>A</th>
+                                    ${rubricCriteria.map(c => `<th>${c.name}<br>(${c.maxPoints})</th>`).join('')}
+                                    <th>Total</th>
+                                    <th>Regional</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1176,28 +1109,18 @@
 
                     html += `
                             <td class="total-score" id="total_${student.name}_${comm.id}">${student.total || 0}</td>
-                            <td><input type="checkbox" ${student.regional ? 'checked' : ''} onchange="toggleRegional('${student.name}', '${comm.id}')" style="width: 25px; height: 25px; cursor: pointer; accent-color: #27ae60;"></td>
+                            <td><input type="checkbox" ${student.regional ? 'checked' : ''} onchange="toggleRegional('${student.name}', '${comm.id}')" style="width: 25px; height: 25px;"></td>
                         </tr>
                     `;
                 });
 
-                html += `
-                            </tbody>
-                        </table>
-                        <br>
-                        <div class="form-group">
-                            <label><strong>📝 Mesa Directiva:</strong></label>
-                            <input type="text" placeholder="Nombre del presidente/coordinador" id="mesa_${comm.id}" value="${localStorage.getItem('mesa_' + comm.id) || ''}" onchange="saveMesaDirectiva('${comm.id}', this.value)">
-                        </div>
-                    </div>
-                    <hr style="margin: 40px 0;">
-                `;
+                html += `</tbody></table></div><hr style="margin: 40px 0;">`;
             });
 
             html += `
                 <div class="download-buttons">
-                    <button class="btn btn-success" onclick="saveRubrics()"><span>💾 Guardar Rúbricas</span></button>
-                    <button class="btn btn-primary" onclick="downloadRubricsExcel()"><span>📥 Descargar Excel</span></button>
+                    <button class="btn btn-success" onclick="saveRubrics()"><span>💾 Guardar</span></button>
+                    <button class="btn btn-primary" onclick="downloadRubricsExcel()"><span>📥 Excel</span></button>
                 </div>
             `;
 
@@ -1205,13 +1128,10 @@
             document.getElementById('rubricsModal').style.display = 'block';
         }
 
-        function saveMesaDirectiva(commId, value) {
-            localStorage.setItem('mesa_' + commId, value);
-        }
-
         function saveRubrics() {
-            saveData();
-            alert('✅ Rúbricas guardadas correctamente');
+            saveData().then(() => {
+                alert('✅ Rúbricas guardadas');
+            });
         }
 
         function downloadRubricsExcel() {
@@ -1229,9 +1149,8 @@
                 const data = [
                     ['RÚBRICA DE EVALUACIÓN'],
                     [comm.fullName],
-                    [`CELIDER DISTRITO ${currentUser.district}`],
                     [],
-                    ['Nombre y Apellido', 'Delegación', 'Distrito', 'Asistencia', ...rubricCriteria.map(c => `${c.name} (${c.maxPoints}pts)`), 'Total (100pts)', 'Pasa a Regional']
+                    ['Nombre', 'Delegación', 'Distrito', 'Asistencia', ...rubricCriteria.map(c => c.name), 'Total', 'Regional']
                 ];
 
                 commStudents.forEach(student => {
@@ -1281,10 +1200,7 @@
                 html += `</tbody></table></div>`;
             });
 
-            if (html === '') {
-                html = '<p class="alert alert-warning">No hay asignaciones</p>';
-            }
-            content.innerHTML = html;
+            content.innerHTML = html || '<p class="alert alert-warning">No hay asignaciones</p>';
             document.getElementById('assignmentsModal').style.display = 'block';
         }
 
@@ -1311,7 +1227,7 @@
         }
 
         function displayStudentList(students) {
-            let html = `<table><thead><tr><th>Nombre</th><th>Centro Educativo</th><th>Comisión</th><th>Delegación</th><th>WhatsApp</th></tr></thead><tbody>`;
+            let html = `<table><thead><tr><th>Nombre</th><th>Centro</th><th>Comisión</th><th>Delegación</th><th>WhatsApp</th></tr></thead><tbody>`;
             students.forEach(student => {
                 const waLink = whatsappLinks[student.commission];
                 const waButton = waLink ? `<a href="${waLink}" target="_blank" class="btn btn-success" style="padding: 8px 15px; font-size: 0.9em;">📱 Unirse</a>` : '<span style="color: #999;">No disponible</span>';
@@ -1322,53 +1238,49 @@
         }
 
         function saveData() {
-            if (currentUser.district === 'ADMIN') {
-                localStorage.setItem('studentsData_ADMIN', JSON.stringify(studentsData));
-            } else {
-                localStorage.setItem('studentsData_' + currentUser.district, JSON.stringify(studentsData));
-            }
-            localStorage.setItem('assignments', JSON.stringify(assignments));
+            return new Promise((resolve, reject) => {
+                const district = currentUser.district === 'ADMIN' ? 'all' : currentUser.district;
+                const updates = {};
+                updates[`districts/${district}/students`] = studentsData;
+                updates[`districts/${district}/assignments`] = assignments;
+                
+                database.ref().update(updates).then(() => {
+                    updateStats();
+                    resolve();
+                }).catch(error => {
+                    console.error('Error saving:', error);
+                    reject(error);
+                });
+            });
         }
 
         function loadData() {
-            if (currentUser.district === 'ADMIN') {
-                const allStudents = [];
-                ['10-02', '10-04', '10-06'].forEach(district => {
-                    const saved = localStorage.getItem('studentsData_' + district);
-                    if (saved) allStudents.push(...JSON.parse(saved));
-                });
-                studentsData = allStudents;
-            } else {
-                const savedStudents = localStorage.getItem('studentsData_' + currentUser.district);
-                if (savedStudents) studentsData = JSON.parse(savedStudents);
-            }
-
-            const savedAssignments = localStorage.getItem('assignments');
-            if (savedAssignments) assignments = JSON.parse(savedAssignments);
-
-            const savedCommissions = localStorage.getItem('selectedCommissions');
-            if (savedCommissions) selectedCommissions = JSON.parse(savedCommissions);
-
-            const savedLinks = localStorage.getItem('whatsappLinks');
-            if (savedLinks) whatsappLinks = JSON.parse(savedLinks);
+            showLoading();
+            const district = currentUser.district === 'ADMIN' ? 'all' : currentUser.district;
+            
+            Promise.all([
+                database.ref(`districts/${district}/students`).once('value'),
+                database.ref(`districts/${district}/assignments`).once('value'),
+                database.ref('selectedCommissions').once('value'),
+                database.ref('whatsappLinks').once('value')
+            ]).then(([studentsSnap, assignmentsSnap, commissionsSnap, linksSnap]) => {
+                studentsData = studentsSnap.val() || [];
+                assignments = assignmentsSnap.val() || [];
+                selectedCommissions = commissionsSnap.val() || [];
+                whatsappLinks = linksSnap.val() || {};
+                updateStats();
+                hideLoading();
+            }).catch(error => {
+                console.error('Error loading:', error);
+                hideLoading();
+            });
         }
 
-        window.onload = function() {
-            // Limpiar todos los datos almacenados al cargar la página
-            localStorage.clear();
-            
-            // Reiniciar variables
-            assignments = [];
-            studentsData = [];
-            selectedCommissions = [];
-            whatsappLinks = {};
-
-            const logoMinerd = document.getElementById('logoMinerd');
-            const logoPlerd = document.getElementById('logoPlerd');
-            
-            logoMinerd.onerror = function() { this.style.display = 'none'; };
-            logoPlerd.onerror = function() { this.style.display = 'none'; };
-        };
+        function updateStats() {
+            document.getElementById('statStudents').textContent = studentsData.length;
+            document.getElementById('statCommissions').textContent = selectedCommissions.length;
+            document.getElementById('statAssignments').textContent = assignments.length;
+        }
 
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
