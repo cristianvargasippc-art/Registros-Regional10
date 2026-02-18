@@ -10,7 +10,6 @@
         .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); overflow: hidden; animation: fadeIn 0.6s ease-in; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .header { background: linear-gradient(135deg, #0E223A 0%, #457B9D 70%, #F8FCE0 100%); color: white; padding: 60px 40px; text-align: center; position: relative; overflow: hidden; }
-        .header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-size: cover; }
         .header-content { display: flex; align-items: center; justify-content: center; gap: 50px; flex-wrap: wrap; position: relative; z-index: 1; }
         h1 { font-size: 3.5em; text-shadow: 3px 3px 6px rgba(0,0,0,0.4); letter-spacing: 2px; }
         .content { padding: 50px; }
@@ -36,7 +35,6 @@
         .form-group label { display: block; margin-bottom: 10px; font-weight: bold; color: #2c3e50; font-size: 1.1em; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 15px; border: 3px solid #ddd; border-radius: 10px; font-size: 1em; transition: all 0.3s; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #0E223A; box-shadow: 0 0 15px rgba(14,34,58,0.3); }
-        .form-group textarea { min-height: 200px; font-family: monospace; font-size: 0.95em; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
         th, td { padding: 12px; text-align: left; border: 1px solid #ddd; font-size: 0.9em; }
         th { background: linear-gradient(135deg, #0E223A 0%, #457B9D 100%); color: white; font-weight: bold; }
@@ -47,16 +45,29 @@
         .alert-info { background: #d1ecf1; color: #0c5460; border-color: #0c5460; }
         .alert-warning { background: #fff3cd; color: #856404; border-color: #856404; }
         .alert-success { background: #d4edda; color: #155724; border-color: #155724; }
-        .commission-selector { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; margin: 20px 0; }
+        .alert-danger  { background: #f8d7da; color: #842029; border-color: #842029; }
+        .commission-selector { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; margin: 20px 0; }
         .commission-item { padding: 18px; background: white; border: 3px solid #ddd; border-radius: 12px; cursor: pointer; transition: all 0.3s; text-align: center; }
         .commission-item:hover { background: #f0f4f8; transform: scale(1.03); }
         .commission-item.selected { background: linear-gradient(135deg, #0E223A 0%, #457B9D 100%); color: white; border-color: #0E223A; }
-        .commission-item input[type="number"] { width: 100%; margin-top: 8px; padding: 6px; border: 2px solid rgba(255,255,255,0.5); border-radius: 5px; text-align: center; background: rgba(255,255,255,0.2); color: inherit; font-weight: bold; }
-        .commission-item.selected input[type="number"] { background: rgba(255,255,255,0.25); color: white; border-color: rgba(255,255,255,0.6); }
-        .commission-item:not(.selected) input[type="number"] { background: white; color: #0E223A; border-color: #ccc; }
-        .file-upload-area { border: 4px dashed #0E223A; padding: 40px; text-align: center; border-radius: 20px; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); cursor: pointer; transition: all 0.3s; margin-bottom: 15px; }
-        .file-upload-area:hover { border-color: #457B9D; background: linear-gradient(135deg, #c3cfe2 0%, #f5f7fa 100%); }
-        .file-upload-area input { display: none; }
+        .commission-item .limit-wrap { margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .commission-item .limit-wrap label { font-size: 0.75em; opacity: 0.8; margin: 0; }
+        .commission-item input[type="number"].limit-input { width: 70px; padding: 5px 6px; border: 2px solid #ccc; border-radius: 6px; text-align: center; font-size: 1em; font-weight: bold; background: white; color: #0E223A; }
+        .commission-item.selected input[type="number"].limit-input { background: rgba(255,255,255,0.2); color: white; border-color: rgba(255,255,255,0.6); }
+        .commission-item .count-badge { display: inline-block; margin-top: 6px; background: rgba(255,255,255,0.25); color: inherit; padding: 2px 10px; border-radius: 12px; font-size: 0.8em; }
+        .commission-item:not(.selected) .count-badge { background: #e0e7ef; color: #0E223A; }
+        .upload-zone { border: 3px dashed #457B9D; border-radius: 12px; padding: 35px; text-align: center; margin-bottom: 20px; background: #f8fbff; cursor: pointer; transition: all 0.3s; }
+        .upload-zone:hover { background: #e8f3ff; border-color: #0E223A; }
+        .upload-zone .icon { font-size: 2.5em; margin-bottom: 8px; }
+        .upload-zone .file-name { margin-top: 8px; font-size: 0.9em; color: #457B9D; font-weight: bold; display: none; }
+        .accounting-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin: 15px 0; }
+        .acc-card { background: #f5f7fa; border: 2px solid #c3cfe2; border-radius: 10px; padding: 14px; }
+        .acc-card h4 { color: #0E223A; font-size: 0.95em; margin-bottom: 6px; }
+        .acc-bar { height: 10px; background: #dde3ea; border-radius: 5px; overflow: hidden; margin: 6px 0; }
+        .acc-bar-fill { height: 100%; background: linear-gradient(90deg,#0E223A,#457B9D); border-radius: 5px; transition: width 0.5s; }
+        .acc-nums { font-size: 0.82em; color: #444; display: flex; justify-content: space-between; }
+        .acc-nums .f1 { color: #0E223A; font-weight: bold; }
+        .acc-nums .f2 { color: #457B9D; font-weight: bold; }
         .hidden { display: none; }
         .rubric-header { background: linear-gradient(135deg, #0E223A 0%, #457B9D 100%); color: white; padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
         .score-input { width: 60px; padding: 5px; text-align: center; border: 2px solid #ddd; border-radius: 5px; }
@@ -85,8 +96,6 @@
         .tab-btn.active { background: #0E223A; color: white; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        .upload-zone { border: 3px dashed #457B9D; border-radius: 12px; padding: 30px; text-align: center; margin-bottom: 20px; background: #f8fbff; cursor: pointer; }
-        .upload-zone:hover { background: #e8f3ff; border-color: #0E223A; }
         .commission-card { background: white; border: 2px solid #c3cfe2; border-radius: 15px; padding: 25px; margin-bottom: 20px; border-left: 6px solid #457B9D; }
         .commission-card h3 { color: #0E223A; font-size: 1.4em; margin-bottom: 8px; }
         .commission-card .nivel { display: inline-block; background: #457B9D; color: white; padding: 3px 12px; border-radius: 15px; font-size: 0.85em; margin-bottom: 10px; }
@@ -96,6 +105,15 @@
         .wa-btn:hover { background: #128C7E; transform: scale(1.05); }
         .no-results { text-align: center; padding: 40px; color: #999; font-size: 1.2em; }
         .formato-info { background: #e8f0f7; border: 2px solid #457B9D; border-radius: 10px; padding: 15px; margin-bottom: 15px; font-family: monospace; font-size: 0.9em; }
+        .otan-note { background: #fff3cd; border: 2px solid #f0a500; border-radius: 10px; padding: 12px 16px; font-size: 0.9em; color: #7a5000; margin-bottom: 12px; }
+        /* ---- LIVE SCORE HIGHLIGHT ---- */
+        .total-score-live { font-size: 1.3em; font-weight: bold; color: white; background: linear-gradient(135deg,#0E223A,#457B9D); border-radius: 8px; padding: 4px 10px; min-width: 55px; display: inline-block; text-align: center; transition: background 0.3s; }
+        /* ---- PARTICIPACION SELECT ---- */
+        .parti-select { padding: 5px 8px; border: 2px solid #457B9D; border-radius: 8px; font-size: 0.82em; font-weight: bold; background: white; color: #0E223A; cursor: pointer; min-width: 110px; }
+        .parti-select:focus { outline: none; border-color: #0E223A; }
+        /* ---- FOOTER COPYRIGHT ---- */
+        .footer-copy { background: linear-gradient(135deg, #0E223A 0%, #457B9D 100%); color: rgba(255,255,255,0.85); text-align: center; padding: 18px 30px; font-size: 0.88em; letter-spacing: 0.5px; }
+        .footer-copy strong { color: #F8FCE0; }
     </style>
 </head>
 <body>
@@ -135,9 +153,10 @@
             <div class="district-badge">📍 <span id="welcomeDistrict"></span></div>
             <p style="margin-top:15px; font-size:1.1em; line-height:1.7;">Sistema de gestión CELIDER Distritales 2026. Administra comisiones, listados, rúbricas y asignaciones.</p>
             <div class="stats-grid">
-                <div class="stat-card"><span class="stat-number" id="statStudents">0</span><span class="stat-label">Delegados</span></div>
+                <div class="stat-card"><span class="stat-number" id="statStudents">0</span><span class="stat-label">Delegados Totales</span></div>
+                <div class="stat-card"><span class="stat-number" id="statF1">0</span><span class="stat-label">Del Formato 1</span></div>
+                <div class="stat-card"><span class="stat-number" id="statF2">0</span><span class="stat-label">Del Formato 2</span></div>
                 <div class="stat-card"><span class="stat-number" id="statCommissions">0</span><span class="stat-label">Comisiones Activas</span></div>
-                <div class="stat-card"><span class="stat-number" id="statAssignments">0</span><span class="stat-label">Asignaciones</span></div>
             </div>
         </div>
         <h2 style="color:#0E223A; margin-bottom:20px;">📋 Panel de Control</h2>
@@ -149,6 +168,11 @@
             <button class="btn btn-secondary" onclick="showAssignments()"><span>👥 Ver Asignaciones</span></button>
             <button class="btn" style="background:#6c757d;color:white;" onclick="logout()"><span>🚪 Cerrar Sesión</span></button>
         </div>
+    </div>
+
+    <!-- COPYRIGHT FOOTER -->
+    <div class="footer-copy">
+        © 2026 <strong>CELIDER Distritales</strong> — Todos los derechos reservados. | Desarrollado por <strong>Cristian Vargas</strong>
     </div>
 </div>
 
@@ -192,68 +216,53 @@
 <div id="uploadModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal('uploadModal')">&times;</span>
-        <h2 style="color:#0E223A; margin-bottom:20px;">📤 Publicar Listado de Delegados</h2>
-
+        <h2 style="color:#0E223A; margin-bottom:20px;">📤 Publicar Listados de Delegados</h2>
         <div class="tab-buttons">
-            <button class="tab-btn active" onclick="switchTab('tab-formato1')">📋 Formato 1 (con Comisión)</button>
-            <button class="tab-btn" onclick="switchTab('tab-formato2')">📋 Formato 2 (por Distrito)</button>
+            <button class="tab-btn active" onclick="switchTab(event,'tab-formato1')">📋 Formato 1 — Con Comisión Asignada</button>
+            <button class="tab-btn" onclick="switchTab(event,'tab-formato2')">📋 Formato 2 — Distribución Automática</button>
         </div>
-
         <div id="tab-formato1" class="tab-content active">
             <div class="alert alert-info">
-                <strong>📌 Formato 1:</strong> Columnas requeridas:<br>
-                <code>Nombres &nbsp; Apellidos &nbsp; Delegacion &nbsp; Centro Educativo &nbsp; Comision</code>
+                <strong>📌 Formato 1:</strong> Columnas requeridas (en orden):<br>
+                <code>Nombres &nbsp;&nbsp; Apellidos &nbsp;&nbsp; Delegacion &nbsp;&nbsp; Centro Educativo &nbsp;&nbsp; Comision</code>
             </div>
             <div class="formato-info">
-                Nombres	Apellidos	Delegacion	Centro Educativo	Comision<br>
-                Juan	Pérez	Argentina	Liceo XYZ	FAO
+                Nombres&nbsp;&nbsp;&nbsp;&nbsp;Apellidos&nbsp;&nbsp;&nbsp;&nbsp;Delegacion&nbsp;&nbsp;&nbsp;&nbsp;Centro Educativo&nbsp;&nbsp;&nbsp;&nbsp;Comision<br>
+                Juan&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pérez&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Argentina&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Liceo XYZ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FAO
             </div>
-
-            <!-- OPCIÓN A: ARCHIVO EXCEL -->
-            <div class="upload-zone" onclick="document.getElementById('excelFile1').click()">
-                <div style="font-size:2.5em;">📂</div>
-                <strong style="font-size:1.2em;">Seleccionar archivo Excel (.xlsx / .xls)</strong><br>
-                <small style="color:#666;">Haz clic aquí para buscar el archivo en tu computadora</small>
+            <div class="upload-zone" id="zone1" onclick="document.getElementById('excelFile1').click()">
+                <div class="icon">📂</div>
+                <strong style="font-size:1.2em;" id="zone1-title">Seleccionar archivo Excel (.xlsx / .xls)</strong><br>
+                <small style="color:#666;" id="zone1-sub">Haz clic aquí para buscar el archivo en tu computadora</small>
+                <div class="file-name" id="zone1-fname"></div>
                 <input type="file" id="excelFile1" accept=".xlsx,.xls" style="display:none" onchange="readExcelFile(event,'format1')">
             </div>
-            <div style="text-align:center; color:#999; margin: 10px 0; font-weight:bold;">— O —</div>
-
-            <!-- OPCIÓN B: PEGAR -->
-            <div class="form-group">
-                <label>Pega el listado desde Excel:</label>
-                <textarea id="pasteFormat1" placeholder="Copia las celdas en Excel (Ctrl+C) y pega aquí (Ctrl+V)..."></textarea>
-            </div>
-            <button class="btn btn-primary" onclick="processFormat1()"><span>📥 Procesar y Publicar</span></button>
+            <div id="preview1" style="margin-top:10px;"></div>
+            <button class="btn btn-primary" style="margin-top:10px;" onclick="processFormat1()"><span>📥 Procesar y Publicar Formato 1</span></button>
         </div>
-
         <div id="tab-formato2" class="tab-content">
             <div class="alert alert-info">
-                <strong>📌 Formato 2:</strong> Columnas requeridas:<br>
-                <code>Nombre Completo &nbsp; Centro Educativo &nbsp; Distrito</code>
+                <strong>📌 Formato 2:</strong> Columnas requeridas (en orden):<br>
+                <code>Nombre Completo &nbsp;&nbsp; Centro Educativo &nbsp;&nbsp; Distrito</code>
             </div>
             <div class="formato-info">
-                Nombre Completo	Centro Educativo	Distrito<br>
-                Juan Pérez	Liceo XYZ	10-02
+                Nombre Completo&nbsp;&nbsp;&nbsp;&nbsp;Centro Educativo&nbsp;&nbsp;&nbsp;&nbsp;Distrito<br>
+                Juan Pérez&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Liceo XYZ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10-02
             </div>
-
-            <!-- OPCIÓN A: ARCHIVO EXCEL -->
-            <div class="upload-zone" onclick="document.getElementById('excelFile2').click()">
-                <div style="font-size:2.5em;">📂</div>
-                <strong style="font-size:1.2em;">Seleccionar archivo Excel (.xlsx / .xls)</strong><br>
-                <small style="color:#666;">Haz clic aquí para buscar el archivo en tu computadora</small>
+            <div class="otan-note">
+                ⚠️ <strong>Nota OTAN:</strong> La comisión OTAN <strong>solo acepta estudiantes del Formato 1</strong>. El Formato 2 no asignará ningún delegado a OTAN.
+            </div>
+            <div class="alert alert-warning">⚠️ Los estudiantes del Formato 2 llenarán los cupos restantes de cada comisión (límite − delegados ya asignados en Formato 1). Asegúrate de haber subido el Formato 1 antes.</div>
+            <div class="upload-zone" id="zone2" onclick="document.getElementById('excelFile2').click()">
+                <div class="icon">📂</div>
+                <strong style="font-size:1.2em;" id="zone2-title">Seleccionar archivo Excel (.xlsx / .xls)</strong><br>
+                <small style="color:#666;" id="zone2-sub">Haz clic aquí para buscar el archivo en tu computadora</small>
+                <div class="file-name" id="zone2-fname"></div>
                 <input type="file" id="excelFile2" accept=".xlsx,.xls" style="display:none" onchange="readExcelFile(event,'format2')">
             </div>
-            <div style="text-align:center; color:#999; margin: 10px 0; font-weight:bold;">— O —</div>
-
-            <!-- OPCIÓN B: PEGAR -->
-            <div class="form-group">
-                <label>Pega el listado desde Excel:</label>
-                <textarea id="pasteFormat2" placeholder="Copia las celdas en Excel (Ctrl+C) y pega aquí (Ctrl+V)..."></textarea>
-            </div>
-            <div class="alert alert-warning">⚠️ Asegúrate de haber configurado las comisiones activas primero. Los estudiantes serán distribuidos automáticamente con países únicos por comisión.</div>
-            <button class="btn btn-primary" onclick="processFormat2()"><span>📥 Procesar y Publicar</span></button>
+            <div id="preview2" style="margin-top:10px;"></div>
+            <button class="btn btn-primary" style="margin-top:10px;" onclick="processFormat2()"><span>📥 Procesar y Publicar Formato 2</span></button>
         </div>
-
         <div id="uploadResult" style="margin-top:20px;"></div>
     </div>
 </div>
@@ -263,8 +272,10 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal('configModal')">&times;</span>
         <h2 style="color:#0E223A; margin-bottom:10px;">⚙️ Configurar Comisiones</h2>
-        <p style="color:#666; margin-bottom:20px;">Selecciona las comisiones que simularás y escribe el número de delegados para cada una.</p>
+        <p style="color:#666; margin-bottom:5px;">Selecciona las comisiones activas y define el cupo máximo (28–32) de cada una.</p>
+        <p style="color:#c0392b; font-size:0.9em; margin-bottom:20px;">⚠️ <strong>OTAN</strong> solo admite Formato 1. El número que pongas en OTAN es su cupo máximo permitido del Formato 1.</p>
         <div class="commission-selector" id="commissionSelector"></div>
+        <div id="configAccounting" style="margin-top:20px;"></div>
         <div style="display:flex; gap:15px; margin-top:20px; flex-wrap:wrap;">
             <button class="btn btn-primary" onclick="saveConfiguration()"><span>💾 Guardar Configuración</span></button>
             <button class="btn" style="background:#c0392b;color:white;" onclick="clearCommissions()"><span>🗑️ Limpiar Selección</span></button>
@@ -330,71 +341,72 @@ const commissions = [
         id:'fao', name:'FAO', nivel:'Básico', categoria:'Desarrollo Sostenible',
         fullName:'FAO – Organización de las Naciones Unidas para la Alimentación y la Agricultura',
         topic:'Impactos del cambio climático en la producción agrícola familiar y la seguridad alimentaria en el Caribe.',
-        defaultMax:60, type:'delegaciones'
+        defaultMax:32, type:'delegaciones'
     },
     {
         id:'oms', name:'OMS', nivel:'Básico', categoria:'Salud Pública',
         fullName:'OMS – Organización Mundial de la Salud',
         topic:'Acceso equitativo a vacunas y medicamentos en países de ingreso bajo y medio.',
-        defaultMax:60, type:'delegaciones'
+        defaultMax:32, type:'delegaciones'
     },
     {
         id:'unicef', name:'UNICEF', nivel:'Básico', categoria:'Desarrollo Humano',
         fullName:'UNICEF – Fondo de las Naciones Unidas para la Infancia',
         topic:'Protección de los derechos de los niños en el contexto de la migración infantil en América Central.',
-        defaultMax:60, type:'delegaciones'
+        defaultMax:32, type:'delegaciones'
     },
     {
         id:'uit', name:'UIT', nivel:'Intermedio', categoria:'Tecnología',
         fullName:'UIT – Unión Internacional de Telecomunicaciones',
         topic:'Cooperación internacional frente a la vulneración de derechos digitales en niños y adolescentes.',
-        defaultMax:60, type:'delegaciones'
+        defaultMax:32, type:'delegaciones'
     },
     {
         id:'unesco', name:'UNESCO', nivel:'Intermedio', categoria:'Cultura y Patrimonio',
         fullName:'UNESCO – Organización de las Naciones Unidas para la Educación, la Ciencia y la Cultura',
         topic:'Preservación del patrimonio cultural inmaterial frente al turismo masivo y la mercantilización digital.',
-        defaultMax:60, type:'delegaciones'
+        defaultMax:32, type:'delegaciones'
     },
     {
         id:'oit', name:'OIT', nivel:'Intermedio', categoria:'Comercio y Trabajo',
         fullName:'OIT – Organización Internacional del Trabajo',
         topic:'Responsabilidad corporativa ante la explotación laboral de niños en la cadena de suministro global.',
-        defaultMax:60, type:'delegaciones'
+        defaultMax:32, type:'delegaciones'
     },
     {
         id:'bandung', name:'1955', nivel:'Intermedio', categoria:'Comisión Histórica',
         fullName:'1955 – Conferencia de Bandung',
         topic:'Descolonización, cooperación sur-sur y el nacimiento del movimiento de los no alineados.',
-        defaultMax:58, type:'delegaciones'
+        defaultMax:32, type:'delegaciones'
     },
     {
         id:'cij', name:'CIJ', nivel:'Avanzado', categoria:'Derecho Internacional',
         fullName:'CIJ – Corte Internacional de Justicia',
         topic:'Opinión consultiva: Legalidad de la explotación de recursos naturales en zonas marinas continentales en disputa territorial.',
-        defaultMax:15, type:'magistrados'
+        defaultMax:32, type:'magistrados'
     },
     {
         id:'interpol', name:'INTERPOL', nivel:'Avanzado', categoria:'Seguridad Internacional',
         fullName:'INTERPOL – Organización Internacional de Policía Criminal',
-        topic:'Caso para preparar por la Secretaría General Académica del Modelo Distrital en coordinación con el Club Distrital y Regional correspondiente.',
-        defaultMax:50, type:'agentes'
+        topic:'Caso para preparar por la Secretaría General Académica del Modelo Distrital.',
+        defaultMax:32, type:'agentes'
     },
     {
         id:'otan', name:'OTAN', nivel:'Avanzado', categoria:'Geopolítica y Defensa',
         fullName:'OTAN – Organización del Tratado del Atlántico Norte',
         topic:'Cooperación en defensa ante amenazas híbridas, ciberataques y desinformación en escenarios de guerra contemporánea.',
-        defaultMax:64, type:'delegaciones'
+        defaultMax:28, type:'delegaciones',
+        onlyFormat1: true
     },
     {
         id:'oas', name:'OAS', nivel:'Advanced', categoria:'To simulate in English',
         fullName:'OAS – Permanent Council of the Organization of American States',
         topic:'Strengthening democratic institutions and electoral integrity in Latin America and the Caribbean.',
-        defaultMax:35, type:'states'
+        defaultMax:32, type:'states'
     }
 ];
 
-// ===================== PAÍSES (195 países, sin repetir por comisión) =====================
+// ===================== PAÍSES =====================
 const allCountries = [
     'Afghanistan','Albania','Algeria','Andorra','Angola','Antigua and Barbuda','Argentina','Armenia',
     'Australia','Austria','Azerbaijan','Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium',
@@ -421,16 +433,15 @@ const allCountries = [
     'Vietnam','Yemen','Zambia','Zimbabwe'
 ];
 
-// Magistrado names pool
-const magistradoTitles = ['S.E. Juez Presidente','S.E. Juez Vicepresidente','S.E. Magistrado','S.E. Magistrada'];
-
 // ===================== ESTADO GLOBAL =====================
 let currentUser = null;
 let assignments = [];
 let selectedCommissions = [];
 let customLimits = {};
 let whatsappLinks = {};
-let allAssignments = []; // para búsqueda pública
+let allAssignments = [];
+let parsedFormat1 = [];
+let parsedFormat2 = [];
 
 // ===================== UI UTILS =====================
 function showLoading(text='Cargando...') {
@@ -441,11 +452,11 @@ function hideLoading() { document.getElementById('loadingOverlay').style.display
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 window.onclick = e => { if(e.target.classList.contains('modal')) e.target.style.display='none'; };
 
-function switchTab(tabId) {
+function switchTab(e, tabId) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(tabId).classList.add('active');
-    event.target.classList.add('active');
+    e.target.classList.add('active');
 }
 
 // ===================== LOGIN =====================
@@ -482,7 +493,6 @@ function showStudentSearch() {
     document.getElementById('studentSearchModal').style.display='block';
     document.getElementById('globalSearch').value='';
     document.getElementById('globalResults').innerHTML = '<div class="no-results">⌛ Escribe tu nombre para buscar...</div>';
-    // Cargar asignaciones públicas de Firebase
     showLoading('Cargando asignaciones...');
     db.ref('publicAssignments').once('value').then(snap => {
         allAssignments = snap.val() || [];
@@ -529,7 +539,6 @@ function filterGlobal() {
 
 // ===================== VER COMISIONES =====================
 function showCommissions() {
-    // Cargar comisiones activas desde Firebase
     showLoading();
     db.ref('selectedCommissions').once('value').then(snap => {
         const active = snap.val() || commissions.map(c=>c.id);
@@ -544,6 +553,7 @@ function showCommissions() {
                     <h3>${i+1}. ${c.fullName}</h3>
                     <span class="nivel">📊 ${c.nivel}</span>
                     <span class="categoria">📁 ${c.categoria}</span>
+                    ${c.onlyFormat1 ? '<span style="background:#f0a500;color:white;padding:3px 12px;border-radius:15px;font-size:0.85em;margin-left:5px;">⚠️ Solo Formato 1</span>' : ''}
                     <div class="topico-box">📌 <strong>Tópico:</strong> ${c.topic}</div>
                 </div>
             `).join('');
@@ -557,19 +567,39 @@ function showConfigSection() {
     const sel = document.getElementById('commissionSelector');
     sel.innerHTML = commissions.map(c => {
         const isSelected = selectedCommissions.includes(c.id);
-        const limit = customLimits[c.id] || '';
+        const limit = customLimits[c.id] || c.defaultMax || 32;
+        const isOtan = c.id === 'otan';
         return `
         <div class="commission-item ${isSelected?'selected':''}" id="ci_${c.id}" onclick="toggleCommission('${c.id}')">
-            <strong>${c.name}</strong><br>
+            <strong>${c.name}</strong>${isOtan ? ' ⚠️' : ''}<br>
             <small>${c.nivel}</small><br>
-            <small style="font-size:0.8em;">${c.categoria}</small>
-            <input type="number" id="limit_${c.id}" value="${limit}" min="1" max="9999"
-                onclick="event.stopPropagation()"
-                oninput="customLimits['${c.id}']=parseInt(this.value)||9999"
-                placeholder="# delegados">
+            <small style="font-size:0.78em;">${c.categoria}</small>
+            ${isOtan ? '<br><small style="color:#f0a500;font-size:0.75em;">Solo Formato 1</small>' : ''}
+            <div class="limit-wrap">
+                <label>Cupo:</label>
+                <input type="number" class="limit-input" id="limit_${c.id}"
+                    value="${limit}" min="28" max="32"
+                    onclick="event.stopPropagation()"
+                    oninput="updateLimit('${c.id}', this.value)"
+                    placeholder="28–32">
+            </div>
+            <div class="count-badge" id="cnt_${c.id}">
+                ${assignments.filter(a=>a.commission===c.id).length} inscritos
+            </div>
         </div>`;
     }).join('');
+
+    renderConfigAccounting();
     document.getElementById('configModal').style.display='block';
+}
+
+function updateLimit(id, val) {
+    const v = parseInt(val);
+    if(!isNaN(v) && v >= 28 && v <= 32) {
+        customLimits[id] = v;
+    } else if(val === '') {
+        delete customLimits[id];
+    }
 }
 
 function toggleCommission(id) {
@@ -578,6 +608,44 @@ function toggleCommission(id) {
     else selectedCommissions.push(id);
     const el = document.getElementById('ci_'+id);
     el.classList.toggle('selected');
+    renderConfigAccounting();
+}
+
+function renderConfigAccounting() {
+    const box = document.getElementById('configAccounting');
+    if(!box) return;
+    const active = commissions.filter(c => selectedCommissions.includes(c.id));
+    if(active.length === 0) { box.innerHTML = ''; return; }
+
+    const rows = active.map(c => {
+        const limit = customLimits[c.id] || c.defaultMax || 32;
+        const total = assignments.filter(a => a.commission === c.id).length;
+        const f1 = assignments.filter(a => a.commission === c.id && a.source === 'format1').length;
+        const f2 = assignments.filter(a => a.commission === c.id && a.source === 'format2').length;
+        const pct = Math.min(100, Math.round(total / limit * 100));
+        const restantes = Math.max(0, limit - f1);
+        return `
+        <div class="acc-card">
+            <h4>${c.name} ${c.onlyFormat1 ? '⚠️' : ''}</h4>
+            <div class="acc-bar"><div class="acc-bar-fill" style="width:${pct}%"></div></div>
+            <div class="acc-nums">
+                <span class="f1">F1: ${f1}</span>
+                <span class="f2">F2: ${f2}</span>
+                <span>${total}/${limit}</span>
+            </div>
+            ${!c.onlyFormat1 ? `<small style="color:#457B9D;">Cupos disponibles para F2: <strong>${restantes}</strong></small>` : ''}
+        </div>`;
+    }).join('');
+
+    const total = assignments.length;
+    box.innerHTML = `
+        <h3 style="color:#0E223A;margin-bottom:12px;">📊 Contabilidad de Delegados</h3>
+        <div style="margin-bottom:10px;font-size:0.95em;color:#444;">
+            Total publicados: <strong>${total}</strong> &nbsp;|&nbsp;
+            F1: <strong>${assignments.filter(a=>a.source==='format1').length}</strong> &nbsp;|&nbsp;
+            F2: <strong>${assignments.filter(a=>a.source==='format2').length}</strong>
+        </div>
+        <div class="accounting-grid">${rows}</div>`;
 }
 
 function clearCommissions() {
@@ -590,15 +658,21 @@ function clearCommissions() {
     .then(()=>{
         hideLoading();
         updateStats();
-        // Refrescar visual
         document.querySelectorAll('.commission-item').forEach(el => el.classList.remove('selected'));
-        alert('✅ Comisiones limpiadas. Ya puedes seleccionar las que necesites.');
+        alert('✅ Comisiones limpiadas.');
     }).catch(e=>{ hideLoading(); alert('Error: '+e.message); });
 }
 
 function saveConfiguration() {
     if(selectedCommissions.length===0){
         if(!confirm('No tienes comisiones seleccionadas. ¿Guardar vacío?')) return;
+    }
+    for(const id of selectedCommissions) {
+        const v = customLimits[id];
+        if(v !== undefined && (v < 28 || v > 32)) {
+            alert(`⚠️ El cupo de ${id.toUpperCase()} debe estar entre 28 y 32.`);
+            return;
+        }
     }
     showLoading('Guardando...');
     db.ref('selectedCommissions').set(selectedCommissions)
@@ -607,91 +681,34 @@ function saveConfiguration() {
     .catch(e=>{ hideLoading(); alert('Error: '+e.message); });
 }
 
-// ===================== ASIGNACIÓN DE PAÍSES (SIN REPETIR POR COMISIÓN) =====================
-function assignCountriesUnique(studentsArr, activeComms) {
-    // Para cada comisión, tener un pool de países barajados y sin repetir
-    const commPools = {};
-    activeComms.forEach(comm => {
-        const shuffled = [...allCountries].sort(()=>Math.random()-0.5);
-        commPools[comm.id] = { pool: shuffled, index: 0 };
-    });
-
-    // Contador de estudiantes por comisión
-    const commCounts = {};
-    activeComms.forEach(c => commCounts[c.id] = 0);
-
-    return studentsArr.map((student, idx) => {
-        // Distribuir en round-robin respetando límites
-        let assignedComm = null;
-        for(let attempt = 0; attempt < activeComms.length; attempt++) {
-            const comm = activeComms[(idx + attempt) % activeComms.length];
-            const limit = customLimits[comm.id] || 9999;
-            if(commCounts[comm.id] < limit) {
-                assignedComm = comm;
-                break;
-            }
-        }
-        if(!assignedComm) assignedComm = activeComms[idx % activeComms.length];
-
-        commCounts[assignedComm.id]++;
-
-        let delegation = '';
-        if(assignedComm.type === 'magistrados') {
-            const titles = ['S.E. Magistrado/a','S.E. Juez/a','S.E. Árbitro/a'];
-            delegation = titles[commCounts[assignedComm.id] % titles.length] + ' ' + (student.name||'').split(' ').slice(-1)[0];
-        } else if(assignedComm.type === 'agentes') {
-            delegation = 'Agente ' + (student.name||'').split(' ')[0];
-        } else {
-            const pool = commPools[assignedComm.id];
-            if(pool.index < pool.pool.length) {
-                delegation = pool.pool[pool.index++];
-            } else {
-                delegation = allCountries[Math.floor(Math.random()*allCountries.length)];
-            }
-        }
-
-        return {
-            name: student.name || student['Nombre Completo'] || '',
-            school: student.school || student['Centro Educativo'] || '',
-            district: student.district || student['Distrito'] || '',
-            commission: assignedComm.id,
-            commissionName: assignedComm.fullName,
-            delegation: delegation,
-            attendance: '',
-            scores: {},
-            total: 0,
-            regional: false
-        };
-    });
-}
-
 // ===================== LEER ARCHIVO EXCEL =====================
 function readExcelFile(event, targetFormat) {
     const file = event.target.files[0];
     if(!file) return;
-
     showLoading('Leyendo archivo Excel...');
     const reader = new FileReader();
     reader.onload = function(e) {
         try {
             const data = new Uint8Array(e.target.result);
-            const workbook = XLSX.read(data, { type: 'array' });
-            const sheet = workbook.Sheets[workbook.SheetNames[0]];
-            // Convertir a TSV para que los procesadores existentes lo puedan usar
+            const wb = XLSX.read(data, { type: 'array' });
+            const sheet = wb.Sheets[wb.SheetNames[0]];
             const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-            const tsv = rows.map(row => row.join('\t')).join('\n');
+            hideLoading();
 
             if(targetFormat === 'format1') {
-                document.getElementById('pasteFormat1').value = tsv;
-                hideLoading();
-                // Mostrar nombre del archivo
-                document.querySelector('#tab-formato1 .upload-zone strong').textContent = '✅ Archivo cargado: ' + file.name;
-                document.querySelector('#tab-formato1 .upload-zone small').textContent = rows.length - 1 + ' filas detectadas. Haz clic en "Procesar y Publicar".';
+                parsedFormat1 = parseFormat1Rows(rows);
+                document.getElementById('zone1-title').textContent = '✅ ' + file.name;
+                document.getElementById('zone1-sub').textContent = (rows.length - 1) + ' filas detectadas';
+                document.getElementById('zone1-fname').style.display='block';
+                document.getElementById('zone1-fname').textContent = parsedFormat1.length + ' delegados válidos encontrados';
+                renderPreview('preview1', parsedFormat1, 'format1');
             } else {
-                document.getElementById('pasteFormat2').value = tsv;
-                hideLoading();
-                document.querySelector('#tab-formato2 .upload-zone strong').textContent = '✅ Archivo cargado: ' + file.name;
-                document.querySelector('#tab-formato2 .upload-zone small').textContent = rows.length - 1 + ' filas detectadas. Haz clic en "Procesar y Publicar".';
+                parsedFormat2 = parseFormat2Rows(rows);
+                document.getElementById('zone2-title').textContent = '✅ ' + file.name;
+                document.getElementById('zone2-sub').textContent = (rows.length - 1) + ' filas detectadas';
+                document.getElementById('zone2-fname').style.display='block';
+                document.getElementById('zone2-fname').textContent = parsedFormat2.length + ' delegados válidos encontrados';
+                renderPreview('preview2', parsedFormat2, 'format2');
             }
         } catch(err) {
             hideLoading();
@@ -701,34 +718,24 @@ function readExcelFile(event, targetFormat) {
     reader.readAsArrayBuffer(file);
 }
 
-// ===================== PROCESAR FORMATO 1 =====================
-// Nombres | Apellidos | Delegacion | Centro Educativo | Comision
-function processFormat1() {
-    const raw = document.getElementById('pasteFormat1').value.trim();
-    if(!raw){ alert('⚠️ Pega o carga el listado primero'); return; }
-
-    const lines = raw.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').map(l=>l.trim()).filter(l=>l);
-    const startIdx = lines[0].toLowerCase().includes('nombre') || lines[0].toLowerCase().includes('apellido') ? 1 : 0;
-
+function parseFormat1Rows(rows) {
+    if(!rows || rows.length < 2) return [];
+    const startIdx = (rows[0]||[]).some(c => typeof c === 'string' && c.toLowerCase().match(/nombre|apellido/)) ? 1 : 0;
     const parsed = [];
-    for(let i=startIdx; i<lines.length; i++) {
-        const cols = lines[i].split('\t');
-        if(cols.length < 2) continue;
-        const nombres    = (cols[0]||'').trim();
-        const apellidos  = (cols[1]||'').trim();
-        const delegacion = (cols[2]||'').trim();
-        const centro     = (cols[3]||'').trim();
-        const commNom    = (cols[4]||'').trim().toUpperCase();
-
+    for(let i=startIdx; i<rows.length; i++) {
+        const cols = rows[i] || [];
+        const nombres    = String(cols[0]||'').trim();
+        const apellidos  = String(cols[1]||'').trim();
+        const delegacion = String(cols[2]||'').trim();
+        const centro     = String(cols[3]||'').trim();
+        const commNom    = String(cols[4]||'').trim().toUpperCase();
+        const fullName   = apellidos ? nombres+' '+apellidos : nombres;
+        if(!fullName.trim()) continue;
         const comm = commissions.find(c =>
             c.id.toUpperCase()===commNom ||
             c.name.toUpperCase()===commNom ||
             commNom.includes(c.name.toUpperCase())
         );
-
-        const fullName = apellidos ? nombres+' '+apellidos : nombres;
-        if(!fullName.trim()) continue;
-
         parsed.push({
             name: fullName.trim(),
             school: centro,
@@ -736,59 +743,174 @@ function processFormat1() {
             commission: comm ? comm.id : commNom.toLowerCase(),
             commissionName: comm ? comm.fullName : commNom,
             delegation: delegacion,
+            source: 'format1',
             attendance: '', scores: {}, total: 0, regional: false
         });
     }
+    return parsed;
+}
 
-    if(parsed.length===0){ alert('❌ No se pudieron leer datos. Verifica el formato.'); return; }
+function parseFormat2Rows(rows) {
+    if(!rows || rows.length < 1) return [];
+    const startIdx = (rows[0]||[]).some(c => typeof c === 'string' && c.toLowerCase().includes('nombre')) ? 1 : 0;
+    const parsed = [];
+    for(let i=startIdx; i<rows.length; i++) {
+        const cols = rows[i] || [];
+        const nombre = String(cols[0]||'').trim();
+        if(!nombre) continue;
+        parsed.push({
+            name: nombre,
+            school: String(cols[1]||'').trim(),
+            district: String(cols[2]||'').trim()
+        });
+    }
+    return parsed;
+}
 
-    showLoading('Publicando '+parsed.length+' delegados...');
+function renderPreview(divId, data, fmt) {
+    const el = document.getElementById(divId);
+    if(!data || data.length === 0) { el.innerHTML=''; return; }
+    const sample = data.slice(0,5);
+    let html = `<div class="alert alert-success">✅ <strong>${data.length} delegados</strong> listos para publicar. Vista previa (primeros 5):</div>`;
+    html += '<table style="font-size:0.85em;"><thead><tr>';
+    if(fmt==='format1') html += '<th>Nombre</th><th>Centro</th><th>Comisión</th><th>Delegación</th>';
+    else html += '<th>Nombre</th><th>Centro</th><th>Distrito</th>';
+    html += '</tr></thead><tbody>';
+    sample.forEach(s=>{
+        html += '<tr>';
+        if(fmt==='format1') html+=`<td>${s.name}</td><td>${s.school}</td><td>${s.commissionName||s.commission}</td><td>${s.delegation||'—'}</td>`;
+        else html+=`<td>${s.name}</td><td>${s.school}</td><td>${s.district}</td>`;
+        html += '</tr>';
+    });
+    html += '</tbody></table>';
+    el.innerHTML = html;
+}
+
+// ===================== PROCESAR FORMATO 1 =====================
+function processFormat1() {
+    if(parsedFormat1.length === 0){ alert('⚠️ Carga un archivo Excel de Formato 1 primero.'); return; }
+    const invalidComms = parsedFormat1.filter(s => !commissions.find(c=>c.id===s.commission));
+    if(invalidComms.length > 0) {
+        const names = [...new Set(invalidComms.map(s=>s.commission))].join(', ');
+        if(!confirm(`⚠️ Las siguientes comisiones no se reconocen: ${names}. ¿Continuar de todas formas?`)) return;
+    }
+    showLoading(`Publicando ${parsedFormat1.length} delegados de Formato 1...`);
     db.ref('publicAssignments').once('value').then(snap => {
         const existing = snap.val() || [];
-        return db.ref('publicAssignments').set([...existing, ...parsed]);
+        return db.ref('publicAssignments').set([...existing, ...parsedFormat1]);
     }).then(()=>{
         hideLoading();
-        document.getElementById('uploadResult').innerHTML = `<div class="alert alert-success">✅ <strong>${parsed.length} delegados publicados</strong> correctamente.</div>`;
-        assignments = [...assignments, ...parsed];
+        assignments = [...assignments, ...parsedFormat1];
         updateStats();
+        const summary = {};
+        parsedFormat1.forEach(s=>{ summary[s.commission]=(summary[s.commission]||0)+1; });
+        const lines = Object.entries(summary).map(([k,v])=>{
+            const c = commissions.find(x=>x.id===k);
+            return `<li><strong>${c?c.name:k.toUpperCase()}</strong>: ${v} delegados</li>`;
+        }).join('');
+        document.getElementById('uploadResult').innerHTML = `
+            <div class="alert alert-success">
+                ✅ <strong>${parsedFormat1.length} delegados del Formato 1 publicados.</strong><br>
+                <ul style="margin-top:8px;padding-left:20px;">${lines}</ul>
+            </div>`;
+        parsedFormat1 = [];
+        document.getElementById('zone1-title').textContent = 'Seleccionar archivo Excel (.xlsx / .xls)';
+        document.getElementById('zone1-sub').textContent = 'Haz clic aquí para buscar el archivo';
+        document.getElementById('preview1').innerHTML='';
     }).catch(e=>{ hideLoading(); alert('Error: '+e.message); });
 }
 
 // ===================== PROCESAR FORMATO 2 =====================
-// Nombre Completo | Centro Educativo | Distrito
 function processFormat2() {
-    const raw = document.getElementById('pasteFormat2').value.trim();
-    if(!raw){ alert('⚠️ Pega o carga el listado primero'); return; }
-    if(selectedCommissions.length===0){ alert('⚠️ Configura las comisiones activas primero en ⚙️ Configurar Comisiones'); return; }
-
-    const lines = raw.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').map(l=>l.trim()).filter(l=>l);
-    const startIdx = lines[0].toLowerCase().includes('nombre') ? 1 : 0;
-
-    const parsed = [];
-    for(let i=startIdx; i<lines.length; i++) {
-        const cols = lines[i].split('\t');
-        if(cols.length < 1 || !cols[0].trim()) continue;
-        parsed.push({
-            name: (cols[0]||'').trim(),
-            school: (cols[1]||'').trim(),
-            district: (cols[2]||'').trim()
-        });
-    }
-
-    if(parsed.length===0){ alert('❌ No se pudieron leer datos.'); return; }
-
-    const activeComms = commissions.filter(c => selectedCommissions.includes(c.id));
-    const withAssignments = assignCountriesUnique(parsed, activeComms);
-
-    showLoading('Publicando '+withAssignments.length+' delegados...');
+    if(parsedFormat2.length === 0){ alert('⚠️ Carga un archivo Excel de Formato 2 primero.'); return; }
+    if(selectedCommissions.length === 0){ alert('⚠️ Configura las comisiones activas primero en ⚙️ Configurar Comisiones.'); return; }
+    showLoading('Calculando distribución...');
     db.ref('publicAssignments').once('value').then(snap => {
         const existing = snap.val() || [];
-        return db.ref('publicAssignments').set([...existing, ...withAssignments]);
-    }).then(()=>{
-        hideLoading();
-        document.getElementById('uploadResult').innerHTML = `<div class="alert alert-success">✅ <strong>${withAssignments.length} delegados publicados</strong> en ${activeComms.length} comisiones con países únicos.</div>`;
-        assignments = [...assignments, ...withAssignments];
-        updateStats();
+        const activeComms = commissions.filter(c => selectedCommissions.includes(c.id) && !c.onlyFormat1);
+        if(activeComms.length === 0) {
+            hideLoading();
+            alert('⚠️ No hay comisiones disponibles para Formato 2.');
+            return;
+        }
+        const existingCount = {};
+        existing.forEach(a => { existingCount[a.commission] = (existingCount[a.commission]||0)+1; });
+        const slots = {};
+        activeComms.forEach(c => {
+            const limit = customLimits[c.id] || c.defaultMax || 32;
+            const used = existingCount[c.id] || 0;
+            slots[c.id] = Math.max(0, limit - used);
+        });
+        const totalSlots = Object.values(slots).reduce((a,b)=>a+b,0);
+        if(totalSlots === 0) { hideLoading(); alert('⚠️ Todas las comisiones ya están llenas.'); return; }
+        const countryPools = {};
+        activeComms.forEach(c => { countryPools[c.id] = [...allCountries].sort(()=>Math.random()-0.5); });
+        const usedCountries = {};
+        existing.forEach(a => {
+            if(!usedCountries[a.commission]) usedCountries[a.commission]=new Set();
+            usedCountries[a.commission].add(a.delegation);
+        });
+        const fillQueue = [];
+        let keep = true;
+        while(keep) {
+            keep = false;
+            activeComms.forEach(c => { if(slots[c.id] > 0) { fillQueue.push(c.id); slots[c.id]--; keep=true; } });
+        }
+        const shuffledStudents = [...parsedFormat2].sort(()=>Math.random()-0.5);
+        const result = [];
+        const commCounters = {};
+        activeComms.forEach(c=>{ commCounters[c.id]=existingCount[c.id]||0; });
+        for(let i = 0; i < Math.min(shuffledStudents.length, fillQueue.length); i++) {
+            const student = shuffledStudents[i];
+            const commId  = fillQueue[i];
+            const comm    = commissions.find(c=>c.id===commId);
+            let delegation = '';
+            if(comm.type === 'magistrados') {
+                const titles = ['S.E. Magistrado/a','S.E. Juez/a','S.E. Árbitro/a'];
+                delegation = titles[commCounters[commId] % titles.length] + ' ' + student.name.split(' ').slice(-1)[0];
+            } else if(comm.type === 'agentes') {
+                delegation = 'Agente ' + student.name.split(' ')[0];
+            } else {
+                if(!usedCountries[commId]) usedCountries[commId]=new Set();
+                const pool = countryPools[commId];
+                let country = pool.find(p => !usedCountries[commId].has(p));
+                if(!country) country = allCountries[Math.floor(Math.random()*allCountries.length)];
+                usedCountries[commId].add(country);
+                delegation = country;
+            }
+            commCounters[commId]++;
+            result.push({
+                name: student.name, school: student.school, district: student.district,
+                commission: commId, commissionName: comm.fullName, delegation: delegation,
+                source: 'format2', attendance: '', scores: {}, total: 0, regional: false
+            });
+        }
+        const overflow = shuffledStudents.length - result.length;
+        showLoading(`Publicando ${result.length} delegados de Formato 2...`);
+        return db.ref('publicAssignments').set([...existing, ...result]).then(()=>{
+            hideLoading();
+            assignments = [...assignments, ...result];
+            updateStats();
+            const summary = {};
+            result.forEach(s=>{ summary[s.commission]=(summary[s.commission]||0)+1; });
+            const f1summary = {};
+            existing.forEach(a=>{ if(a.source==='format1') f1summary[a.commission]=(f1summary[a.commission]||0)+1; });
+            const lines = activeComms.map(c => {
+                const f1n = f1summary[c.id]||0;
+                const f2n = summary[c.id]||0;
+                const lim = customLimits[c.id]||c.defaultMax||32;
+                return `<tr><td><strong>${c.name}</strong></td><td>${f1n}</td><td>${f2n}</td><td><strong>${f1n+f2n} / ${lim}</strong></td></tr>`;
+            }).join('');
+            let overflowMsg = '';
+            if(overflow > 0) overflowMsg = `<div class="alert alert-warning" style="margin-top:10px;">⚠️ <strong>${overflow} estudiante(s)</strong> no pudieron ser asignados.</div>`;
+            document.getElementById('uploadResult').innerHTML = `
+                <div class="alert alert-success">✅ <strong>${result.length} delegados del Formato 2 publicados</strong>.</div>
+                <table style="font-size:0.9em;margin-top:10px;">
+                    <thead><tr><th>Comisión</th><th>Del F1</th><th>Del F2</th><th>Total / Cupo</th></tr></thead>
+                    <tbody>${lines}</tbody>
+                </table>${overflowMsg}`;
+            parsedFormat2 = [];
+        });
     }).catch(e=>{ hideLoading(); alert('Error: '+e.message); });
 }
 
@@ -819,6 +941,7 @@ function saveWhatsAppLinks() {
 }
 
 // ===================== RÚBRICAS =====================
+// Removed "Oratoria" split – "P" column removed; added Participación select
 const rubricCriteria = [
     {name:'Investigación académica', max:15},
     {name:'Pensamiento crítico', max:15},
@@ -831,45 +954,122 @@ const rubricCriteria = [
     {name:'Colaboración', max:10}
 ];
 
+// Quality options for participation
+const participacionOpciones = [
+    { value: '', label: '— Sin registrar —' },
+    { value: 'Excelente',   label: '🌟 Excelente' },
+    { value: 'Muy bueno',   label: '✅ Muy bueno' },
+    { value: 'Bueno',       label: '👍 Bueno' },
+    { value: 'Regular',     label: '😐 Regular' },
+    { value: 'Malo',        label: '👎 Malo' },
+    { value: 'No participó',label: '❌ No participó' }
+];
+
+function recalcTotal(rowKey) {
+    let sum = 0;
+    rubricCriteria.forEach((c, ci) => {
+        const inp = document.getElementById(`sc_${rowKey}_${ci}`);
+        if(inp) sum += parseFloat(inp.value) || 0;
+    });
+    const totEl = document.getElementById(`tot_${rowKey}`);
+    if(totEl) totEl.textContent = sum.toFixed(1);
+}
+
 function showRubrics() {
     showLoading();
     db.ref('publicAssignments').once('value').then(snap=>{
         const allA = snap.val() || [];
         hideLoading();
         const content = document.getElementById('rubricsContent');
-        const activeComms = selectedCommissions.length>0 ? commissions.filter(c=>selectedCommissions.includes(c.id)) : commissions;
+
+        // Show ALL commissions — including OTAN — just filter by students
+        const activeComms = commissions; // <-- CHANGED: show ALL, not just selectedCommissions
+
         let html = '';
-        activeComms.forEach(comm=>{
-            let students = currentUser.district==='ADMIN'
-                ? allA.filter(a=>a.commission===comm.id)
-                : allA.filter(a=>a.commission===comm.id && a.district===currentUser.district);
-            if(students.length===0) return;
-            html += `<div class="rubric-header"><h2>📊 RÚBRICA — ${comm.name}</h2><p style="font-size:0.9em;margin-top:5px;">${comm.fullName}</p></div>
-            <div style="overflow-x:auto;"><table class="rubric-table"><thead><tr>
-                <th>Nombre</th><th>Delegación</th>
-                ${currentUser.district==='ADMIN'?'<th>Distrito</th>':''}
-                <th>P&V</th><th>P</th><th>A</th>
-                ${rubricCriteria.map(c=>`<th>${c.name}<br><small>(${c.max})</small></th>`).join('')}
-                <th>Total</th><th>Regional</th>
-            </tr></thead><tbody>`;
-            students.forEach((s,si)=>{
+        activeComms.forEach(comm => {
+            let students = currentUser.district === 'ADMIN'
+                ? allA.filter(a => a.commission === comm.id)
+                : allA.filter(a => a.commission === comm.id && (a.district === currentUser.district || !a.district || a.district === ''));
+            if(students.length === 0) return; // skip if no one assigned
+
+            html += `
+            <div class="rubric-header">
+                <h2>📊 RÚBRICA — ${comm.name}</h2>
+                <p style="font-size:0.9em;margin-top:5px;">${comm.fullName}</p>
+                <p style="font-size:0.85em;margin-top:4px;opacity:0.8;">${students.length} delegados</p>
+            </div>
+            <div style="overflow-x:auto;">
+            <table class="rubric-table">
+            <thead><tr>
+                <th style="min-width:160px;">Nombre</th>
+                <th>Delegación</th>
+                ${currentUser.district==='ADMIN' ? '<th>Distrito</th>' : ''}
+                <th>Origen</th>
+                <th>P&V</th>
+                <th>A</th>
+                <th style="min-width:130px;">🎤 Participación</th>
+                <th style="min-width:70px;">Veces participó</th>
+                ${rubricCriteria.map(c=>`<th style="min-width:75px;">${c.name}<br><small>(${c.max})</small></th>`).join('')}
+                <th>Total</th>
+                <th>Regional</th>
+            </tr></thead>
+            <tbody>`;
+
+            students.forEach((s, si) => {
+                const rowKey = `${si}_${comm.id}`;
                 html += `<tr>
                     <td><strong>${s.name}</strong></td>
                     <td>${s.delegation}</td>
-                    ${currentUser.district==='ADMIN'?`<td>${s.district||''}</td>`:''}
-                    <td><input type="radio" name="att_${si}_${comm.id}" value="PV" ${s.attendance==='PV'?'checked':''}></td>
-                    <td><input type="radio" name="att_${si}_${comm.id}" value="P" ${s.attendance==='P'?'checked':''}></td>
-                    <td><input type="radio" name="att_${si}_${comm.id}" value="A" ${s.attendance==='A'?'checked':''}></td>
-                    ${rubricCriteria.map(c=>`<td><input type="number" class="score-input" min="0" max="${c.max}" step="0.5" value="${s.scores&&s.scores[c.name]||''}"></td>`).join('')}
-                    <td class="total-score" id="tot_${si}_${comm.id}">${s.total||0}</td>
-                    <td><input type="checkbox" ${s.regional?'checked':''} style="width:22px;height:22px;"></td>
+                    ${currentUser.district==='ADMIN' ? `<td>${s.district||''}</td>` : ''}
+                    <td>
+                        <span style="font-size:0.8em;background:${s.source==='format1'?'#0E223A':'#457B9D'};color:white;padding:2px 8px;border-radius:10px;">
+                            ${s.source==='format1'?'F1':'F2'}
+                        </span>
+                    </td>
+                    <!-- P&V -->
+                    <td style="text-align:center;">
+                        <input type="radio" name="att_${rowKey}" value="PV" ${s.attendance==='PV'?'checked':''}>
+                    </td>
+                    <!-- A (Ausente) -->
+                    <td style="text-align:center;">
+                        <input type="radio" name="att_${rowKey}" value="A" ${s.attendance==='A'?'checked':''}>
+                    </td>
+                    <!-- Calidad de participación -->
+                    <td>
+                        <select class="parti-select" id="parti_${rowKey}">
+                            ${participacionOpciones.map(o=>`<option value="${o.value}" ${((s.participacion||'')===o.value)?'selected':''}>${o.label}</option>`).join('')}
+                        </select>
+                    </td>
+                    <!-- Número de veces que participó -->
+                    <td style="text-align:center;">
+                        <input type="number" id="pveces_${rowKey}"
+                            style="width:60px;padding:5px;text-align:center;border:2px solid #ddd;border-radius:5px;"
+                            min="0" max="99" value="${s.vecesParticipo||0}">
+                    </td>
+                    ${rubricCriteria.map((c,ci)=>`
+                        <td>
+                            <input type="number" class="score-input" id="sc_${rowKey}_${ci}"
+                                min="0" max="${c.max}" step="0.5"
+                                value="${s.scores&&s.scores[c.name]||''}"
+                                oninput="recalcTotal('${rowKey}')">
+                        </td>`).join('')}
+                    <td>
+                        <span class="total-score-live" id="tot_${rowKey}">${s.total||0}</span>
+                    </td>
+                    <td style="text-align:center;">
+                        <input type="checkbox" id="reg_${rowKey}" ${s.regional?'checked':''} style="width:22px;height:22px;">
+                    </td>
                 </tr>`;
             });
+
             html += `</tbody></table></div><br>`;
         });
-        html += `<div class="download-buttons">
+
+        html += `
+        <div class="download-buttons">
             <button class="btn btn-success btn-sm" onclick="downloadRubricsExcel()"><span>📥 Descargar Excel</span></button>
         </div>`;
+
         content.innerHTML = html || '<div class="alert alert-warning">No hay delegados cargados aún.</div>';
         document.getElementById('rubricsModal').style.display='block';
     }).catch(()=>hideLoading());
@@ -887,10 +1087,16 @@ function downloadRubricsExcel() {
             const data = [
                 ['RÚBRICA DE EVALUACIÓN — '+comm.fullName],
                 [],
-                ['Nombre','Delegación','Distrito','Asistencia',...rubricCriteria.map(c=>c.name),'Total','Regional']
+                ['Nombre','Delegación','Distrito','Origen','Asistencia','Calidad Participación','Veces Participó',
+                 ...rubricCriteria.map(c=>c.name),'Total','Regional']
             ];
             students.forEach(s=>{
-                data.push([s.name,s.delegation,s.district||'',s.attendance||'',...rubricCriteria.map(c=>(s.scores&&s.scores[c.name])||0),s.total||0,s.regional?'SÍ':'NO']);
+                data.push([
+                    s.name, s.delegation, s.district||'', s.source||'', s.attendance||'',
+                    s.participacion||'', s.vecesParticipo||0,
+                    ...rubricCriteria.map(c=>(s.scores&&s.scores[c.name])||0),
+                    s.total||0, s.regional?'SÍ':'NO'
+                ]);
             });
             XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(data), comm.name);
         });
@@ -906,20 +1112,47 @@ function showAssignments() {
         hideLoading();
         const content = document.getElementById('assignmentsContent');
         let html = '';
-
-        // Botón para limpiar todas las asignaciones
-        html += `<div style="text-align:right;margin-bottom:15px;">
-            <button class="btn btn-sm" style="background:#c0392b;color:white;" onclick="clearAllAssignments()"><span>🗑️ Limpiar todo</span></button>
-        </div>`;
-
         const activeComms = selectedCommissions.length>0 ? commissions.filter(c=>selectedCommissions.includes(c.id)) : commissions;
+        let summaryRows = '';
+        activeComms.forEach(c=>{
+            const f1 = allA.filter(a=>a.commission===c.id && a.source==='format1').length;
+            const f2 = allA.filter(a=>a.commission===c.id && a.source==='format2').length;
+            const total = f1+f2;
+            if(total===0) return;
+            const limit = customLimits[c.id]||c.defaultMax||32;
+            summaryRows += `<tr>
+                <td><strong>${c.name}</strong></td>
+                <td>${c.onlyFormat1?'<span style="color:#f0a500;">Solo F1</span>':''}</td>
+                <td>${f1}</td><td>${f2}</td>
+                <td><strong>${total}</strong></td>
+                <td>${limit}</td>
+                <td>${Math.max(0,limit-total)}</td>
+            </tr>`;
+        });
+        html += `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;flex-wrap:wrap;gap:10px;">
+            <div style="font-size:1.1em;"><strong>Total delegados:</strong> ${allA.length}
+                &nbsp;|&nbsp; <span style="color:#0E223A;">F1: ${allA.filter(a=>a.source==='format1').length}</span>
+                &nbsp;|&nbsp; <span style="color:#457B9D;">F2: ${allA.filter(a=>a.source==='format2').length}</span>
+            </div>
+            <button class="btn btn-sm" style="background:#c0392b;color:white;" onclick="clearAllAssignments()"><span>🗑️ Limpiar todo</span></button>
+        </div>
+        <div style="overflow-x:auto;margin-bottom:30px;">
+        <table><thead><tr><th>Comisión</th><th>Restricción</th><th>Del F1</th><th>Del F2</th><th>Total</th><th>Cupo</th><th>Disponibles</th></tr></thead>
+        <tbody>${summaryRows}</tbody></table></div>`;
         activeComms.forEach(comm=>{
             const students = allA.filter(a=>a.commission===comm.id);
             if(students.length===0) return;
-            html += `<div class="section"><h3 style="color:#0E223A;">${comm.fullName} <span style="background:#457B9D;color:white;padding:3px 10px;border-radius:15px;font-size:0.8em;">${students.length}</span></h3>
-            <table><thead><tr><th>Nombre</th><th>Centro</th><th>Delegación</th><th>Distrito</th></tr></thead><tbody>`;
+            html += `<div class="section"><h3 style="color:#0E223A;">${comm.fullName}
+                <span style="background:#457B9D;color:white;padding:3px 10px;border-radius:15px;font-size:0.8em;margin-left:8px;">${students.length} delegados</span>
+                ${comm.onlyFormat1?'<span style="background:#f0a500;color:white;padding:3px 10px;border-radius:15px;font-size:0.75em;margin-left:6px;">Solo F1</span>':''}
+            </h3>
+            <table><thead><tr><th>Nombre</th><th>Centro</th><th>Delegación</th><th>Distrito</th><th>Origen</th></tr></thead><tbody>`;
             students.forEach(s=>{
-                html += `<tr><td>${s.name}</td><td>${s.school}</td><td>${s.delegation}</td><td>${s.district||''}</td></tr>`;
+                html += `<tr>
+                    <td>${s.name}</td><td>${s.school}</td><td>${s.delegation}</td><td>${s.district||''}</td>
+                    <td><span style="background:${s.source==='format1'?'#0E223A':'#457B9D'};color:white;padding:2px 8px;border-radius:10px;font-size:0.8em;">${s.source==='format1'?'F1':'F2'}</span></td>
+                </tr>`;
             });
             html += `</tbody></table></div>`;
         });
@@ -959,12 +1192,15 @@ function loadAdminData() {
 }
 
 function updateStats() {
-    document.getElementById('statStudents').textContent = assignments.length;
+    const total = assignments.length;
+    const f1 = assignments.filter(a=>a.source==='format1').length;
+    const f2 = assignments.filter(a=>a.source==='format2').length;
+    document.getElementById('statStudents').textContent = total;
+    document.getElementById('statF1').textContent = f1;
+    document.getElementById('statF2').textContent = f2;
     document.getElementById('statCommissions').textContent = selectedCommissions.length;
-    document.getElementById('statAssignments').textContent = assignments.length;
 }
 
-// Cargar whatsappLinks públicamente para mostrar botones en búsqueda
 db.ref('whatsappLinks').on('value', snap=>{ whatsappLinks = snap.val()||{}; });
 </script>
 </body>
