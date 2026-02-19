@@ -8,112 +8,119 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #0E223A 0%, #457B9D 50%, #F8FCE0 100%); min-height: 100vh; padding: 20px; }
         .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); overflow: hidden; animation: fadeIn 0.6s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .header { background: linear-gradient(135deg, #0E223A 0%, #457B9D 70%, #F8FCE0 100%); color: white; padding: 60px 40px; text-align: center; position: relative; overflow: hidden; }
-        .header-content { display: flex; align-items: center; justify-content: center; gap: 50px; flex-wrap: wrap; position: relative; z-index: 1; }
-        h1 { font-size: 3.5em; text-shadow: 3px 3px 6px rgba(0,0,0,0.4); letter-spacing: 2px; }
-        .content { padding: 50px; }
-        .section { margin-bottom: 40px; padding: 35px; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); border-radius: 15px; border-left: 6px solid #0E223A; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s; }
-        .section:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .section h2 { color: #0E223A; margin-bottom: 20px; font-size: 2em; }
-        .section p { text-align: justify; line-height: 1.9; color: #2c3e50; font-size: 1.15em; }
-        .button-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 40px; }
-        .btn { padding: 25px 45px; font-size: 1.3em; font-weight: bold; border: none; border-radius: 12px; cursor: pointer; transition: all 0.4s; box-shadow: 0 6px 20px rgba(0,0,0,0.2); position: relative; overflow: hidden; }
-        .btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255,255,255,0.3); transform: translate(-50%, -50%); transition: width 0.6s, height 0.6s; }
-        .btn:hover::before { width: 300px; height: 300px; }
-        .btn span { position: relative; z-index: 1; }
-        .btn-primary { background: linear-gradient(135deg, #0E223A 0%, #457B9D 100%); color: white; }
-        .btn-secondary { background: linear-gradient(135deg, #457B9D 0%, #6a9ab8 100%); color: white; }
-        .btn-success { background: linear-gradient(135deg, #0E223A 0%, #457B9D 100%); color: #F8FCE0; }
-        .btn:hover { transform: translateY(-5px); box-shadow: 0 12px 35px rgba(0,0,0,0.3); }
-        .btn-sm { padding: 10px 20px; font-size: 1em; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; overflow-y: auto; }
-        .modal-content { background: white; max-width: 95%; margin: 50px auto; padding: 50px; border-radius: 20px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
-        .close { position: absolute; top: 20px; right: 30px; font-size: 2.5em; cursor: pointer; color: #999; transition: all 0.3s; }
-        .close:hover { color: #457B9D; transform: rotate(90deg); }
-        .form-group { margin-bottom: 25px; }
-        .form-group label { display: block; margin-bottom: 10px; font-weight: bold; color: #2c3e50; font-size: 1.1em; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 15px; border: 3px solid #ddd; border-radius: 10px; font-size: 1em; transition: all 0.3s; }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #0E223A; box-shadow: 0 0 15px rgba(14,34,58,0.3); }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
-        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; font-size: 0.9em; }
-        th { background: linear-gradient(135deg, #0E223A 0%, #457B9D 100%); color: white; font-weight: bold; }
-        tr:hover { background: #f8f9fa; }
-        .rubric-table { font-size: 0.85em; }
-        .rubric-table input[type="number"] { width: 65px; padding: 6px; border: 2px solid #ddd; border-radius: 5px; text-align: center; }
-        .alert { padding: 18px; margin-bottom: 20px; border-radius: 10px; font-weight: bold; font-size: 1em; border-left: 5px solid; }
-        .alert-info { background: #d1ecf1; color: #0c5460; border-color: #0c5460; }
-        .alert-warning { background: #fff3cd; color: #856404; border-color: #856404; }
-        .alert-success { background: #d4edda; color: #155724; border-color: #155724; }
-        .alert-danger  { background: #f8d7da; color: #842029; border-color: #842029; }
-        .commission-selector { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; margin: 20px 0; }
-        .commission-item { padding: 18px; background: white; border: 3px solid #ddd; border-radius: 12px; cursor: pointer; transition: all 0.3s; text-align: center; }
-        .commission-item:hover { background: #f0f4f8; transform: scale(1.03); }
-        .commission-item.selected { background: linear-gradient(135deg, #0E223A 0%, #457B9D 100%); color: white; border-color: #0E223A; }
-        .commission-item .limit-wrap { margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .commission-item .limit-wrap label { font-size: 0.75em; opacity: 0.8; margin: 0; }
-        .commission-item input[type="number"].limit-input { width: 70px; padding: 5px 6px; border: 2px solid #ccc; border-radius: 6px; text-align: center; font-size: 1em; font-weight: bold; background: white; color: #0E223A; }
-        .commission-item.selected input[type="number"].limit-input { background: rgba(255,255,255,0.2); color: white; border-color: rgba(255,255,255,0.6); }
-        .commission-item .count-badge { display: inline-block; margin-top: 6px; background: rgba(255,255,255,0.25); color: inherit; padding: 2px 10px; border-radius: 12px; font-size: 0.8em; }
-        .commission-item:not(.selected) .count-badge { background: #e0e7ef; color: #0E223A; }
-        .upload-zone { border: 3px dashed #457B9D; border-radius: 12px; padding: 35px; text-align: center; margin-bottom: 20px; background: #f8fbff; cursor: pointer; transition: all 0.3s; }
-        .upload-zone:hover { background: #e8f3ff; border-color: #0E223A; }
-        .upload-zone .icon { font-size: 2.5em; margin-bottom: 8px; }
-        .upload-zone .file-name { margin-top: 8px; font-size: 0.9em; color: #457B9D; font-weight: bold; display: none; }
-        .accounting-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin: 15px 0; }
-        .acc-card { background: #f5f7fa; border: 2px solid #c3cfe2; border-radius: 10px; padding: 14px; }
-        .acc-card h4 { color: #0E223A; font-size: 0.95em; margin-bottom: 6px; }
-        .acc-bar { height: 10px; background: #dde3ea; border-radius: 5px; overflow: hidden; margin: 6px 0; }
-        .acc-bar-fill { height: 100%; background: linear-gradient(90deg,#0E223A,#457B9D); border-radius: 5px; transition: width 0.5s; }
-        .acc-nums { font-size: 0.82em; color: #444; display: flex; justify-content: space-between; }
-        .acc-nums .f1 { color: #0E223A; font-weight: bold; }
-        .acc-nums .f2 { color: #457B9D; font-weight: bold; }
-        .hidden { display: none; }
-        .rubric-header { background: linear-gradient(135deg, #0E223A 0%, #457B9D 100%); color: white; padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 20px; }
-        .score-input { width: 60px; padding: 5px; text-align: center; border: 2px solid #ddd; border-radius: 5px; }
-        .total-score { font-size: 1.2em; font-weight: bold; color: #0E223A; }
-        .download-buttons { display: flex; gap: 15px; margin-top: 25px; justify-content: center; flex-wrap: wrap; }
-        .welcome-section { background: linear-gradient(135deg, #0E223A 0%, #457B9D 70%, #F8FCE0 100%); color: white; padding: 40px; border-radius: 20px; margin-bottom: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
-        .welcome-section h2 { font-size: 2.2em; margin-bottom: 15px; }
-        .district-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 8px 22px; border-radius: 30px; font-size: 1.2em; font-weight: bold; margin-top: 8px; border: 2px solid rgba(255,255,255,0.5); }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 18px; margin-top: 25px; }
-        .stat-card { background: rgba(255,255,255,0.15); padding: 22px; border-radius: 15px; text-align: center; border: 2px solid rgba(255,255,255,0.3); transition: transform 0.3s; }
-        .stat-card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.25); }
-        .stat-number { font-size: 2.8em; font-weight: bold; display: block; margin-bottom: 8px; }
-        .stat-label { font-size: 1em; opacity: 0.9; }
-        .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; gap: 20px; }
-        .loading-spinner { border: 5px solid #f3f3f3; border-top: 5px solid #0E223A; border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; }
-        .loading-overlay p { color: white; font-size: 1.3em; font-weight: bold; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .search-box { width: 100%; padding: 18px; border: 3px solid #0E223A; border-radius: 12px; font-size: 1.2em; margin-bottom: 20px; }
-        .search-box:focus { outline: none; box-shadow: 0 0 15px rgba(14,34,58,0.3); }
-        .student-card { background: linear-gradient(135deg, #f5f7fa, #e8f0f7); border: 2px solid #c3cfe2; border-radius: 12px; padding: 20px; margin-bottom: 15px; border-left: 5px solid #0E223A; }
-        .student-card h3 { color: #0E223A; margin-bottom: 8px; }
-        .student-card .badge { display: inline-block; background: #0E223A; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; margin: 3px; }
-        .student-card .badge.blue { background: #457B9D; }
-        .tab-buttons { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
-        .tab-btn { padding: 12px 25px; border: 3px solid #0E223A; background: white; color: #0E223A; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1em; transition: all 0.3s; }
-        .tab-btn.active { background: #0E223A; color: white; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .commission-card { background: white; border: 2px solid #c3cfe2; border-radius: 15px; padding: 25px; margin-bottom: 20px; border-left: 6px solid #457B9D; }
-        .commission-card h3 { color: #0E223A; font-size: 1.4em; margin-bottom: 8px; }
-        .commission-card .nivel { display: inline-block; background: #457B9D; color: white; padding: 3px 12px; border-radius: 15px; font-size: 0.85em; margin-bottom: 10px; }
-        .commission-card .categoria { display: inline-block; background: #0E223A; color: white; padding: 3px 12px; border-radius: 15px; font-size: 0.85em; margin-bottom: 10px; margin-left: 5px; }
-        .topico-box { background: #f5f7fa; border-left: 4px solid #0E223A; padding: 12px 18px; border-radius: 0 8px 8px 0; margin-top: 10px; color: #2c3e50; font-style: italic; }
-        .wa-btn { display: inline-block; background: #25D366; color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: bold; margin-top: 12px; transition: all 0.3s; }
-        .wa-btn:hover { background: #128C7E; transform: scale(1.05); }
-        .no-results { text-align: center; padding: 40px; color: #999; font-size: 1.2em; }
-        .formato-info { background: #e8f0f7; border: 2px solid #457B9D; border-radius: 10px; padding: 15px; margin-bottom: 15px; font-family: monospace; font-size: 0.9em; }
-        .otan-note { background: #fff3cd; border: 2px solid #f0a500; border-radius: 10px; padding: 12px 16px; font-size: 0.9em; color: #7a5000; margin-bottom: 12px; }
-        /* ---- LIVE SCORE HIGHLIGHT ---- */
-        .total-score-live { font-size: 1.3em; font-weight: bold; color: white; background: linear-gradient(135deg,#0E223A,#457B9D); border-radius: 8px; padding: 4px 10px; min-width: 55px; display: inline-block; text-align: center; transition: background 0.3s; }
-        /* ---- PARTICIPACION SELECT ---- */
-        .parti-select { padding: 5px 8px; border: 2px solid #457B9D; border-radius: 8px; font-size: 0.82em; font-weight: bold; background: white; color: #0E223A; cursor: pointer; min-width: 110px; }
-        .parti-select:focus { outline: none; border-color: #0E223A; }
-        /* ---- FOOTER COPYRIGHT ---- */
-        .footer-copy { background: linear-gradient(135deg, #0E223A 0%, #457B9D 100%); color: rgba(255,255,255,0.85); text-align: center; padding: 18px 30px; font-size: 0.88em; letter-spacing: 0.5px; }
-        .footer-copy strong { color: #F8FCE0; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+        .header { background: linear-gradient(135deg,#0E223A 0%,#457B9D 70%,#F8FCE0 100%); color:white; padding:60px 40px; text-align:center; position:relative; overflow:hidden; }
+        .header-content { display:flex; align-items:center; justify-content:center; gap:50px; flex-wrap:wrap; position:relative; z-index:1; }
+        h1 { font-size:3.5em; text-shadow:3px 3px 6px rgba(0,0,0,0.4); letter-spacing:2px; }
+        .content { padding:50px; }
+        .section { margin-bottom:40px; padding:35px; background:linear-gradient(135deg,#f5f7fa 0%,#c3cfe2 100%); border-radius:15px; border-left:6px solid #0E223A; box-shadow:0 5px 15px rgba(0,0,0,0.1); transition:transform .3s,box-shadow .3s; }
+        .section:hover { transform:translateY(-5px); box-shadow:0 10px 30px rgba(0,0,0,0.2); }
+        .section h2 { color:#0E223A; margin-bottom:20px; font-size:2em; }
+        .section p { text-align:justify; line-height:1.9; color:#2c3e50; font-size:1.15em; }
+        .button-group { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:25px; margin-top:40px; }
+        .btn { padding:25px 45px; font-size:1.3em; font-weight:bold; border:none; border-radius:12px; cursor:pointer; transition:all .4s; box-shadow:0 6px 20px rgba(0,0,0,0.2); position:relative; overflow:hidden; }
+        .btn::before { content:''; position:absolute; top:50%; left:50%; width:0; height:0; border-radius:50%; background:rgba(255,255,255,0.3); transform:translate(-50%,-50%); transition:width .6s,height .6s; }
+        .btn:hover::before { width:300px; height:300px; }
+        .btn span { position:relative; z-index:1; }
+        .btn-primary { background:linear-gradient(135deg,#0E223A 0%,#457B9D 100%); color:white; }
+        .btn-secondary { background:linear-gradient(135deg,#457B9D 0%,#6a9ab8 100%); color:white; }
+        .btn-success { background:linear-gradient(135deg,#0E223A 0%,#457B9D 100%); color:#F8FCE0; }
+        .btn:hover { transform:translateY(-5px); box-shadow:0 12px 35px rgba(0,0,0,0.3); }
+        .btn-sm { padding:10px 20px; font-size:1em; }
+        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:1000; overflow-y:auto; }
+        .modal-content { background:white; max-width:98%; margin:30px auto; padding:40px; border-radius:20px; position:relative; box-shadow:0 20px 60px rgba(0,0,0,0.5); }
+        .close { position:absolute; top:20px; right:30px; font-size:2.5em; cursor:pointer; color:#999; transition:all .3s; }
+        .close:hover { color:#457B9D; transform:rotate(90deg); }
+        .form-group { margin-bottom:25px; }
+        .form-group label { display:block; margin-bottom:10px; font-weight:bold; color:#2c3e50; font-size:1.1em; }
+        .form-group input, .form-group select { width:100%; padding:15px; border:3px solid #ddd; border-radius:10px; font-size:1em; transition:all .3s; }
+        .form-group input:focus, .form-group select:focus { outline:none; border-color:#0E223A; box-shadow:0 0 15px rgba(14,34,58,0.3); }
+        table { width:100%; border-collapse:collapse; margin-top:15px; background:white; border-radius:12px; overflow:hidden; box-shadow:0 5px 20px rgba(0,0,0,0.1); }
+        th, td { padding:9px 7px; text-align:left; border:1px solid #ddd; font-size:0.83em; vertical-align:middle; }
+        th { background:linear-gradient(135deg,#0E223A 0%,#457B9D 100%); color:white; font-weight:bold; text-align:center; }
+        tr:hover { background:#f8f9fa; }
+        .rubric-table td { text-align:center; }
+        .rubric-table td:first-child { text-align:left; font-weight:bold; font-size:0.82em; }
+        .rubric-table td:nth-child(2) { text-align:left; font-size:0.82em; }
+        .score-input { width:54px; padding:4px 3px; border:2px solid #ddd; border-radius:5px; text-align:center; font-size:0.88em; }
+        .score-input:focus { border-color:#0E223A; outline:none; }
+        .alert { padding:18px; margin-bottom:20px; border-radius:10px; font-weight:bold; font-size:1em; border-left:5px solid; }
+        .alert-info { background:#d1ecf1; color:#0c5460; border-color:#0c5460; }
+        .alert-warning { background:#fff3cd; color:#856404; border-color:#856404; }
+        .alert-success { background:#d4edda; color:#155724; border-color:#155724; }
+        .commission-selector { display:grid; grid-template-columns:repeat(auto-fill,minmax(215px,1fr)); gap:15px; margin:20px 0; }
+        .commission-item { padding:18px; background:white; border:3px solid #ddd; border-radius:12px; cursor:pointer; transition:all .3s; text-align:center; }
+        .commission-item:hover { background:#f0f4f8; transform:scale(1.03); }
+        .commission-item.selected { background:linear-gradient(135deg,#0E223A 0%,#457B9D 100%); color:white; border-color:#0E223A; }
+        .commission-item .limit-wrap { margin-top:8px; display:flex; align-items:center; justify-content:center; gap:6px; }
+        .commission-item .limit-wrap label { font-size:0.75em; opacity:.8; margin:0; }
+        .commission-item input[type="number"].limit-input { width:70px; padding:5px 6px; border:2px solid #ccc; border-radius:6px; text-align:center; font-size:1em; font-weight:bold; background:white; color:#0E223A; }
+        .commission-item.selected input[type="number"].limit-input { background:rgba(255,255,255,0.2); color:white; border-color:rgba(255,255,255,.6); }
+        .commission-item .count-badge { display:inline-block; margin-top:6px; background:rgba(255,255,255,.25); padding:2px 10px; border-radius:12px; font-size:.8em; }
+        .commission-item:not(.selected) .count-badge { background:#e0e7ef; color:#0E223A; }
+        .upload-zone { border:3px dashed #457B9D; border-radius:12px; padding:35px; text-align:center; margin-bottom:15px; background:#f8fbff; cursor:pointer; transition:all .3s; }
+        .upload-zone:hover { background:#e8f3ff; border-color:#0E223A; }
+        .upload-zone .icon { font-size:2.5em; margin-bottom:8px; }
+        .upload-zone .file-name { margin-top:8px; font-size:.9em; color:#457B9D; font-weight:bold; display:none; }
+        .accounting-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; margin:15px 0; }
+        .acc-card { background:#f5f7fa; border:2px solid #c3cfe2; border-radius:10px; padding:14px; }
+        .acc-card h4 { color:#0E223A; font-size:.95em; margin-bottom:6px; }
+        .acc-bar { height:10px; background:#dde3ea; border-radius:5px; overflow:hidden; margin:6px 0; }
+        .acc-bar-fill { height:100%; background:linear-gradient(90deg,#0E223A,#457B9D); border-radius:5px; transition:width .5s; }
+        .acc-nums { font-size:.82em; color:#444; display:flex; justify-content:space-between; }
+        .acc-nums .f1 { color:#0E223A; font-weight:bold; }
+        .acc-nums .f2 { color:#457B9D; font-weight:bold; }
+        .hidden { display:none; }
+        .rubric-header { background:linear-gradient(135deg,#0E223A 0%,#457B9D 100%); color:white; padding:20px; text-align:center; border-radius:12px; margin-bottom:12px; margin-top:30px; }
+        .total-score-cell { font-size:1em; font-weight:bold; color:#0E223A; background:#e8f0f7 !important; min-width:50px; }
+        .total-score-cell.high { background:#d4edda !important; color:#155724; }
+        .total-score-cell.mid  { background:#fff3cd !important; color:#856404; }
+        .total-score-cell.low  { background:#f8d7da !important; color:#842029; }
+        .download-buttons { display:flex; gap:15px; margin-top:25px; justify-content:center; flex-wrap:wrap; padding-bottom:20px; }
+        .welcome-section { background:linear-gradient(135deg,#0E223A 0%,#457B9D 70%,#F8FCE0 100%); color:white; padding:40px; border-radius:20px; margin-bottom:40px; box-shadow:0 10px 40px rgba(0,0,0,0.3); }
+        .welcome-section h2 { font-size:2.2em; margin-bottom:15px; }
+        .district-badge { display:inline-block; background:rgba(255,255,255,.2); padding:8px 22px; border-radius:30px; font-size:1.2em; font-weight:bold; margin-top:8px; border:2px solid rgba(255,255,255,.5); }
+        .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(155px,1fr)); gap:18px; margin-top:25px; }
+        .stat-card { background:rgba(255,255,255,.15); padding:22px; border-radius:15px; text-align:center; border:2px solid rgba(255,255,255,.3); transition:transform .3s; }
+        .stat-card:hover { transform:translateY(-5px); background:rgba(255,255,255,.25); }
+        .stat-number { font-size:2.8em; font-weight:bold; display:block; margin-bottom:8px; }
+        .stat-label { font-size:1em; opacity:.9; }
+        .loading-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center; flex-direction:column; gap:20px; }
+        .loading-spinner { border:5px solid #f3f3f3; border-top:5px solid #0E223A; border-radius:50%; width:60px; height:60px; animation:spin 1s linear infinite; }
+        .loading-overlay p { color:white; font-size:1.3em; font-weight:bold; }
+        @keyframes spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+        .search-box { width:100%; padding:18px; border:3px solid #0E223A; border-radius:12px; font-size:1.2em; margin-bottom:20px; }
+        .search-box:focus { outline:none; box-shadow:0 0 15px rgba(14,34,58,0.3); }
+        .student-card { background:linear-gradient(135deg,#f5f7fa,#e8f0f7); border:2px solid #c3cfe2; border-radius:12px; padding:20px; margin-bottom:15px; border-left:5px solid #0E223A; }
+        .student-card h3 { color:#0E223A; margin-bottom:8px; }
+        .student-card .badge { display:inline-block; background:#0E223A; color:white; padding:4px 12px; border-radius:20px; font-size:.85em; margin:3px; }
+        .student-card .badge.blue { background:#457B9D; }
+        .tab-buttons { display:flex; gap:10px; margin-bottom:25px; flex-wrap:wrap; }
+        .tab-btn { padding:12px 25px; border:3px solid #0E223A; background:white; color:#0E223A; border-radius:10px; cursor:pointer; font-weight:bold; font-size:1em; transition:all .3s; }
+        .tab-btn.active { background:#0E223A; color:white; }
+        .tab-content { display:none; }
+        .tab-content.active { display:block; }
+        .commission-card { background:white; border:2px solid #c3cfe2; border-radius:15px; padding:25px; margin-bottom:20px; border-left:6px solid #457B9D; }
+        .commission-card h3 { color:#0E223A; font-size:1.4em; margin-bottom:8px; }
+        .commission-card .nivel { display:inline-block; background:#457B9D; color:white; padding:3px 12px; border-radius:15px; font-size:.85em; margin-bottom:10px; }
+        .commission-card .categoria { display:inline-block; background:#0E223A; color:white; padding:3px 12px; border-radius:15px; font-size:.85em; margin-bottom:10px; margin-left:5px; }
+        .topico-box { background:#f5f7fa; border-left:4px solid #0E223A; padding:12px 18px; border-radius:0 8px 8px 0; margin-top:10px; color:#2c3e50; font-style:italic; }
+        .wa-btn { display:inline-block; background:#25D366; color:white; padding:10px 20px; border-radius:25px; text-decoration:none; font-weight:bold; margin-top:12px; transition:all .3s; }
+        .wa-btn:hover { background:#128C7E; transform:scale(1.05); }
+        .no-results { text-align:center; padding:40px; color:#999; font-size:1.2em; }
+        .formato-info { background:#e8f0f7; border:2px solid #457B9D; border-radius:10px; padding:15px; margin-bottom:15px; font-family:monospace; font-size:.9em; }
+        .otan-note { background:#fff3cd; border:2px solid #f0a500; border-radius:10px; padding:12px 16px; font-size:.9em; color:#7a5000; margin-bottom:12px; }
+        .part-select { padding:4px 5px; border:2px solid #ddd; border-radius:5px; font-size:.8em; min-width:90px; cursor:pointer; }
+        .part-select:focus { border-color:#0E223A; outline:none; }
+        .part-num { width:46px; padding:4px; border:2px solid #ddd; border-radius:5px; text-align:center; font-size:.85em; }
+        .part-num:focus { border-color:#0E223A; outline:none; }
+        .empty-rubric { background:#f5f7fa; border:2px dashed #c3cfe2; border-radius:10px; padding:25px; text-align:center; color:#888; font-size:1em; margin-bottom:20px; }
+        .footer-copy { text-align:center; padding:18px; color:#888; font-size:.88em; border-top:2px solid #e8eef5; margin-top:12px; }
+        /* Save rubric button */
+        .save-rubric-btn { background:linear-gradient(135deg,#155724,#28a745); color:white; border:none; padding:8px 18px; border-radius:8px; cursor:pointer; font-size:.9em; font-weight:bold; transition:all .3s; }
+        .save-rubric-btn:hover { transform:scale(1.05); box-shadow:0 4px 12px rgba(0,0,0,0.2); }
+        .saved-indicator { display:inline-block; color:#155724; font-size:.85em; margin-left:10px; opacity:0; transition:opacity .5s; }
+        .saved-indicator.show { opacity:1; }
     </style>
 </head>
 <body>
@@ -129,29 +136,24 @@
         </div>
     </div>
 
-    <!-- PÁGINA PRINCIPAL -->
+    <!-- PRINCIPAL -->
     <div class="content" id="mainContent">
-        <div class="section">
-            <h2>📖 Misión</h2>
-            <p>Fomentar el desarrollo de competencias diplomáticas, de liderazgo y trabajo colaborativo en los estudiantes de los distritos educativos 10-02, 10-04 y 10-06, mediante la simulación de organismos internacionales, promoviendo el pensamiento crítico, la investigación académica y el diálogo constructivo para la resolución de conflictos globales.</p>
-        </div>
-        <div class="section">
-            <h2>🎯 Visión</h2>
-            <p>Ser la plataforma educativa líder en la República Dominicana para la formación de jóvenes agentes de cambio, capaces de comprender y abordar los desafíos internacionales del siglo XXI, fortaleciendo valores democráticos, respeto a la diversidad, cooperación internacional y compromiso con el desarrollo sostenible.</p>
-        </div>
+        <div class="section"><h2>📖 Misión</h2><p>Fomentar el desarrollo de competencias diplomáticas, de liderazgo y trabajo colaborativo en los estudiantes de los distritos educativos 10-02, 10-04 y 10-06, mediante la simulación de organismos internacionales, promoviendo el pensamiento crítico, la investigación académica y el diálogo constructivo para la resolución de conflictos globales.</p></div>
+        <div class="section"><h2>🎯 Visión</h2><p>Ser la plataforma educativa líder en la República Dominicana para la formación de jóvenes agentes de cambio, capaces de comprender y abordar los desafíos internacionales del siglo XXI, fortaleciendo valores democráticos, respeto a la diversidad, cooperación internacional y compromiso con el desarrollo sostenible.</p></div>
         <div class="button-group">
             <button class="btn btn-primary" onclick="showLogin()"><span>🔐 Acceso Administradores</span></button>
             <button class="btn btn-secondary" onclick="showStudentSearch()"><span>🔍 Buscar Mi Asignación</span></button>
             <button class="btn btn-success" onclick="showCommissions()"><span>📋 Ver Comisiones Disponibles</span></button>
         </div>
+        <div class="footer-copy">© Derechos reservados Cristian Vargas — CELIDER Distritales 2026</div>
     </div>
 
-    <!-- PANEL ADMIN -->
+    <!-- ADMIN -->
     <div class="content hidden" id="adminPanel">
         <div class="welcome-section">
             <h2>🎉 ¡Bienvenido/a, <span id="welcomeUser"></span>!</h2>
             <div class="district-badge">📍 <span id="welcomeDistrict"></span></div>
-            <p style="margin-top:15px; font-size:1.1em; line-height:1.7;">Sistema de gestión CELIDER Distritales 2026. Administra comisiones, listados, rúbricas y asignaciones.</p>
+            <p style="margin-top:15px;font-size:1.1em;line-height:1.7;">Sistema de gestión CELIDER Distritales 2026.</p>
             <div class="stats-grid">
                 <div class="stat-card"><span class="stat-number" id="statStudents">0</span><span class="stat-label">Delegados Totales</span></div>
                 <div class="stat-card"><span class="stat-number" id="statF1">0</span><span class="stat-label">Del Formato 1</span></div>
@@ -159,7 +161,7 @@
                 <div class="stat-card"><span class="stat-number" id="statCommissions">0</span><span class="stat-label">Comisiones Activas</span></div>
             </div>
         </div>
-        <h2 style="color:#0E223A; margin-bottom:20px;">📋 Panel de Control</h2>
+        <h2 style="color:#0E223A;margin-bottom:20px;">📋 Panel de Control</h2>
         <div class="button-group">
             <button class="btn btn-primary" onclick="showUploadModal()"><span>📤 Publicar Listado</span></button>
             <button class="btn btn-secondary" onclick="showConfigSection()"><span>⚙️ Configurar Comisiones</span></button>
@@ -168,144 +170,125 @@
             <button class="btn btn-secondary" onclick="showAssignments()"><span>👥 Ver Asignaciones</span></button>
             <button class="btn" style="background:#6c757d;color:white;" onclick="logout()"><span>🚪 Cerrar Sesión</span></button>
         </div>
-    </div>
-
-    <!-- COPYRIGHT FOOTER -->
-    <div class="footer-copy">
-        © 2026 <strong>CELIDER Distritales</strong> — Todos los derechos reservados. | Desarrollado por <strong>Cristian Vargas</strong>
+        <div class="footer-copy">© Derechos reservados Cristian Vargas — CELIDER Distritales 2026</div>
     </div>
 </div>
 
-<!-- MODAL LOGIN -->
+<!-- LOGIN -->
 <div id="loginModal" class="modal">
     <div class="modal-content" style="max-width:500px;">
         <span class="close" onclick="closeModal('loginModal')">&times;</span>
-        <h2 style="color:#0E223A; margin-bottom:25px;">🔐 Iniciar Sesión</h2>
-        <form onsubmit="login(); return false;">
+        <h2 style="color:#0E223A;margin-bottom:25px;">🔐 Iniciar Sesión</h2>
+        <form onsubmit="login();return false;">
             <div class="form-group"><label>Usuario:</label><input type="text" id="username" placeholder="Tu usuario"></div>
             <div class="form-group"><label>Contraseña:</label><input type="password" id="password" placeholder="Tu contraseña"></div>
-            <div id="loginError" style="display:none; color:#c0392b; font-weight:bold; margin-bottom:15px; padding:10px; background:#fdecea; border-radius:8px;">❌ Usuario o contraseña incorrectos</div>
+            <div id="loginError" style="display:none;color:#c0392b;font-weight:bold;margin-bottom:15px;padding:10px;background:#fdecea;border-radius:8px;">❌ Usuario o contraseña incorrectos</div>
             <button type="submit" class="btn btn-primary" style="width:100%;"><span>Ingresar</span></button>
         </form>
     </div>
 </div>
 
-<!-- MODAL BUSCAR ASIGNACIÓN -->
+<!-- BUSCAR -->
 <div id="studentSearchModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal('studentSearchModal')">&times;</span>
-        <h2 style="color:#0E223A; margin-bottom:20px;">🔍 Buscar Mi Asignación</h2>
-        <p style="color:#666; margin-bottom:20px;">Escribe tu nombre para encontrar tu comisión y delegación asignada.</p>
+        <h2 style="color:#0E223A;margin-bottom:20px;">🔍 Buscar Mi Asignación</h2>
+        <p style="color:#666;margin-bottom:20px;">Escribe tu nombre para encontrar tu comisión y delegación asignada.</p>
         <input type="text" class="search-box" id="globalSearch" placeholder="🔎 Escribe tu nombre aquí..." oninput="filterGlobal()">
-        <div id="globalResults">
-            <div class="no-results">⌛ Escribe tu nombre para buscar...</div>
-        </div>
+        <div id="globalResults"><div class="no-results">⌛ Escribe tu nombre para buscar...</div></div>
     </div>
 </div>
 
-<!-- MODAL COMISIONES -->
+<!-- COMISIONES -->
 <div id="commissionsModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal('commissionsModal')">&times;</span>
-        <h2 style="color:#0E223A; margin-bottom:25px;">📋 Comisiones Disponibles — CELIDER 2026</h2>
+        <h2 style="color:#0E223A;margin-bottom:25px;">📋 Comisiones Disponibles — CELIDER 2026</h2>
         <div id="commissionsContent"></div>
     </div>
 </div>
 
-<!-- MODAL SUBIR LISTADO -->
+<!-- SUBIR LISTADO -->
 <div id="uploadModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal('uploadModal')">&times;</span>
-        <h2 style="color:#0E223A; margin-bottom:20px;">📤 Publicar Listados de Delegados</h2>
+        <h2 style="color:#0E223A;margin-bottom:20px;">📤 Publicar Listados</h2>
         <div class="tab-buttons">
-            <button class="tab-btn active" onclick="switchTab(event,'tab-formato1')">📋 Formato 1 — Con Comisión Asignada</button>
-            <button class="tab-btn" onclick="switchTab(event,'tab-formato2')">📋 Formato 2 — Distribución Automática</button>
+            <button class="tab-btn active" onclick="switchTab(event,'tab-f1')">📋 Formato 1 — Con Comisión Asignada</button>
+            <button class="tab-btn" onclick="switchTab(event,'tab-f2')">📋 Formato 2 — Distribución Automática</button>
         </div>
-        <div id="tab-formato1" class="tab-content active">
-            <div class="alert alert-info">
-                <strong>📌 Formato 1:</strong> Columnas requeridas (en orden):<br>
-                <code>Nombres &nbsp;&nbsp; Apellidos &nbsp;&nbsp; Delegacion &nbsp;&nbsp; Centro Educativo &nbsp;&nbsp; Comision</code>
-            </div>
-            <div class="formato-info">
-                Nombres&nbsp;&nbsp;&nbsp;&nbsp;Apellidos&nbsp;&nbsp;&nbsp;&nbsp;Delegacion&nbsp;&nbsp;&nbsp;&nbsp;Centro Educativo&nbsp;&nbsp;&nbsp;&nbsp;Comision<br>
-                Juan&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pérez&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Argentina&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Liceo XYZ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FAO
-            </div>
-            <div class="upload-zone" id="zone1" onclick="document.getElementById('excelFile1').click()">
+        <div id="tab-f1" class="tab-content active">
+            <div class="alert alert-info"><strong>📌 Formato 1:</strong> Columnas: <code>Nombres &nbsp; Apellidos &nbsp; Delegacion &nbsp; Centro Educativo &nbsp; Comision</code></div>
+            <div class="formato-info">Nombres&nbsp;&nbsp;&nbsp;Apellidos&nbsp;&nbsp;&nbsp;Delegacion&nbsp;&nbsp;&nbsp;Centro Educativo&nbsp;&nbsp;&nbsp;Comision<br>Juan&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pérez&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Argentina&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Liceo XYZ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FAO</div>
+            <div class="upload-zone" onclick="document.getElementById('ef1').click()">
                 <div class="icon">📂</div>
-                <strong style="font-size:1.2em;" id="zone1-title">Seleccionar archivo Excel (.xlsx / .xls)</strong><br>
-                <small style="color:#666;" id="zone1-sub">Haz clic aquí para buscar el archivo en tu computadora</small>
-                <div class="file-name" id="zone1-fname"></div>
-                <input type="file" id="excelFile1" accept=".xlsx,.xls" style="display:none" onchange="readExcelFile(event,'format1')">
+                <strong style="font-size:1.2em;" id="z1t">Seleccionar archivo Excel (.xlsx / .xls)</strong><br>
+                <small style="color:#666;" id="z1s">Haz clic aquí para buscar el archivo</small>
+                <div class="file-name" id="z1f"></div>
+                <input type="file" id="ef1" accept=".xlsx,.xls" style="display:none" onchange="readXL(event,'f1')">
             </div>
-            <div id="preview1" style="margin-top:10px;"></div>
-            <button class="btn btn-primary" style="margin-top:10px;" onclick="processFormat1()"><span>📥 Procesar y Publicar Formato 1</span></button>
+            <div id="prev1"></div>
+            <button class="btn btn-primary" style="margin-top:10px;" onclick="processF1()"><span>📥 Procesar y Publicar Formato 1</span></button>
         </div>
-        <div id="tab-formato2" class="tab-content">
-            <div class="alert alert-info">
-                <strong>📌 Formato 2:</strong> Columnas requeridas (en orden):<br>
-                <code>Nombre Completo &nbsp;&nbsp; Centro Educativo &nbsp;&nbsp; Distrito</code>
-            </div>
-            <div class="formato-info">
-                Nombre Completo&nbsp;&nbsp;&nbsp;&nbsp;Centro Educativo&nbsp;&nbsp;&nbsp;&nbsp;Distrito<br>
-                Juan Pérez&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Liceo XYZ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10-02
-            </div>
-            <div class="otan-note">
-                ⚠️ <strong>Nota OTAN:</strong> La comisión OTAN <strong>solo acepta estudiantes del Formato 1</strong>. El Formato 2 no asignará ningún delegado a OTAN.
-            </div>
-            <div class="alert alert-warning">⚠️ Los estudiantes del Formato 2 llenarán los cupos restantes de cada comisión (límite − delegados ya asignados en Formato 1). Asegúrate de haber subido el Formato 1 antes.</div>
-            <div class="upload-zone" id="zone2" onclick="document.getElementById('excelFile2').click()">
+        <div id="tab-f2" class="tab-content">
+            <div class="alert alert-info"><strong>📌 Formato 2:</strong> Columnas: <code>Nombre Completo &nbsp; Centro Educativo &nbsp; Distrito</code></div>
+            <div class="formato-info">Nombre Completo&nbsp;&nbsp;&nbsp;Centro Educativo&nbsp;&nbsp;&nbsp;Distrito<br>Juan Pérez&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Liceo XYZ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10-02</div>
+            <div class="otan-note">⚠️ <strong>OTAN</strong> solo acepta Formato 1. No se asignará ningún delegado del F2 a OTAN.</div>
+            <div class="alert alert-warning">⚠️ El F2 rellena cupos restantes (límite − F1 ya asignados). Sube primero el Formato 1.</div>
+            <div class="upload-zone" onclick="document.getElementById('ef2').click()">
                 <div class="icon">📂</div>
-                <strong style="font-size:1.2em;" id="zone2-title">Seleccionar archivo Excel (.xlsx / .xls)</strong><br>
-                <small style="color:#666;" id="zone2-sub">Haz clic aquí para buscar el archivo en tu computadora</small>
-                <div class="file-name" id="zone2-fname"></div>
-                <input type="file" id="excelFile2" accept=".xlsx,.xls" style="display:none" onchange="readExcelFile(event,'format2')">
+                <strong style="font-size:1.2em;" id="z2t">Seleccionar archivo Excel (.xlsx / .xls)</strong><br>
+                <small style="color:#666;" id="z2s">Haz clic aquí para buscar el archivo</small>
+                <div class="file-name" id="z2f"></div>
+                <input type="file" id="ef2" accept=".xlsx,.xls" style="display:none" onchange="readXL(event,'f2')">
             </div>
-            <div id="preview2" style="margin-top:10px;"></div>
-            <button class="btn btn-primary" style="margin-top:10px;" onclick="processFormat2()"><span>📥 Procesar y Publicar Formato 2</span></button>
+            <div id="prev2"></div>
+            <button class="btn btn-primary" style="margin-top:10px;" onclick="processF2()"><span>📥 Procesar y Publicar Formato 2</span></button>
         </div>
         <div id="uploadResult" style="margin-top:20px;"></div>
     </div>
 </div>
 
-<!-- MODAL CONFIG COMISIONES -->
+<!-- CONFIG -->
 <div id="configModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal('configModal')">&times;</span>
-        <h2 style="color:#0E223A; margin-bottom:10px;">⚙️ Configurar Comisiones</h2>
-        <p style="color:#666; margin-bottom:5px;">Selecciona las comisiones activas y define el cupo máximo (28–32) de cada una.</p>
-        <p style="color:#c0392b; font-size:0.9em; margin-bottom:20px;">⚠️ <strong>OTAN</strong> solo admite Formato 1. El número que pongas en OTAN es su cupo máximo permitido del Formato 1.</p>
+        <h2 style="color:#0E223A;margin-bottom:10px;">⚙️ Configurar Comisiones</h2>
+        <p style="color:#666;margin-bottom:5px;">Selecciona las comisiones activas y define el cupo máximo (28–32).</p>
+        <p style="color:#c0392b;font-size:.9em;margin-bottom:20px;">⚠️ <strong>OTAN</strong> solo admite Formato 1.</p>
         <div class="commission-selector" id="commissionSelector"></div>
         <div id="configAccounting" style="margin-top:20px;"></div>
-        <div style="display:flex; gap:15px; margin-top:20px; flex-wrap:wrap;">
-            <button class="btn btn-primary" onclick="saveConfiguration()"><span>💾 Guardar Configuración</span></button>
-            <button class="btn" style="background:#c0392b;color:white;" onclick="clearCommissions()"><span>🗑️ Limpiar Selección</span></button>
+        <div style="display:flex;gap:15px;margin-top:20px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="saveConfig()"><span>💾 Guardar Configuración</span></button>
+            <button class="btn" style="background:#c0392b;color:white;" onclick="clearComms()"><span>🗑️ Limpiar Selección</span></button>
         </div>
     </div>
 </div>
 
-<!-- MODAL WHATSAPP -->
+<!-- WHATSAPP -->
 <div id="whatsappModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal('whatsappModal')">&times;</span>
-        <h2 style="color:#0E223A; margin-bottom:20px;">📱 Links de WhatsApp</h2>
+        <h2 style="color:#0E223A;margin-bottom:20px;">📱 Links de WhatsApp</h2>
         <div id="whatsappLinksForm"></div>
-        <button class="btn btn-primary" onclick="saveWhatsAppLinks()"><span>💾 Guardar Links</span></button>
+        <button class="btn btn-primary" onclick="saveWALinks()"><span>💾 Guardar Links</span></button>
     </div>
 </div>
 
-<!-- MODAL RÚBRICAS -->
+<!-- RÚBRICAS -->
 <div id="rubricsModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal('rubricsModal')">&times;</span>
         <div id="rubricsContent"></div>
+        <div class="footer-copy" style="margin-top:20px;">© Derechos reservados Cristian Vargas — CELIDER Distritales 2026</div>
     </div>
 </div>
 
-<!-- MODAL ASIGNACIONES -->
+<!-- ASIGNACIONES -->
 <div id="assignmentsModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal('assignmentsModal')">&times;</span>
-        <h2 style="color:#0E223A; margin-bottom:20px;">👥 Asignaciones por Comisión</h2>
+        <h2 style="color:#0E223A;margin-bottom:20px;">👥 Asignaciones por Comisión</h2>
         <div id="assignmentsContent"></div>
     </div>
 </div>
@@ -314,894 +297,860 @@
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-// ===================== FIREBASE =====================
-const firebaseConfig = {
-    apiKey: "AIzaSyA2HicfJnEoNOdgjfERIgkiJ0GA260HyLA",
-    authDomain: "celider-distritales-f8753.firebaseapp.com",
-    databaseURL: "https://celider-distritales-f8753-default-rtdb.firebaseio.com",
-    projectId: "celider-distritales-f8753",
-    storageBucket: "celider-distritales-f8753.firebasestorage.app",
-    messagingSenderId: "252428103373",
-    appId: "1:252428103373:web:6a209f9de105f8474d0384"
-};
+const firebaseConfig={apiKey:"AIzaSyA2HicfJnEoNOdgjfERIgkiJ0GA260HyLA",authDomain:"celider-distritales-f8753.firebaseapp.com",databaseURL:"https://celider-distritales-f8753-default-rtdb.firebaseio.com",projectId:"celider-distritales-f8753",storageBucket:"celider-distritales-f8753.firebasestorage.app",messagingSenderId:"252428103373",appId:"1:252428103373:web:6a209f9de105f8474d0384"};
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+const db=firebase.database();
 
-// ===================== USUARIOS =====================
-const users = {
-    'CUENTA1':       { password: 'DISTRITO 10-02', district: '10-02' },
-    'CUENTA2':       { password: 'DISTRITO 10-04', district: '10-04' },
-    'DIRECTIVA10-02':{ password: 'CELIDER10-02',   district: '10-02' },
-    'DIEGO':         { password: 'REYES 123DIEGO',  district: 'ADMIN' }
-};
+const users={'CUENTA1':{password:'DISTRITO 10-02',district:'10-02'},'CUENTA2':{password:'DISTRITO 10-04',district:'10-04'},'DIRECTIVA10-02':{password:'CELIDER10-02',district:'10-02'},'DIEGO':{password:'REYES 123DIEGO',district:'ADMIN'}};
 
-// ===================== COMISIONES =====================
-const commissions = [
-    {
-        id:'fao', name:'FAO', nivel:'Básico', categoria:'Desarrollo Sostenible',
-        fullName:'FAO – Organización de las Naciones Unidas para la Alimentación y la Agricultura',
-        topic:'Impactos del cambio climático en la producción agrícola familiar y la seguridad alimentaria en el Caribe.',
-        defaultMax:32, type:'delegaciones'
-    },
-    {
-        id:'oms', name:'OMS', nivel:'Básico', categoria:'Salud Pública',
-        fullName:'OMS – Organización Mundial de la Salud',
-        topic:'Acceso equitativo a vacunas y medicamentos en países de ingreso bajo y medio.',
-        defaultMax:32, type:'delegaciones'
-    },
-    {
-        id:'unicef', name:'UNICEF', nivel:'Básico', categoria:'Desarrollo Humano',
-        fullName:'UNICEF – Fondo de las Naciones Unidas para la Infancia',
-        topic:'Protección de los derechos de los niños en el contexto de la migración infantil en América Central.',
-        defaultMax:32, type:'delegaciones'
-    },
-    {
-        id:'uit', name:'UIT', nivel:'Intermedio', categoria:'Tecnología',
-        fullName:'UIT – Unión Internacional de Telecomunicaciones',
-        topic:'Cooperación internacional frente a la vulneración de derechos digitales en niños y adolescentes.',
-        defaultMax:32, type:'delegaciones'
-    },
-    {
-        id:'unesco', name:'UNESCO', nivel:'Intermedio', categoria:'Cultura y Patrimonio',
-        fullName:'UNESCO – Organización de las Naciones Unidas para la Educación, la Ciencia y la Cultura',
-        topic:'Preservación del patrimonio cultural inmaterial frente al turismo masivo y la mercantilización digital.',
-        defaultMax:32, type:'delegaciones'
-    },
-    {
-        id:'oit', name:'OIT', nivel:'Intermedio', categoria:'Comercio y Trabajo',
-        fullName:'OIT – Organización Internacional del Trabajo',
-        topic:'Responsabilidad corporativa ante la explotación laboral de niños en la cadena de suministro global.',
-        defaultMax:32, type:'delegaciones'
-    },
-    {
-        id:'bandung', name:'1955', nivel:'Intermedio', categoria:'Comisión Histórica',
-        fullName:'1955 – Conferencia de Bandung',
-        topic:'Descolonización, cooperación sur-sur y el nacimiento del movimiento de los no alineados.',
-        defaultMax:32, type:'delegaciones'
-    },
-    {
-        id:'cij', name:'CIJ', nivel:'Avanzado', categoria:'Derecho Internacional',
-        fullName:'CIJ – Corte Internacional de Justicia',
-        topic:'Opinión consultiva: Legalidad de la explotación de recursos naturales en zonas marinas continentales en disputa territorial.',
-        defaultMax:32, type:'magistrados'
-    },
-    {
-        id:'interpol', name:'INTERPOL', nivel:'Avanzado', categoria:'Seguridad Internacional',
-        fullName:'INTERPOL – Organización Internacional de Policía Criminal',
-        topic:'Caso para preparar por la Secretaría General Académica del Modelo Distrital.',
-        defaultMax:32, type:'agentes'
-    },
-    {
-        id:'otan', name:'OTAN', nivel:'Avanzado', categoria:'Geopolítica y Defensa',
-        fullName:'OTAN – Organización del Tratado del Atlántico Norte',
-        topic:'Cooperación en defensa ante amenazas híbridas, ciberataques y desinformación en escenarios de guerra contemporánea.',
-        defaultMax:28, type:'delegaciones',
-        onlyFormat1: true
-    },
-    {
-        id:'oas', name:'OAS', nivel:'Advanced', categoria:'To simulate in English',
-        fullName:'OAS – Permanent Council of the Organization of American States',
-        topic:'Strengthening democratic institutions and electoral integrity in Latin America and the Caribbean.',
-        defaultMax:32, type:'states'
-    }
+const commissions=[
+    {id:'fao',name:'FAO',nivel:'Básico',categoria:'Desarrollo Sostenible',fullName:'FAO – Organización de las Naciones Unidas para la Alimentación y la Agricultura',topic:'Impactos del cambio climático en la producción agrícola familiar y la seguridad alimentaria en el Caribe.',defaultMax:32,type:'delegaciones'},
+    {id:'oms',name:'OMS',nivel:'Básico',categoria:'Salud Pública',fullName:'OMS – Organización Mundial de la Salud',topic:'Acceso equitativo a vacunas y medicamentos en países de ingreso bajo y medio.',defaultMax:32,type:'delegaciones'},
+    {id:'unicef',name:'UNICEF',nivel:'Básico',categoria:'Desarrollo Humano',fullName:'UNICEF – Fondo de las Naciones Unidas para la Infancia',topic:'Protección de los derechos de los niños en el contexto de la migración infantil en América Central.',defaultMax:32,type:'delegaciones'},
+    {id:'uit',name:'UIT',nivel:'Intermedio',categoria:'Tecnología',fullName:'UIT – Unión Internacional de Telecomunicaciones',topic:'Cooperación internacional frente a la vulneración de derechos digitales en niños y adolescentes.',defaultMax:32,type:'delegaciones'},
+    {id:'unesco',name:'UNESCO',nivel:'Intermedio',categoria:'Cultura y Patrimonio',fullName:'UNESCO – Organización de las Naciones Unidas para la Educación, la Ciencia y la Cultura',topic:'Preservación del patrimonio cultural inmaterial frente al turismo masivo y la mercantilización digital.',defaultMax:32,type:'delegaciones'},
+    {id:'oit',name:'OIT',nivel:'Intermedio',categoria:'Comercio y Trabajo',fullName:'OIT – Organización Internacional del Trabajo',topic:'Responsabilidad corporativa ante la explotación laboral de niños en la cadena de suministro global.',defaultMax:32,type:'delegaciones'},
+    {id:'bandung',name:'1955',nivel:'Intermedio',categoria:'Comisión Histórica',fullName:'1955 – Conferencia de Bandung',topic:'Descolonización, cooperación sur-sur y el nacimiento del movimiento de los no alineados.',defaultMax:32,type:'delegaciones'},
+    {id:'cij',name:'CIJ',nivel:'Avanzado',categoria:'Derecho Internacional',fullName:'CIJ – Corte Internacional de Justicia',topic:'Opinión consultiva: Legalidad de la explotación de recursos naturales en zonas marinas continentales en disputa territorial.',defaultMax:32,type:'magistrados'},
+    {id:'interpol',name:'INTERPOL',nivel:'Avanzado',categoria:'Seguridad Internacional',fullName:'INTERPOL – Organización Internacional de Policía Criminal',topic:'Caso para preparar por la Secretaría General Académica del Modelo Distrital.',defaultMax:32,type:'agentes'},
+    {id:'otan',name:'OTAN',nivel:'Avanzado',categoria:'Geopolítica y Defensa',fullName:'OTAN – Organización del Tratado del Atlántico Norte',topic:'Cooperación en defensa ante amenazas híbridas, ciberataques y desinformación en escenarios de guerra contemporánea.',defaultMax:28,type:'delegaciones',onlyFormat1:true},
+    {id:'oas',name:'OAS',nivel:'Advanced',categoria:'To simulate in English',fullName:'OAS – Permanent Council of the Organization of American States',topic:'Strengthening democratic institutions and electoral integrity in Latin America and the Caribbean.',defaultMax:32,type:'states'}
 ];
 
-// ===================== PAÍSES =====================
-const allCountries = [
-    'Afghanistan','Albania','Algeria','Andorra','Angola','Antigua and Barbuda','Argentina','Armenia',
-    'Australia','Austria','Azerbaijan','Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium',
-    'Belize','Benin','Bhutan','Bolivia','Bosnia and Herzegovina','Botswana','Brazil','Brunei',
-    'Bulgaria','Burkina Faso','Burundi','Cabo Verde','Cambodia','Cameroon','Canada','Central African Republic',
-    'Chad','Chile','China','Colombia','Comoros','Congo','Costa Rica','Croatia','Cuba','Cyprus',
-    'Czech Republic','Denmark','Djibouti','Dominica','Dominican Republic','Ecuador','Egypt','El Salvador',
-    'Equatorial Guinea','Eritrea','Estonia','Eswatini','Ethiopia','Fiji','Finland','France','Gabon',
-    'Gambia','Georgia','Germany','Ghana','Greece','Grenada','Guatemala','Guinea','Guinea-Bissau',
-    'Guyana','Haiti','Honduras','Hungary','Iceland','India','Indonesia','Iran','Iraq','Ireland',
-    'Israel','Italy','Jamaica','Japan','Jordan','Kazakhstan','Kenya','Kiribati','Kuwait','Kyrgyzstan',
-    'Laos','Latvia','Lebanon','Lesotho','Liberia','Libya','Liechtenstein','Lithuania','Luxembourg',
-    'Madagascar','Malawi','Malaysia','Maldives','Mali','Malta','Marshall Islands','Mauritania',
-    'Mauritius','Mexico','Micronesia','Moldova','Monaco','Mongolia','Montenegro','Morocco','Mozambique',
-    'Myanmar','Namibia','Nauru','Nepal','Netherlands','New Zealand','Nicaragua','Niger','Nigeria',
-    'North Korea','North Macedonia','Norway','Oman','Pakistan','Palau','Palestine','Panama',
-    'Papua New Guinea','Paraguay','Peru','Philippines','Poland','Portugal','Qatar','Romania','Russia',
-    'Rwanda','Saint Kitts and Nevis','Saint Lucia','Saint Vincent','Samoa','San Marino','Sao Tome',
-    'Saudi Arabia','Senegal','Serbia','Seychelles','Sierra Leone','Singapore','Slovakia','Slovenia',
-    'Solomon Islands','Somalia','South Africa','South Korea','South Sudan','Spain','Sri Lanka','Sudan',
-    'Suriname','Sweden','Switzerland','Syria','Taiwan','Tajikistan','Tanzania','Thailand','Timor-Leste',
-    'Togo','Tonga','Trinidad and Tobago','Tunisia','Turkey','Turkmenistan','Tuvalu','Uganda','Ukraine',
-    'United Arab Emirates','United Kingdom','United States','Uruguay','Uzbekistan','Vanuatu','Venezuela',
-    'Vietnam','Yemen','Zambia','Zimbabwe'
-];
+const allCountries=['Afghanistan','Albania','Algeria','Andorra','Angola','Antigua and Barbuda','Argentina','Armenia','Australia','Austria','Azerbaijan','Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium','Belize','Benin','Bhutan','Bolivia','Bosnia and Herzegovina','Botswana','Brazil','Brunei','Bulgaria','Burkina Faso','Burundi','Cabo Verde','Cambodia','Cameroon','Canada','Central African Republic','Chad','Chile','China','Colombia','Comoros','Congo','Costa Rica','Croatia','Cuba','Cyprus','Czech Republic','Denmark','Djibouti','Dominica','Dominican Republic','Ecuador','Egypt','El Salvador','Equatorial Guinea','Eritrea','Estonia','Eswatini','Ethiopia','Fiji','Finland','France','Gabon','Gambia','Georgia','Germany','Ghana','Greece','Grenada','Guatemala','Guinea','Guinea-Bissau','Guyana','Haiti','Honduras','Hungary','Iceland','India','Indonesia','Iran','Iraq','Ireland','Israel','Italy','Jamaica','Japan','Jordan','Kazakhstan','Kenya','Kiribati','Kuwait','Kyrgyzstan','Laos','Latvia','Lebanon','Lesotho','Liberia','Libya','Liechtenstein','Lithuania','Luxembourg','Madagascar','Malawi','Malaysia','Maldives','Mali','Malta','Marshall Islands','Mauritania','Mauritius','Mexico','Micronesia','Moldova','Monaco','Mongolia','Montenegro','Morocco','Mozambique','Myanmar','Namibia','Nauru','Nepal','Netherlands','New Zealand','Nicaragua','Niger','Nigeria','North Korea','North Macedonia','Norway','Oman','Pakistan','Palau','Palestine','Panama','Papua New Guinea','Paraguay','Peru','Philippines','Poland','Portugal','Qatar','Romania','Russia','Rwanda','Saint Kitts and Nevis','Saint Lucia','Saint Vincent','Samoa','San Marino','Sao Tome','Saudi Arabia','Senegal','Serbia','Seychelles','Sierra Leone','Singapore','Slovakia','Slovenia','Solomon Islands','Somalia','South Africa','South Korea','South Sudan','Spain','Sri Lanka','Sudan','Suriname','Sweden','Switzerland','Syria','Taiwan','Tajikistan','Tanzania','Thailand','Timor-Leste','Togo','Tonga','Trinidad and Tobago','Tunisia','Turkey','Turkmenistan','Tuvalu','Uganda','Ukraine','United Arab Emirates','United Kingdom','United States','Uruguay','Uzbekistan','Vanuatu','Venezuela','Vietnam','Yemen','Zambia','Zimbabwe'];
 
-// ===================== ESTADO GLOBAL =====================
-let currentUser = null;
-let assignments = [];
-let selectedCommissions = [];
-let customLimits = {};
-let whatsappLinks = {};
-let allAssignments = [];
-let parsedFormat1 = [];
-let parsedFormat2 = [];
+const rubricCriteria=[{name:'Investigación académica',max:15},{name:'Pensamiento crítico',max:15},{name:'Oratoria',max:10},{name:'Argumentación',max:10},{name:'Redacción',max:10},{name:'Negociación',max:10},{name:'Resolución de conflictos',max:10},{name:'Liderazgo',max:10},{name:'Colaboración',max:10}];
+const RUBRIC_MAX=rubricCriteria.reduce((s,c)=>s+c.max,0);
+const participacionOpts=['— Seleccionar —','Excelente','Muy Bueno','Bueno','Regular','Malo'];
 
-// ===================== UI UTILS =====================
-function showLoading(text='Cargando...') {
-    document.getElementById('loadingText').textContent = text;
-    document.getElementById('loadingOverlay').style.display = 'flex';
-}
-function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
-function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-window.onclick = e => { if(e.target.classList.contains('modal')) e.target.style.display='none'; };
+let currentUser=null,assignments=[],selectedCommissions=[],customLimits={},whatsappLinks={},allAssignments=[],parsedF1=[],parsedF2=[];
 
-function switchTab(e, tabId) {
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(tabId).classList.add('active');
-    e.target.classList.add('active');
-}
+// =====================================================================
+// LIVE RUBRIC DATA STORE - THE FIX FOR SCORES NOT SAVING ON DOWNLOAD
+// All input changes are stored here in memory; download reads from here
+// =====================================================================
+let rubricLiveData = {}; // key: "commId_studentIndex_fieldName" => value
 
-// ===================== LOGIN =====================
-function showLogin() { document.getElementById('loginModal').style.display='block'; }
-function logout() {
-    currentUser = null;
-    document.getElementById('mainContent').classList.remove('hidden');
-    document.getElementById('adminPanel').classList.add('hidden');
-}
+function setLive(key, val) { rubricLiveData[key] = val; }
+function getLive(key, fallback) { return rubricLiveData.hasOwnProperty(key) ? rubricLiveData[key] : fallback; }
 
-function login() {
-    const u = document.getElementById('username').value.trim().toUpperCase();
-    const p = document.getElementById('password').value.trim().toUpperCase();
-    const err = document.getElementById('loginError');
-    if(users[u] && users[u].password.toUpperCase() === p) {
-        currentUser = { username: u, district: users[u].district };
+// Store all rubric students when modal opens (index by commission+studentIndex)
+let rubricStudentsMap = {}; // commId -> array of student objects (as loaded from Firebase)
+
+function showLoading(t='Cargando...'){document.getElementById('loadingText').textContent=t;document.getElementById('loadingOverlay').style.display='flex';}
+function hideLoading(){document.getElementById('loadingOverlay').style.display='none';}
+function closeModal(id){document.getElementById(id).style.display='none';}
+window.onclick=e=>{if(e.target.classList.contains('modal'))e.target.style.display='none';};
+function switchTab(e,id){document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');e.target.classList.add('active');}
+
+function showLogin(){document.getElementById('loginModal').style.display='block';}
+function logout(){currentUser=null;document.getElementById('mainContent').classList.remove('hidden');document.getElementById('adminPanel').classList.add('hidden');}
+function login(){
+    const u=document.getElementById('username').value.trim().toUpperCase();
+    const p=document.getElementById('password').value.trim().toUpperCase();
+    const err=document.getElementById('loginError');
+    if(users[u]&&users[u].password.toUpperCase()===p){
+        currentUser={username:u,district:users[u].district};
         document.getElementById('mainContent').classList.add('hidden');
         document.getElementById('adminPanel').classList.remove('hidden');
-        document.getElementById('welcomeUser').textContent = u;
-        document.getElementById('welcomeDistrict').textContent = currentUser.district==='ADMIN' ? 'Administrador General' : 'Distrito '+currentUser.district;
-        closeModal('loginModal');
-        err.style.display='none';
-        document.getElementById('username').value='';
-        document.getElementById('password').value='';
+        document.getElementById('welcomeUser').textContent=u;
+        document.getElementById('welcomeDistrict').textContent=currentUser.district==='ADMIN'?'Administrador General':'Distrito '+currentUser.district;
+        closeModal('loginModal');err.style.display='none';
+        document.getElementById('username').value='';document.getElementById('password').value='';
         loadAdminData();
-    } else {
-        err.style.display='block';
-        document.getElementById('password').value='';
-    }
+    }else{err.style.display='block';document.getElementById('password').value='';}
 }
 
-// ===================== BUSCAR ASIGNACIÓN (PÚBLICO) =====================
-function showStudentSearch() {
+function showStudentSearch(){
     document.getElementById('studentSearchModal').style.display='block';
     document.getElementById('globalSearch').value='';
-    document.getElementById('globalResults').innerHTML = '<div class="no-results">⌛ Escribe tu nombre para buscar...</div>';
+    document.getElementById('globalResults').innerHTML='<div class="no-results">⌛ Escribe tu nombre para buscar...</div>';
     showLoading('Cargando asignaciones...');
-    db.ref('publicAssignments').once('value').then(snap => {
-        allAssignments = snap.val() || [];
-        hideLoading();
-        if(allAssignments.length === 0) {
-            document.getElementById('globalResults').innerHTML = '<div class="no-results">📭 Aún no se han publicado asignaciones.</div>';
-        }
-    }).catch(()=>{
-        hideLoading();
-        document.getElementById('globalResults').innerHTML = '<div class="no-results">⚠️ Error al cargar. Verifica tu conexión.</div>';
-    });
+    db.ref('publicAssignments').once('value').then(snap=>{
+        allAssignments=snap.val()||[]; hideLoading();
+        if(!allAssignments.length) document.getElementById('globalResults').innerHTML='<div class="no-results">📭 Aún no se han publicado asignaciones.</div>';
+    }).catch(()=>{hideLoading();document.getElementById('globalResults').innerHTML='<div class="no-results">⚠️ Error al cargar.</div>';});
 }
-
-function filterGlobal() {
-    const q = document.getElementById('globalSearch').value.trim().toLowerCase();
-    const container = document.getElementById('globalResults');
-    if(!q || q.length < 2) {
-        container.innerHTML = '<div class="no-results">⌛ Escribe al menos 2 letras...</div>';
-        return;
-    }
-    const results = allAssignments.filter(a =>
-        (a.name||'').toLowerCase().includes(q) ||
-        (a.school||'').toLowerCase().includes(q)
-    );
-    if(results.length === 0) {
-        container.innerHTML = '<div class="no-results">🔍 No se encontraron resultados para "<strong>'+q+'</strong>"</div>';
-        return;
-    }
-    container.innerHTML = results.map(s => {
-        const comm = commissions.find(c=>c.id===s.commission);
-        const waLink = whatsappLinks[s.commission] ? `<a href="${whatsappLinks[s.commission]}" target="_blank" class="wa-btn">📱 Unirse al grupo</a>` : '';
-        return `
-        <div class="student-card">
-            <h3>👤 ${s.name}</h3>
-            <span class="badge">${s.school||''}</span>
-            ${s.district ? `<span class="badge blue">Distrito ${s.district}</span>` : ''}
-            <br style="margin:8px 0;">
-            <strong style="color:#0E223A;">🏛️ Comisión:</strong> ${comm ? comm.fullName : s.commissionName || s.commission}<br>
-            <strong style="color:#457B9D;">🌍 Delegación:</strong> ${s.delegation}<br>
-            ${waLink}
-        </div>`;
+function filterGlobal(){
+    const q=document.getElementById('globalSearch').value.trim().toLowerCase();
+    const c=document.getElementById('globalResults');
+    if(!q||q.length<2){c.innerHTML='<div class="no-results">⌛ Escribe al menos 2 letras...</div>';return;}
+    const res=allAssignments.filter(a=>(a.name||'').toLowerCase().includes(q)||(a.school||'').toLowerCase().includes(q));
+    if(!res.length){c.innerHTML=`<div class="no-results">🔍 Sin resultados para "<strong>${q}</strong>"</div>`;return;}
+    c.innerHTML=res.map(s=>{
+        const comm=commissions.find(c=>c.id===s.commission);
+        const waLink=whatsappLinks[s.commission]?`<a href="${whatsappLinks[s.commission]}" target="_blank" class="wa-btn">📱 Unirse al grupo</a>`:'';
+        return `<div class="student-card"><h3>👤 ${s.name}</h3>
+            <span class="badge">${s.school||''}</span>${s.district?`<span class="badge blue">Distrito ${s.district}</span>`:''}
+            <br style="margin:8px 0;"><strong style="color:#0E223A;">🏛️ Comisión:</strong> ${comm?comm.fullName:s.commissionName||s.commission}<br>
+            <strong style="color:#457B9D;">🌍 Delegación:</strong> ${s.delegation}<br>${waLink}</div>`;
     }).join('');
 }
 
-// ===================== VER COMISIONES =====================
-function showCommissions() {
+function showCommissions(){
     showLoading();
-    db.ref('selectedCommissions').once('value').then(snap => {
-        const active = snap.val() || commissions.map(c=>c.id);
-        hideLoading();
-        const content = document.getElementById('commissionsContent');
-        const toShow = commissions.filter(c => active.includes(c.id));
-        if(toShow.length === 0) {
-            content.innerHTML = '<div class="alert alert-warning">⚠️ Aún no se han configurado las comisiones activas.</div>';
-        } else {
-            content.innerHTML = toShow.map((c,i) => `
-                <div class="commission-card">
-                    <h3>${i+1}. ${c.fullName}</h3>
-                    <span class="nivel">📊 ${c.nivel}</span>
-                    <span class="categoria">📁 ${c.categoria}</span>
-                    ${c.onlyFormat1 ? '<span style="background:#f0a500;color:white;padding:3px 12px;border-radius:15px;font-size:0.85em;margin-left:5px;">⚠️ Solo Formato 1</span>' : ''}
-                    <div class="topico-box">📌 <strong>Tópico:</strong> ${c.topic}</div>
-                </div>
-            `).join('');
-        }
+    db.ref('selectedCommissions').once('value').then(snap=>{
+        const active=snap.val()||commissions.map(c=>c.id); hideLoading();
+        const toShow=commissions.filter(c=>active.includes(c.id));
+        document.getElementById('commissionsContent').innerHTML=toShow.length===0
+            ?'<div class="alert alert-warning">⚠️ Aún no se han configurado las comisiones activas.</div>'
+            :toShow.map((c,i)=>`<div class="commission-card"><h3>${i+1}. ${c.fullName}</h3>
+                <span class="nivel">📊 ${c.nivel}</span><span class="categoria">📁 ${c.categoria}</span>
+                ${c.onlyFormat1?'<span style="background:#f0a500;color:white;padding:3px 12px;border-radius:15px;font-size:.85em;margin-left:5px;">⚠️ Solo Formato 1</span>':''}
+                <div class="topico-box">📌 <strong>Tópico:</strong> ${c.topic}</div></div>`).join('');
         document.getElementById('commissionsModal').style.display='block';
-    }).catch(()=>{ hideLoading(); });
+    }).catch(()=>hideLoading());
 }
 
-// ===================== CONFIGURAR COMISIONES (ADMIN) =====================
-function showConfigSection() {
-    const sel = document.getElementById('commissionSelector');
-    sel.innerHTML = commissions.map(c => {
-        const isSelected = selectedCommissions.includes(c.id);
-        const limit = customLimits[c.id] || c.defaultMax || 32;
-        const isOtan = c.id === 'otan';
-        return `
-        <div class="commission-item ${isSelected?'selected':''}" id="ci_${c.id}" onclick="toggleCommission('${c.id}')">
-            <strong>${c.name}</strong>${isOtan ? ' ⚠️' : ''}<br>
-            <small>${c.nivel}</small><br>
-            <small style="font-size:0.78em;">${c.categoria}</small>
-            ${isOtan ? '<br><small style="color:#f0a500;font-size:0.75em;">Solo Formato 1</small>' : ''}
-            <div class="limit-wrap">
-                <label>Cupo:</label>
-                <input type="number" class="limit-input" id="limit_${c.id}"
-                    value="${limit}" min="28" max="32"
-                    onclick="event.stopPropagation()"
-                    oninput="updateLimit('${c.id}', this.value)"
-                    placeholder="28–32">
-            </div>
-            <div class="count-badge" id="cnt_${c.id}">
-                ${assignments.filter(a=>a.commission===c.id).length} inscritos
-            </div>
+function showConfigSection(){
+    document.getElementById('commissionSelector').innerHTML=commissions.map(c=>{
+        const sel=selectedCommissions.includes(c.id);
+        const lim=customLimits[c.id]||c.defaultMax||32;
+        const isOtan=c.id==='otan';
+        return `<div class="commission-item ${sel?'selected':''}" id="ci_${c.id}" onclick="toggleComm('${c.id}')">
+            <strong>${c.name}${isOtan?' ⚠️':''}</strong><br><small>${c.nivel}</small><br><small style="font-size:.78em;">${c.categoria}</small>
+            ${isOtan?'<br><small style="color:#f0a500;font-size:.75em;">Solo F1</small>':''}
+            <div class="limit-wrap"><label>Cupo:</label>
+                <input type="number" class="limit-input" id="lim_${c.id}" value="${lim}" min="28" max="32"
+                    onclick="event.stopPropagation()" oninput="updLim('${c.id}',this.value)"></div>
+            <div class="count-badge" id="cnt_${c.id}">${assignments.filter(a=>a.commission===c.id).length} inscritos</div>
         </div>`;
     }).join('');
-
-    renderConfigAccounting();
+    renderAccounting();
     document.getElementById('configModal').style.display='block';
 }
-
-function updateLimit(id, val) {
-    const v = parseInt(val);
-    if(!isNaN(v) && v >= 28 && v <= 32) {
-        customLimits[id] = v;
-    } else if(val === '') {
-        delete customLimits[id];
-    }
-}
-
-function toggleCommission(id) {
-    const i = selectedCommissions.indexOf(id);
-    if(i>-1) selectedCommissions.splice(i,1);
-    else selectedCommissions.push(id);
-    const el = document.getElementById('ci_'+id);
-    el.classList.toggle('selected');
-    renderConfigAccounting();
-}
-
-function renderConfigAccounting() {
-    const box = document.getElementById('configAccounting');
-    if(!box) return;
-    const active = commissions.filter(c => selectedCommissions.includes(c.id));
-    if(active.length === 0) { box.innerHTML = ''; return; }
-
-    const rows = active.map(c => {
-        const limit = customLimits[c.id] || c.defaultMax || 32;
-        const total = assignments.filter(a => a.commission === c.id).length;
-        const f1 = assignments.filter(a => a.commission === c.id && a.source === 'format1').length;
-        const f2 = assignments.filter(a => a.commission === c.id && a.source === 'format2').length;
-        const pct = Math.min(100, Math.round(total / limit * 100));
-        const restantes = Math.max(0, limit - f1);
-        return `
-        <div class="acc-card">
-            <h4>${c.name} ${c.onlyFormat1 ? '⚠️' : ''}</h4>
+function updLim(id,val){const v=parseInt(val);if(!isNaN(v)&&v>=28&&v<=32)customLimits[id]=v;else if(val==='')delete customLimits[id];}
+function toggleComm(id){const i=selectedCommissions.indexOf(id);if(i>-1)selectedCommissions.splice(i,1);else selectedCommissions.push(id);document.getElementById('ci_'+id).classList.toggle('selected');renderAccounting();}
+function renderAccounting(){
+    const box=document.getElementById('configAccounting');if(!box)return;
+    const active=commissions.filter(c=>selectedCommissions.includes(c.id));
+    if(!active.length){box.innerHTML='';return;}
+    const rows=active.map(c=>{
+        const lim=customLimits[c.id]||c.defaultMax||32;
+        const f1=assignments.filter(a=>a.commission===c.id&&a.source==='format1').length;
+        const f2=assignments.filter(a=>a.commission===c.id&&a.source==='format2').length;
+        const tot=f1+f2;
+        const pct=Math.min(100,Math.round(tot/lim*100));
+        return `<div class="acc-card"><h4>${c.name}${c.onlyFormat1?' ⚠️':''}</h4>
             <div class="acc-bar"><div class="acc-bar-fill" style="width:${pct}%"></div></div>
-            <div class="acc-nums">
-                <span class="f1">F1: ${f1}</span>
-                <span class="f2">F2: ${f2}</span>
-                <span>${total}/${limit}</span>
-            </div>
-            ${!c.onlyFormat1 ? `<small style="color:#457B9D;">Cupos disponibles para F2: <strong>${restantes}</strong></small>` : ''}
+            <div class="acc-nums"><span class="f1">F1: ${f1}</span><span class="f2">F2: ${f2}</span><span>${tot}/${lim}</span></div>
+            ${!c.onlyFormat1?`<small style="color:#457B9D;">Cupos F2: <strong>${Math.max(0,lim-f1)}</strong></small>`:''}
         </div>`;
     }).join('');
-
-    const total = assignments.length;
-    box.innerHTML = `
-        <h3 style="color:#0E223A;margin-bottom:12px;">📊 Contabilidad de Delegados</h3>
-        <div style="margin-bottom:10px;font-size:0.95em;color:#444;">
-            Total publicados: <strong>${total}</strong> &nbsp;|&nbsp;
-            F1: <strong>${assignments.filter(a=>a.source==='format1').length}</strong> &nbsp;|&nbsp;
-            F2: <strong>${assignments.filter(a=>a.source==='format2').length}</strong>
-        </div>
+    box.innerHTML=`<h3 style="color:#0E223A;margin-bottom:12px;">📊 Contabilidad</h3>
+        <div style="margin-bottom:10px;font-size:.95em;">Total: <strong>${assignments.length}</strong> | F1: <strong>${assignments.filter(a=>a.source==='format1').length}</strong> | F2: <strong>${assignments.filter(a=>a.source==='format2').length}</strong></div>
         <div class="accounting-grid">${rows}</div>`;
 }
-
-function clearCommissions() {
-    if(!confirm('¿Limpiar todas las comisiones seleccionadas?')) return;
-    selectedCommissions = [];
-    customLimits = {};
-    showLoading('Limpiando...');
-    db.ref('selectedCommissions').set([])
-    .then(()=> db.ref('customLimits').set({}))
-    .then(()=>{
-        hideLoading();
-        updateStats();
-        document.querySelectorAll('.commission-item').forEach(el => el.classList.remove('selected'));
+function clearComms(){
+    if(!confirm('¿Limpiar todas las comisiones seleccionadas?'))return;
+    selectedCommissions=[];customLimits={};showLoading('Limpiando...');
+    db.ref('selectedCommissions').set([]).then(()=>db.ref('customLimits').set({})).then(()=>{
+        hideLoading();updateStats();document.querySelectorAll('.commission-item').forEach(el=>el.classList.remove('selected'));
         alert('✅ Comisiones limpiadas.');
-    }).catch(e=>{ hideLoading(); alert('Error: '+e.message); });
+    }).catch(e=>{hideLoading();alert('Error: '+e.message);});
 }
-
-function saveConfiguration() {
-    if(selectedCommissions.length===0){
-        if(!confirm('No tienes comisiones seleccionadas. ¿Guardar vacío?')) return;
-    }
-    for(const id of selectedCommissions) {
-        const v = customLimits[id];
-        if(v !== undefined && (v < 28 || v > 32)) {
-            alert(`⚠️ El cupo de ${id.toUpperCase()} debe estar entre 28 y 32.`);
-            return;
-        }
-    }
+function saveConfig(){
+    if(!selectedCommissions.length&&!confirm('Sin comisiones. ¿Guardar vacío?'))return;
+    for(const id of selectedCommissions){const v=customLimits[id];if(v!==undefined&&(v<28||v>32)){alert(`⚠️ Cupo de ${id.toUpperCase()} debe ser 28–32.`);return;}}
     showLoading('Guardando...');
-    db.ref('selectedCommissions').set(selectedCommissions)
-    .then(()=> db.ref('customLimits').set(customLimits))
-    .then(()=>{ hideLoading(); alert('✅ Configuración guardada'); closeModal('configModal'); updateStats(); })
-    .catch(e=>{ hideLoading(); alert('Error: '+e.message); });
+    db.ref('selectedCommissions').set(selectedCommissions).then(()=>db.ref('customLimits').set(customLimits))
+    .then(()=>{hideLoading();alert('✅ Configuración guardada');closeModal('configModal');updateStats();})
+    .catch(e=>{hideLoading();alert('Error: '+e.message);});
 }
 
-// ===================== LEER ARCHIVO EXCEL =====================
-function readExcelFile(event, targetFormat) {
-    const file = event.target.files[0];
-    if(!file) return;
-    showLoading('Leyendo archivo Excel...');
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            const data = new Uint8Array(e.target.result);
-            const wb = XLSX.read(data, { type: 'array' });
-            const sheet = wb.Sheets[wb.SheetNames[0]];
-            const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+// ===== EXCEL READ =====
+function readXL(event,fmt){
+    const file=event.target.files[0];if(!file)return;
+    showLoading('Leyendo Excel...');
+    const reader=new FileReader();
+    reader.onload=function(e){
+        try{
+            const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array'});
+            const rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1});
             hideLoading();
-
-            if(targetFormat === 'format1') {
-                parsedFormat1 = parseFormat1Rows(rows);
-                document.getElementById('zone1-title').textContent = '✅ ' + file.name;
-                document.getElementById('zone1-sub').textContent = (rows.length - 1) + ' filas detectadas';
-                document.getElementById('zone1-fname').style.display='block';
-                document.getElementById('zone1-fname').textContent = parsedFormat1.length + ' delegados válidos encontrados';
-                renderPreview('preview1', parsedFormat1, 'format1');
-            } else {
-                parsedFormat2 = parseFormat2Rows(rows);
-                document.getElementById('zone2-title').textContent = '✅ ' + file.name;
-                document.getElementById('zone2-sub').textContent = (rows.length - 1) + ' filas detectadas';
-                document.getElementById('zone2-fname').style.display='block';
-                document.getElementById('zone2-fname').textContent = parsedFormat2.length + ' delegados válidos encontrados';
-                renderPreview('preview2', parsedFormat2, 'format2');
+            if(fmt==='f1'){
+                parsedF1=parseF1(rows);
+                document.getElementById('z1t').textContent='✅ '+file.name;
+                document.getElementById('z1s').textContent=(rows.length-1)+' filas';
+                document.getElementById('z1f').style.display='block';
+                document.getElementById('z1f').textContent=parsedF1.length+' delegados válidos';
+                renderPrev('prev1',parsedF1,'f1');
+            }else{
+                parsedF2=parseF2(rows);
+                document.getElementById('z2t').textContent='✅ '+file.name;
+                document.getElementById('z2s').textContent=(rows.length-1)+' filas';
+                document.getElementById('z2f').style.display='block';
+                document.getElementById('z2f').textContent=parsedF2.length+' delegados válidos';
+                renderPrev('prev2',parsedF2,'f2');
             }
-        } catch(err) {
-            hideLoading();
-            alert('❌ Error al leer el archivo: ' + err.message);
-        }
+        }catch(err){hideLoading();alert('❌ Error: '+err.message);}
     };
     reader.readAsArrayBuffer(file);
 }
-
-function parseFormat1Rows(rows) {
-    if(!rows || rows.length < 2) return [];
-    const startIdx = (rows[0]||[]).some(c => typeof c === 'string' && c.toLowerCase().match(/nombre|apellido/)) ? 1 : 0;
-    const parsed = [];
-    for(let i=startIdx; i<rows.length; i++) {
-        const cols = rows[i] || [];
-        const nombres    = String(cols[0]||'').trim();
-        const apellidos  = String(cols[1]||'').trim();
-        const delegacion = String(cols[2]||'').trim();
-        const centro     = String(cols[3]||'').trim();
-        const commNom    = String(cols[4]||'').trim().toUpperCase();
-        const fullName   = apellidos ? nombres+' '+apellidos : nombres;
-        if(!fullName.trim()) continue;
-        const comm = commissions.find(c =>
-            c.id.toUpperCase()===commNom ||
-            c.name.toUpperCase()===commNom ||
-            commNom.includes(c.name.toUpperCase())
-        );
-        parsed.push({
-            name: fullName.trim(),
-            school: centro,
-            district: '',
-            commission: comm ? comm.id : commNom.toLowerCase(),
-            commissionName: comm ? comm.fullName : commNom,
-            delegation: delegacion,
-            source: 'format1',
-            attendance: '', scores: {}, total: 0, regional: false
-        });
+function parseF1(rows){
+    if(!rows||rows.length<2)return[];
+    const start=(rows[0]||[]).some(c=>typeof c==='string'&&c.toLowerCase().match(/nombre|apellido/))?1:0;
+    const out=[];
+    for(let i=start;i<rows.length;i++){
+        const cols=rows[i]||[];
+        const nom=String(cols[0]||'').trim(),ape=String(cols[1]||'').trim();
+        const del=String(cols[2]||'').trim(),cen=String(cols[3]||'').trim();
+        const cn=String(cols[4]||'').trim().toUpperCase();
+        const full=ape?nom+' '+ape:nom;
+        if(!full.trim())continue;
+        const comm=commissions.find(c=>c.id.toUpperCase()===cn||c.name.toUpperCase()===cn||cn.includes(c.name.toUpperCase()));
+        out.push({name:full.trim(),school:cen,district:'',commission:comm?comm.id:cn.toLowerCase(),commissionName:comm?comm.fullName:cn,delegation:del,source:'format1',attendance:'',participCount:0,participQual:'',scores:{},total:0,regional:false});
     }
-    return parsed;
+    return out;
 }
-
-function parseFormat2Rows(rows) {
-    if(!rows || rows.length < 1) return [];
-    const startIdx = (rows[0]||[]).some(c => typeof c === 'string' && c.toLowerCase().includes('nombre')) ? 1 : 0;
-    const parsed = [];
-    for(let i=startIdx; i<rows.length; i++) {
-        const cols = rows[i] || [];
-        const nombre = String(cols[0]||'').trim();
-        if(!nombre) continue;
-        parsed.push({
-            name: nombre,
-            school: String(cols[1]||'').trim(),
-            district: String(cols[2]||'').trim()
-        });
+function parseF2(rows){
+    if(!rows||rows.length<1)return[];
+    const start=(rows[0]||[]).some(c=>typeof c==='string'&&c.toLowerCase().includes('nombre'))?1:0;
+    const out=[];
+    for(let i=start;i<rows.length;i++){
+        const cols=rows[i]||[];
+        const nom=String(cols[0]||'').trim();
+        if(!nom)continue;
+        out.push({name:nom,school:String(cols[1]||'').trim(),district:String(cols[2]||'').trim()});
     }
-    return parsed;
+    return out;
 }
-
-function renderPreview(divId, data, fmt) {
-    const el = document.getElementById(divId);
-    if(!data || data.length === 0) { el.innerHTML=''; return; }
-    const sample = data.slice(0,5);
-    let html = `<div class="alert alert-success">✅ <strong>${data.length} delegados</strong> listos para publicar. Vista previa (primeros 5):</div>`;
-    html += '<table style="font-size:0.85em;"><thead><tr>';
-    if(fmt==='format1') html += '<th>Nombre</th><th>Centro</th><th>Comisión</th><th>Delegación</th>';
-    else html += '<th>Nombre</th><th>Centro</th><th>Distrito</th>';
-    html += '</tr></thead><tbody>';
-    sample.forEach(s=>{
-        html += '<tr>';
-        if(fmt==='format1') html+=`<td>${s.name}</td><td>${s.school}</td><td>${s.commissionName||s.commission}</td><td>${s.delegation||'—'}</td>`;
+function renderPrev(divId,data,fmt){
+    const el=document.getElementById(divId);
+    if(!data||!data.length){el.innerHTML='';return;}
+    let html=`<div class="alert alert-success">✅ <strong>${data.length} delegados</strong> listos. Vista previa (5):</div>
+        <table style="font-size:.85em;"><thead><tr>`;
+    if(fmt==='f1')html+='<th>Nombre</th><th>Centro</th><th>Comisión</th><th>Delegación</th>';
+    else html+='<th>Nombre</th><th>Centro</th><th>Distrito</th>';
+    html+='</tr></thead><tbody>';
+    data.slice(0,5).forEach(s=>{
+        html+='<tr>';
+        if(fmt==='f1')html+=`<td>${s.name}</td><td>${s.school}</td><td>${s.commissionName||s.commission}</td><td>${s.delegation||'—'}</td>`;
         else html+=`<td>${s.name}</td><td>${s.school}</td><td>${s.district}</td>`;
-        html += '</tr>';
+        html+='</tr>';
     });
-    html += '</tbody></table>';
-    el.innerHTML = html;
+    el.innerHTML=html+'</tbody></table>';
 }
 
-// ===================== PROCESAR FORMATO 1 =====================
-function processFormat1() {
-    if(parsedFormat1.length === 0){ alert('⚠️ Carga un archivo Excel de Formato 1 primero.'); return; }
-    const invalidComms = parsedFormat1.filter(s => !commissions.find(c=>c.id===s.commission));
-    if(invalidComms.length > 0) {
-        const names = [...new Set(invalidComms.map(s=>s.commission))].join(', ');
-        if(!confirm(`⚠️ Las siguientes comisiones no se reconocen: ${names}. ¿Continuar de todas formas?`)) return;
-    }
-    showLoading(`Publicando ${parsedFormat1.length} delegados de Formato 1...`);
-    db.ref('publicAssignments').once('value').then(snap => {
-        const existing = snap.val() || [];
-        return db.ref('publicAssignments').set([...existing, ...parsedFormat1]);
+// ===== PROCESAR F1 =====
+function processF1(){
+    if(!parsedF1.length){alert('⚠️ Carga un archivo de Formato 1 primero.');return;}
+    showLoading(`Publicando ${parsedF1.length} delegados F1...`);
+    db.ref('publicAssignments').once('value').then(snap=>{
+        const ex=snap.val()||[];
+        return db.ref('publicAssignments').set([...ex,...parsedF1]);
     }).then(()=>{
-        hideLoading();
-        assignments = [...assignments, ...parsedFormat1];
-        updateStats();
-        const summary = {};
-        parsedFormat1.forEach(s=>{ summary[s.commission]=(summary[s.commission]||0)+1; });
-        const lines = Object.entries(summary).map(([k,v])=>{
-            const c = commissions.find(x=>x.id===k);
-            return `<li><strong>${c?c.name:k.toUpperCase()}</strong>: ${v} delegados</li>`;
-        }).join('');
-        document.getElementById('uploadResult').innerHTML = `
-            <div class="alert alert-success">
-                ✅ <strong>${parsedFormat1.length} delegados del Formato 1 publicados.</strong><br>
-                <ul style="margin-top:8px;padding-left:20px;">${lines}</ul>
-            </div>`;
-        parsedFormat1 = [];
-        document.getElementById('zone1-title').textContent = 'Seleccionar archivo Excel (.xlsx / .xls)';
-        document.getElementById('zone1-sub').textContent = 'Haz clic aquí para buscar el archivo';
-        document.getElementById('preview1').innerHTML='';
-    }).catch(e=>{ hideLoading(); alert('Error: '+e.message); });
+        hideLoading();assignments=[...assignments,...parsedF1];updateStats();
+        const sum={};parsedF1.forEach(s=>{sum[s.commission]=(sum[s.commission]||0)+1;});
+        const lines=Object.entries(sum).map(([k,v])=>{const c=commissions.find(x=>x.id===k);return`<li><strong>${c?c.name:k.toUpperCase()}</strong>: ${v}</li>`;}).join('');
+        document.getElementById('uploadResult').innerHTML=`<div class="alert alert-success">✅ <strong>${parsedF1.length} delegados F1 publicados.</strong><ul style="margin-top:8px;padding-left:20px;">${lines}</ul></div>`;
+        parsedF1=[];document.getElementById('z1t').textContent='Seleccionar archivo Excel';document.getElementById('z1s').textContent='Haz clic para buscar';document.getElementById('prev1').innerHTML='';
+    }).catch(e=>{hideLoading();alert('Error: '+e.message);});
 }
 
-// ===================== PROCESAR FORMATO 2 =====================
-function processFormat2() {
-    if(parsedFormat2.length === 0){ alert('⚠️ Carga un archivo Excel de Formato 2 primero.'); return; }
-    if(selectedCommissions.length === 0){ alert('⚠️ Configura las comisiones activas primero en ⚙️ Configurar Comisiones.'); return; }
+// ===== PROCESAR F2 =====
+function processF2(){
+    if(!parsedF2.length){alert('⚠️ Carga un archivo de Formato 2 primero.');return;}
+    if(!selectedCommissions.length){alert('⚠️ Configura las comisiones activas primero.');return;}
     showLoading('Calculando distribución...');
-    db.ref('publicAssignments').once('value').then(snap => {
-        const existing = snap.val() || [];
-        const activeComms = commissions.filter(c => selectedCommissions.includes(c.id) && !c.onlyFormat1);
-        if(activeComms.length === 0) {
-            hideLoading();
-            alert('⚠️ No hay comisiones disponibles para Formato 2.');
-            return;
+    db.ref('publicAssignments').once('value').then(snap=>{
+        const ex=snap.val()||[];
+        const activeComms=commissions.filter(c=>selectedCommissions.includes(c.id)&&!c.onlyFormat1);
+        if(!activeComms.length){hideLoading();alert('⚠️ No hay comisiones disponibles para F2.');return;}
+        const exCount={};ex.forEach(a=>{exCount[a.commission]=(exCount[a.commission]||0)+1;});
+        const slots={};activeComms.forEach(c=>{slots[c.id]=Math.max(0,(customLimits[c.id]||c.defaultMax||32)-(exCount[c.id]||0));});
+        if(Object.values(slots).reduce((a,b)=>a+b,0)===0){hideLoading();alert('⚠️ Todas las comisiones están llenas.');return;}
+        const cpools={};activeComms.forEach(c=>{cpools[c.id]=[...allCountries].sort(()=>Math.random()-0.5);});
+        const usedC={};ex.forEach(a=>{if(!usedC[a.commission])usedC[a.commission]=new Set();usedC[a.commission].add(a.delegation);});
+        const queue=[];let keep=true;
+        while(keep){keep=false;activeComms.forEach(c=>{if(slots[c.id]>0){queue.push(c.id);slots[c.id]--;keep=true;}});}
+        const shuffled=[...parsedF2].sort(()=>Math.random()-0.5);
+        const result=[];const ctr={};activeComms.forEach(c=>{ctr[c.id]=exCount[c.id]||0;});
+        for(let i=0;i<Math.min(shuffled.length,queue.length);i++){
+            const s=shuffled[i],cid=queue[i],comm=commissions.find(c=>c.id===cid);
+            let del='';
+            if(comm.type==='magistrados'){const t=['S.E. Magistrado/a','S.E. Juez/a','S.E. Árbitro/a'];del=t[ctr[cid]%t.length]+' '+s.name.split(' ').slice(-1)[0];}
+            else if(comm.type==='agentes'){del='Agente '+s.name.split(' ')[0];}
+            else{if(!usedC[cid])usedC[cid]=new Set();const pool=cpools[cid];let country=pool.find(p=>!usedC[cid].has(p));if(!country)country=allCountries[Math.floor(Math.random()*allCountries.length)];usedC[cid].add(country);del=country;}
+            ctr[cid]++;
+            result.push({name:s.name,school:s.school,district:s.district,commission:cid,commissionName:comm.fullName,delegation:del,source:'format2',attendance:'',participCount:0,participQual:'',scores:{},total:0,regional:false});
         }
-        const existingCount = {};
-        existing.forEach(a => { existingCount[a.commission] = (existingCount[a.commission]||0)+1; });
-        const slots = {};
-        activeComms.forEach(c => {
-            const limit = customLimits[c.id] || c.defaultMax || 32;
-            const used = existingCount[c.id] || 0;
-            slots[c.id] = Math.max(0, limit - used);
+        const overflow=shuffled.length-result.length;
+        showLoading(`Publicando ${result.length} delegados F2...`);
+        return db.ref('publicAssignments').set([...ex,...result]).then(()=>{
+            hideLoading();assignments=[...assignments,...result];updateStats();
+            const sum={};result.forEach(s=>{sum[s.commission]=(sum[s.commission]||0)+1;});
+            const f1s={};ex.forEach(a=>{if(a.source==='format1')f1s[a.commission]=(f1s[a.commission]||0)+1;});
+            const lines=activeComms.map(c=>{const f1n=f1s[c.id]||0,f2n=sum[c.id]||0,lim=customLimits[c.id]||c.defaultMax||32;return`<tr><td><strong>${c.name}</strong></td><td>${f1n}</td><td>${f2n}</td><td><strong>${f1n+f2n}/${lim}</strong></td></tr>`;}).join('');
+            const ov=overflow>0?`<div class="alert alert-warning" style="margin-top:10px;">⚠️ ${overflow} estudiante(s) sin asignar: comisiones llenas.</div>`:'';
+            document.getElementById('uploadResult').innerHTML=`<div class="alert alert-success">✅ <strong>${result.length} delegados F2 publicados</strong> en ${activeComms.length} comisiones.</div>
+                <table style="font-size:.9em;margin-top:10px;"><thead><tr><th>Comisión</th><th>F1</th><th>F2</th><th>Total/Cupo</th></tr></thead><tbody>${lines}</tbody></table>${ov}`;
+            parsedF2=[];document.getElementById('z2t').textContent='Seleccionar archivo Excel';document.getElementById('z2s').textContent='Haz clic para buscar';document.getElementById('prev2').innerHTML='';
         });
-        const totalSlots = Object.values(slots).reduce((a,b)=>a+b,0);
-        if(totalSlots === 0) { hideLoading(); alert('⚠️ Todas las comisiones ya están llenas.'); return; }
-        const countryPools = {};
-        activeComms.forEach(c => { countryPools[c.id] = [...allCountries].sort(()=>Math.random()-0.5); });
-        const usedCountries = {};
-        existing.forEach(a => {
-            if(!usedCountries[a.commission]) usedCountries[a.commission]=new Set();
-            usedCountries[a.commission].add(a.delegation);
-        });
-        const fillQueue = [];
-        let keep = true;
-        while(keep) {
-            keep = false;
-            activeComms.forEach(c => { if(slots[c.id] > 0) { fillQueue.push(c.id); slots[c.id]--; keep=true; } });
-        }
-        const shuffledStudents = [...parsedFormat2].sort(()=>Math.random()-0.5);
-        const result = [];
-        const commCounters = {};
-        activeComms.forEach(c=>{ commCounters[c.id]=existingCount[c.id]||0; });
-        for(let i = 0; i < Math.min(shuffledStudents.length, fillQueue.length); i++) {
-            const student = shuffledStudents[i];
-            const commId  = fillQueue[i];
-            const comm    = commissions.find(c=>c.id===commId);
-            let delegation = '';
-            if(comm.type === 'magistrados') {
-                const titles = ['S.E. Magistrado/a','S.E. Juez/a','S.E. Árbitro/a'];
-                delegation = titles[commCounters[commId] % titles.length] + ' ' + student.name.split(' ').slice(-1)[0];
-            } else if(comm.type === 'agentes') {
-                delegation = 'Agente ' + student.name.split(' ')[0];
-            } else {
-                if(!usedCountries[commId]) usedCountries[commId]=new Set();
-                const pool = countryPools[commId];
-                let country = pool.find(p => !usedCountries[commId].has(p));
-                if(!country) country = allCountries[Math.floor(Math.random()*allCountries.length)];
-                usedCountries[commId].add(country);
-                delegation = country;
-            }
-            commCounters[commId]++;
-            result.push({
-                name: student.name, school: student.school, district: student.district,
-                commission: commId, commissionName: comm.fullName, delegation: delegation,
-                source: 'format2', attendance: '', scores: {}, total: 0, regional: false
-            });
-        }
-        const overflow = shuffledStudents.length - result.length;
-        showLoading(`Publicando ${result.length} delegados de Formato 2...`);
-        return db.ref('publicAssignments').set([...existing, ...result]).then(()=>{
-            hideLoading();
-            assignments = [...assignments, ...result];
-            updateStats();
-            const summary = {};
-            result.forEach(s=>{ summary[s.commission]=(summary[s.commission]||0)+1; });
-            const f1summary = {};
-            existing.forEach(a=>{ if(a.source==='format1') f1summary[a.commission]=(f1summary[a.commission]||0)+1; });
-            const lines = activeComms.map(c => {
-                const f1n = f1summary[c.id]||0;
-                const f2n = summary[c.id]||0;
-                const lim = customLimits[c.id]||c.defaultMax||32;
-                return `<tr><td><strong>${c.name}</strong></td><td>${f1n}</td><td>${f2n}</td><td><strong>${f1n+f2n} / ${lim}</strong></td></tr>`;
-            }).join('');
-            let overflowMsg = '';
-            if(overflow > 0) overflowMsg = `<div class="alert alert-warning" style="margin-top:10px;">⚠️ <strong>${overflow} estudiante(s)</strong> no pudieron ser asignados.</div>`;
-            document.getElementById('uploadResult').innerHTML = `
-                <div class="alert alert-success">✅ <strong>${result.length} delegados del Formato 2 publicados</strong>.</div>
-                <table style="font-size:0.9em;margin-top:10px;">
-                    <thead><tr><th>Comisión</th><th>Del F1</th><th>Del F2</th><th>Total / Cupo</th></tr></thead>
-                    <tbody>${lines}</tbody>
-                </table>${overflowMsg}`;
-            parsedFormat2 = [];
-        });
-    }).catch(e=>{ hideLoading(); alert('Error: '+e.message); });
+    }).catch(e=>{hideLoading();alert('Error: '+e.message);});
 }
+function showUploadModal(){document.getElementById('uploadResult').innerHTML='';document.getElementById('uploadModal').style.display='block';}
 
-function showUploadModal() {
-    document.getElementById('uploadResult').innerHTML='';
-    document.getElementById('uploadModal').style.display='block';
-}
-
-// ===================== WHATSAPP =====================
-function showWhatsAppLinks() {
-    const form = document.getElementById('whatsappLinksForm');
-    const active = selectedCommissions.length>0 ? commissions.filter(c=>selectedCommissions.includes(c.id)) : commissions;
-    form.innerHTML = active.map(c=>`
-        <div class="form-group">
-            <label>${c.name} – ${c.fullName.split('–')[0].trim()}:</label>
-            <input type="url" id="wa_${c.id}" value="${whatsappLinks[c.id]||''}" placeholder="https://chat.whatsapp.com/...">
-        </div>`).join('');
+// ===== WHATSAPP =====
+function showWhatsAppLinks(){
+    const active=selectedCommissions.length>0?commissions.filter(c=>selectedCommissions.includes(c.id)):commissions;
+    document.getElementById('whatsappLinksForm').innerHTML=active.map(c=>`<div class="form-group"><label>${c.name} – ${c.fullName.split('–')[0].trim()}:</label>
+        <input type="url" id="wa_${c.id}" value="${whatsappLinks[c.id]||''}" placeholder="https://chat.whatsapp.com/..."></div>`).join('');
     document.getElementById('whatsappModal').style.display='block';
 }
-
-function saveWhatsAppLinks() {
-    const active = selectedCommissions.length>0 ? commissions.filter(c=>selectedCommissions.includes(c.id)) : commissions;
-    active.forEach(c=>{ const i=document.getElementById('wa_'+c.id); if(i) whatsappLinks[c.id]=i.value; });
+function saveWALinks(){
+    const active=selectedCommissions.length>0?commissions.filter(c=>selectedCommissions.includes(c.id)):commissions;
+    active.forEach(c=>{const i=document.getElementById('wa_'+c.id);if(i)whatsappLinks[c.id]=i.value;});
     showLoading('Guardando...');
-    db.ref('whatsappLinks').set(whatsappLinks)
-    .then(()=>{ hideLoading(); alert('✅ Links guardados'); closeModal('whatsappModal'); })
-    .catch(e=>{ hideLoading(); alert('Error: '+e.message); });
+    db.ref('whatsappLinks').set(whatsappLinks).then(()=>{hideLoading();alert('✅ Links guardados');closeModal('whatsappModal');}).catch(e=>{hideLoading();alert('Error: '+e.message);});
 }
 
-// ===================== RÚBRICAS =====================
-// Removed "Oratoria" split – "P" column removed; added Participación select
-const rubricCriteria = [
-    {name:'Investigación académica', max:15},
-    {name:'Pensamiento crítico', max:15},
-    {name:'Oratoria', max:10},
-    {name:'Argumentación', max:10},
-    {name:'Redacción', max:10},
-    {name:'Negociación', max:10},
-    {name:'Resolución de conflictos', max:10},
-    {name:'Liderazgo', max:10},
-    {name:'Colaboración', max:10}
-];
-
-// Quality options for participation
-const participacionOpciones = [
-    { value: '', label: '— Sin registrar —' },
-    { value: 'Excelente',   label: '🌟 Excelente' },
-    { value: 'Muy bueno',   label: '✅ Muy bueno' },
-    { value: 'Bueno',       label: '👍 Bueno' },
-    { value: 'Regular',     label: '😐 Regular' },
-    { value: 'Malo',        label: '👎 Malo' },
-    { value: 'No participó',label: '❌ No participó' }
-];
-
-function recalcTotal(rowKey) {
-    let sum = 0;
+// =====================================================================
+// LIVE SCORE CALCULATION - updates in-memory store on every keystroke
+// =====================================================================
+function calcRow(rid, commId, studentIdx) {
+    let total = 0;
     rubricCriteria.forEach((c, ci) => {
-        const inp = document.getElementById(`sc_${rowKey}_${ci}`);
-        if(inp) sum += parseFloat(inp.value) || 0;
+        const el = document.getElementById(`sc_${rid}_${ci}`);
+        if (el) {
+            let v = parseFloat(el.value) || 0;
+            if (v > c.max) { el.value = c.max; v = c.max; }
+            if (v < 0) { el.value = 0; v = 0; }
+            total += v;
+            // SAVE to live store
+            setLive(`${commId}__${studentIdx}__score__${ci}`, v);
+        }
     });
-    const totEl = document.getElementById(`tot_${rowKey}`);
-    if(totEl) totEl.textContent = sum.toFixed(1);
+    const totEl = document.getElementById(`tot_${rid}`);
+    if (totEl) {
+        totEl.textContent = total.toFixed(1);
+        totEl.className = 'total-score-cell';
+        if (total >= 85) totEl.classList.add('high');
+        else if (total >= 60) totEl.classList.add('mid');
+        else totEl.classList.add('low');
+    }
+    // Save total
+    setLive(`${commId}__${studentIdx}__total`, total);
 }
 
-function showRubrics() {
+function onAttChange(rid, commId, studentIdx, val) {
+    setLive(`${commId}__${studentIdx}__attendance`, val);
+}
+function onPartNumChange(rid, commId, studentIdx, val) {
+    setLive(`${commId}__${studentIdx}__participCount`, parseFloat(val) || 0);
+}
+function onPartQualChange(rid, commId, studentIdx, val) {
+    setLive(`${commId}__${studentIdx}__participQual`, val);
+}
+function onRegChange(rid, commId, studentIdx, checked) {
+    setLive(`${commId}__${studentIdx}__regional`, checked);
+}
+
+// =====================================================================
+// SHOW RÚBRICAS - FIXED: OTAN always included, all students shown
+// =====================================================================
+function showRubrics(){
     showLoading();
     db.ref('publicAssignments').once('value').then(snap=>{
         const allA = snap.val() || [];
         hideLoading();
-        const content = document.getElementById('rubricsContent');
 
-        // Show ALL commissions — including OTAN — just filter by students
-        const activeComms = commissions; // <-- CHANGED: show ALL, not just selectedCommissions
+        // *** FIX: Include ALL commissions from selectedCommissions - including OTAN ***
+        // OTAN has onlyFormat1:true but that only affects F2 assignment, NOT rubric display
+        const activeComms = selectedCommissions.length > 0
+            ? commissions.filter(c => selectedCommissions.includes(c.id))
+            : commissions;
 
-        let html = '';
-        activeComms.forEach(comm => {
-            let students = currentUser.district === 'ADMIN'
-                ? allA.filter(a => a.commission === comm.id)
-                : allA.filter(a => a.commission === comm.id && (a.district === currentUser.district || !a.district || a.district === ''));
-            if(students.length === 0) return; // skip if no one assigned
+        // Reset live data and student map when rubrics are freshly opened
+        rubricStudentsMap = {};
 
-            html += `
-            <div class="rubric-header">
-                <h2>📊 RÚBRICA — ${comm.name}</h2>
-                <p style="font-size:0.9em;margin-top:5px;">${comm.fullName}</p>
-                <p style="font-size:0.85em;margin-top:4px;opacity:0.8;">${students.length} delegados</p>
-            </div>
-            <div style="overflow-x:auto;">
-            <table class="rubric-table">
-            <thead><tr>
-                <th style="min-width:160px;">Nombre</th>
-                <th>Delegación</th>
-                ${currentUser.district==='ADMIN' ? '<th>Distrito</th>' : ''}
-                <th>Origen</th>
-                <th>P&V</th>
-                <th>A</th>
-                <th style="min-width:130px;">🎤 Participación</th>
-                <th style="min-width:70px;">Veces participó</th>
-                ${rubricCriteria.map(c=>`<th style="min-width:75px;">${c.name}<br><small>(${c.max})</small></th>`).join('')}
-                <th>Total</th>
-                <th>Regional</th>
-            </tr></thead>
-            <tbody>`;
-
-            students.forEach((s, si) => {
-                const rowKey = `${si}_${comm.id}`;
-                html += `<tr>
-                    <td><strong>${s.name}</strong></td>
-                    <td>${s.delegation}</td>
-                    ${currentUser.district==='ADMIN' ? `<td>${s.district||''}</td>` : ''}
-                    <td>
-                        <span style="font-size:0.8em;background:${s.source==='format1'?'#0E223A':'#457B9D'};color:white;padding:2px 8px;border-radius:10px;">
-                            ${s.source==='format1'?'F1':'F2'}
-                        </span>
-                    </td>
-                    <!-- P&V -->
-                    <td style="text-align:center;">
-                        <input type="radio" name="att_${rowKey}" value="PV" ${s.attendance==='PV'?'checked':''}>
-                    </td>
-                    <!-- A (Ausente) -->
-                    <td style="text-align:center;">
-                        <input type="radio" name="att_${rowKey}" value="A" ${s.attendance==='A'?'checked':''}>
-                    </td>
-                    <!-- Calidad de participación -->
-                    <td>
-                        <select class="parti-select" id="parti_${rowKey}">
-                            ${participacionOpciones.map(o=>`<option value="${o.value}" ${((s.participacion||'')===o.value)?'selected':''}>${o.label}</option>`).join('')}
-                        </select>
-                    </td>
-                    <!-- Número de veces que participó -->
-                    <td style="text-align:center;">
-                        <input type="number" id="pveces_${rowKey}"
-                            style="width:60px;padding:5px;text-align:center;border:2px solid #ddd;border-radius:5px;"
-                            min="0" max="99" value="${s.vecesParticipo||0}">
-                    </td>
-                    ${rubricCriteria.map((c,ci)=>`
-                        <td>
-                            <input type="number" class="score-input" id="sc_${rowKey}_${ci}"
-                                min="0" max="${c.max}" step="0.5"
-                                value="${s.scores&&s.scores[c.name]||''}"
-                                oninput="recalcTotal('${rowKey}')">
-                        </td>`).join('')}
-                    <td>
-                        <span class="total-score-live" id="tot_${rowKey}">${s.total||0}</span>
-                    </td>
-                    <td style="text-align:center;">
-                        <input type="checkbox" id="reg_${rowKey}" ${s.regional?'checked':''} style="width:22px;height:22px;">
-                    </td>
-                </tr>`;
-            });
-
-            html += `</tbody></table></div><br>`;
-        });
-
-        html += `
-        <div class="download-buttons">
+        let html = `<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:25px;">
+            <h2 style="color:#0E223A;">📊 Rúbricas de Evaluación — CELIDER 2026</h2>
             <button class="btn btn-success btn-sm" onclick="downloadRubricsExcel()"><span>📥 Descargar Excel</span></button>
         </div>`;
 
-        content.innerHTML = html || '<div class="alert alert-warning">No hay delegados cargados aún.</div>';
-        document.getElementById('rubricsModal').style.display='block';
-    }).catch(()=>hideLoading());
-}
+        activeComms.forEach(comm => {
+            // ADMIN ve todos. No-ADMIN ve su distrito + F1 sin distrito asignado (district vacío).
+            // Los delegados F1 se registran con district:'' porque el Excel de F1 no tiene columna distrito.
+            // Excluirlos por distrito vacío ocultaría toda la OTAN y otros F1.
+            let students;
+            if (currentUser.district === 'ADMIN') {
+                students = allA.filter(a => a.commission === comm.id);
+            } else {
+                students = allA.filter(a =>
+                    a.commission === comm.id &&
+                    (a.district === currentUser.district || !a.district || a.district === '')
+                );
+            }
 
-function downloadRubricsExcel() {
-    db.ref('publicAssignments').once('value').then(snap=>{
-        const allA = snap.val()||[];
-        const wb = XLSX.utils.book_new();
-        commissions.forEach(comm=>{
-            const students = currentUser.district==='ADMIN'
-                ? allA.filter(a=>a.commission===comm.id)
-                : allA.filter(a=>a.commission===comm.id&&a.district===currentUser.district);
-            if(students.length===0) return;
-            const data = [
-                ['RÚBRICA DE EVALUACIÓN — '+comm.fullName],
-                [],
-                ['Nombre','Delegación','Distrito','Origen','Asistencia','Calidad Participación','Veces Participó',
-                 ...rubricCriteria.map(c=>c.name),'Total','Regional']
-            ];
-            students.forEach(s=>{
-                data.push([
-                    s.name, s.delegation, s.district||'', s.source||'', s.attendance||'',
-                    s.participacion||'', s.vecesParticipo||0,
-                    ...rubricCriteria.map(c=>(s.scores&&s.scores[c.name])||0),
-                    s.total||0, s.regional?'SÍ':'NO'
-                ]);
-            });
-            XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(data), comm.name);
+            // Store in map for download
+            rubricStudentsMap[comm.id] = students;
+
+            html += `<div class="rubric-header">
+                <h2>📊 ${comm.name}${comm.onlyFormat1 ? ' ⚠️' : ''}</h2>
+                <p style="font-size:.88em;margin-top:4px;opacity:.85;">${comm.fullName}</p>
+                <p style="font-size:.85em;margin-top:5px;">${students.length} delegado(s) | ${comm.nivel} | ${comm.categoria}</p>
+            </div>`;
+
+            if (!students.length) {
+                html += `<div class="empty-rubric">📭 Sin delegados registrados en esta comisión aún.<br><small>Sube el listado desde "Publicar Listado" para verlos aquí.</small></div>`;
+            } else {
+                html += `<div style="overflow-x:auto;"><table class="rubric-table"><thead><tr>
+                    <th style="min-width:140px;">Nombre</th>
+                    <th style="min-width:110px;">Delegación</th>
+                    ${currentUser.district === 'ADMIN' ? '<th>Dist.</th>' : ''}
+                    <th>F</th>
+                    <th title="Presente y Visible">PV</th>
+                    <th title="Ausente">A</th>
+                    <th style="min-width:55px;"># Part.</th>
+                    <th style="min-width:95px;">Calidad Participación</th>
+                    ${rubricCriteria.map(c => `<th style="min-width:60px;">${c.name}<br><small>(${c.max})</small></th>`).join('')}
+                    <th style="min-width:60px;">Total<br><small>/${RUBRIC_MAX}</small></th>
+                    <th>Reg.</th>
+                </tr></thead><tbody>`;
+
+                students.forEach((s, si) => {
+                    const rid = `${comm.id}_${si}`;
+                    const tot = s.total || 0;
+                    const totClass = tot >= 85 ? 'high' : tot >= 60 ? 'mid' : 'low';
+
+                    // Pre-populate live data from DB values (so download works even without edits)
+                    setLive(`${comm.id}__${si}__attendance`, s.attendance || '');
+                    setLive(`${comm.id}__${si}__participCount`, s.participCount || 0);
+                    setLive(`${comm.id}__${si}__participQual`, s.participQual || '');
+                    setLive(`${comm.id}__${si}__regional`, s.regional || false);
+                    setLive(`${comm.id}__${si}__total`, s.total || 0);
+                    rubricCriteria.forEach((c, ci) => {
+                        const v = (s.scores && s.scores[c.name] !== undefined) ? s.scores[c.name] : '';
+                        setLive(`${comm.id}__${si}__score__${ci}`, v === '' ? 0 : parseFloat(v) || 0);
+                    });
+
+                    html += `<tr>
+                        <td><strong>${s.name}</strong></td>
+                        <td style="font-size:.8em;">${s.delegation}</td>
+                        ${currentUser.district === 'ADMIN' ? `<td>${s.district || ''}</td>` : ''}
+                        <td><span style="background:${s.source === 'format1' ? '#0E223A' : '#457B9D'};color:white;padding:1px 6px;border-radius:8px;font-size:.75em;">${s.source === 'format1' ? 'F1' : 'F2'}</span></td>
+                        <td><input type="radio" name="att_${rid}" value="PV" ${s.attendance === 'PV' ? 'checked' : ''} onchange="onAttChange('${rid}','${comm.id}',${si},'PV')"></td>
+                        <td><input type="radio" name="att_${rid}" value="A" ${s.attendance === 'A' ? 'checked' : ''} onchange="onAttChange('${rid}','${comm.id}',${si},'A')"></td>
+                        <td><input type="number" class="part-num" id="pc_${rid}" min="0" max="99" step="1" value="${s.participCount || 0}" oninput="onPartNumChange('${rid}','${comm.id}',${si},this.value)"></td>
+                        <td><select class="part-select" id="pq_${rid}" onchange="onPartQualChange('${rid}','${comm.id}',${si},this.value)">
+                            ${participacionOpts.map(o => `<option value="${o}" ${(s.participQual || '') === o ? 'selected' : ''}>${o}</option>`).join('')}
+                        </select></td>
+                        ${rubricCriteria.map((c, ci) => `<td><input type="number" id="sc_${rid}_${ci}" class="score-input"
+                            min="0" max="${c.max}" step="0.5"
+                            value="${s.scores && s.scores[c.name] !== undefined ? s.scores[c.name] : ''}"
+                            oninput="calcRow('${rid}','${comm.id}',${si})"></td>`).join('')}
+                        <td class="total-score-cell ${totClass}" id="tot_${rid}">${tot.toFixed ? tot.toFixed(1) : tot}</td>
+                        <td><input type="checkbox" ${s.regional ? 'checked' : ''} style="width:18px;height:18px;" onchange="onRegChange('${rid}','${comm.id}',${si},this.checked)"></td>
+                    </tr>`;
+                });
+                html += `</tbody></table></div><br>`;
+            }
         });
-        XLSX.writeFile(wb,'Rubricas_CELIDER_'+new Date().toISOString().split('T')[0]+'.xlsx');
-    });
+
+        html += `<div class="download-buttons">
+            <button class="btn btn-success btn-sm" onclick="downloadRubricsExcel()"><span>📥 Descargar Excel Completo</span></button>
+        </div>`;
+        document.getElementById('rubricsContent').innerHTML = html;
+        document.getElementById('rubricsModal').style.display = 'block';
+    }).catch(e => { hideLoading(); alert('Error al cargar rúbricas: ' + e.message); });
 }
 
-// ===================== VER ASIGNACIONES (ADMIN) =====================
-function showAssignments() {
+// =====================================================================
+// DOWNLOAD RUBRICS EXCEL - FULLY STYLED with decorative tables
+// Reads from rubricLiveData (not DOM) so scores are always captured
+// =====================================================================
+function downloadRubricsExcel(){
+    showLoading('Preparando Excel con estilos...');
+
+    // Helper: create a styled cell
+    function SC(v, style) {
+        return { v: v, t: typeof v === 'number' ? 'n' : 's', s: style };
+    }
+
+    // Color palette
+    const COL = {
+        darkBlue:  '0E223A',
+        midBlue:   '457B9D',
+        lightBlue: 'C3CFE2',
+        veryLight: 'EEF3F8',
+        white:     'FFFFFF',
+        cream:     'F8FCE0',
+        green:     '155724',
+        greenBg:   'D4EDDA',
+        yellow:    '856404',
+        yellowBg:  'FFF3CD',
+        red:       '842029',
+        redBg:     'F8D7DA',
+        gray:      '444444',
+        lightGray: 'F5F5F5',
+    };
+
+    // Reusable styles
+    function headerStyle(bgColor, fontColor, fontSize, bold) {
+        return {
+            font: { bold: bold !== false, sz: fontSize || 11, color: { rgb: fontColor || COL.white }, name: 'Calibri' },
+            fill: { fgColor: { rgb: bgColor || COL.darkBlue }, patternType: 'solid' },
+            alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
+            border: {
+                top:    { style: 'medium', color: { rgb: COL.darkBlue } },
+                bottom: { style: 'medium', color: { rgb: COL.darkBlue } },
+                left:   { style: 'medium', color: { rgb: COL.darkBlue } },
+                right:  { style: 'medium', color: { rgb: COL.darkBlue } }
+            }
+        };
+    }
+    function cellStyle(bgColor, fontColor, bold, align) {
+        return {
+            font: { bold: !!bold, sz: 10, color: { rgb: fontColor || COL.gray }, name: 'Calibri' },
+            fill: { fgColor: { rgb: bgColor || COL.white }, patternType: 'solid' },
+            alignment: { horizontal: align || 'left', vertical: 'center', wrapText: false },
+            border: {
+                top:    { style: 'thin', color: { rgb: COL.lightBlue } },
+                bottom: { style: 'thin', color: { rgb: COL.lightBlue } },
+                left:   { style: 'thin', color: { rgb: COL.lightBlue } },
+                right:  { style: 'thin', color: { rgb: COL.lightBlue } }
+            }
+        };
+    }
+    function numCellStyle(value) {
+        const pct = RUBRIC_MAX > 0 ? value / RUBRIC_MAX : 0;
+        let bg, fc;
+        if (value >= 85)      { bg = COL.greenBg;  fc = COL.green; }
+        else if (value >= 60) { bg = COL.yellowBg; fc = COL.yellow; }
+        else                  { bg = COL.redBg;    fc = COL.red; }
+        return {
+            font: { bold: true, sz: 11, color: { rgb: fc }, name: 'Calibri' },
+            fill: { fgColor: { rgb: bg }, patternType: 'solid' },
+            alignment: { horizontal: 'center', vertical: 'center' },
+            border: {
+                top:    { style: 'thin', color: { rgb: COL.lightBlue } },
+                bottom: { style: 'thin', color: { rgb: COL.lightBlue } },
+                left:   { style: 'thin', color: { rgb: COL.lightBlue } },
+                right:  { style: 'thin', color: { rgb: COL.lightBlue } }
+            }
+        };
+    }
+
+    const wb = XLSX.utils.book_new();
+
+    const activeComms = selectedCommissions.length > 0
+        ? commissions.filter(c => selectedCommissions.includes(c.id))
+        : commissions;
+
+    activeComms.forEach(comm => {
+        const students = rubricStudentsMap[comm.id] || [];
+        const ws = {};
+        const merges = [];
+
+        // Column widths
+        const baseWidths = [28, 20, 8, 10, 10, 10, 14, 18];
+        const scoreWidths = rubricCriteria.map(() => 18);
+        const endWidths = [12, 8];
+        const allWidths = [...baseWidths, ...scoreWidths, ...endWidths];
+        ws['!cols'] = allWidths.map(w => ({ wch: w }));
+
+        const totalCols = allWidths.length;
+        let r = 0; // current row index
+
+        // ── Row 0: Big title ──
+        const titleCell = `A${r+1}`;
+        ws[titleCell] = SC(`RÚBRICA DE EVALUACIÓN — ${comm.name}`, {
+            font: { bold: true, sz: 16, color: { rgb: COL.white }, name: 'Calibri' },
+            fill: { fgColor: { rgb: COL.darkBlue }, patternType: 'solid' },
+            alignment: { horizontal: 'center', vertical: 'center' },
+            border: { bottom: { style: 'medium', color: { rgb: COL.midBlue } } }
+        });
+        merges.push({ s: { r, c: 0 }, e: { r, c: totalCols - 1 } });
+        ws['!rows'] = ws['!rows'] || []; ws['!rows'][r] = { hpt: 28 };
+        r++;
+
+        // ── Row 1: Full name ──
+        ws[`A${r+1}`] = SC(comm.fullName, headerStyle(COL.midBlue, COL.white, 11));
+        merges.push({ s: { r, c: 0 }, e: { r, c: totalCols - 1 } });
+        r++;
+
+        // ── Row 2: Topic ──
+        ws[`A${r+1}`] = SC(`📌 Tópico: ${comm.topic}`, {
+            font: { italic: true, sz: 10, color: { rgb: COL.darkBlue }, name: 'Calibri' },
+            fill: { fgColor: { rgb: COL.veryLight }, patternType: 'solid' },
+            alignment: { horizontal: 'left', vertical: 'center', wrapText: true },
+            border: { bottom: { style: 'thin', color: { rgb: COL.lightBlue } } }
+        });
+        merges.push({ s: { r, c: 0 }, e: { r, c: totalCols - 1 } });
+        ws['!rows'][r] = { hpt: 36 };
+        r++;
+
+        // ── Row 3: Meta info ──
+        ws[`A${r+1}`] = SC(`Nivel: ${comm.nivel}  |  Categoría: ${comm.categoria}  |  Total delegados: ${students.length}  |  © Cristian Vargas — CELIDER Distritales 2026`, {
+            font: { sz: 9, color: { rgb: COL.midBlue }, name: 'Calibri', italic: true },
+            fill: { fgColor: { rgb: COL.cream }, patternType: 'solid' },
+            alignment: { horizontal: 'center', vertical: 'center' },
+        });
+        merges.push({ s: { r, c: 0 }, e: { r, c: totalCols - 1 } });
+        r++;
+
+        // ── Row 4: Empty separator ──
+        r++;
+
+        // ── Row 5: Column headers ──
+        const hdrs = [
+            'Nombre', 'Delegación', 'Dist.', 'Orig.',
+            'Asist.', 'Ausente', '# Part.',
+            'Calidad Part.',
+            ...rubricCriteria.map(c => `${c.name}\n(/${c.max})`),
+            `TOTAL\n(/${RUBRIC_MAX})`, 'Regional'
+        ];
+        hdrs.forEach((h, ci) => {
+            const addr = XLSX.utils.encode_cell({ r, c: ci });
+            ws[addr] = SC(h, headerStyle(COL.darkBlue, COL.white, 10));
+        });
+        ws['!rows'][r] = { hpt: 32 };
+        r++;
+
+        if (!students.length) {
+            ws[`A${r+1}`] = SC('(Sin delegados registrados en esta comisión)', cellStyle(COL.veryLight, COL.gray, false, 'center'));
+            merges.push({ s: { r, c: 0 }, e: { r, c: totalCols - 1 } });
+            r++;
+        } else {
+            // ── Data rows ──
+            students.forEach((s, si) => {
+                const rowBg = si % 2 === 0 ? COL.white : COL.veryLight;
+
+                // Get live values
+                const att  = getLive(`${comm.id}__${si}__attendance`, s.attendance || '—');
+                const pc   = getLive(`${comm.id}__${si}__participCount`, s.participCount || 0);
+                const pq   = getLive(`${comm.id}__${si}__participQual`, s.participQual || '—');
+                const reg  = getLive(`${comm.id}__${si}__regional`, s.regional || false);
+
+                let total = 0;
+                const scoreVals = rubricCriteria.map((c, ci) => {
+                    let v = getLive(`${comm.id}__${si}__score__${ci}`, 0);
+                    v = Math.min(c.max, parseFloat(v) || 0);
+                    total += v;
+                    return v;
+                });
+                // Override total from live if available
+                const liveTotal = getLive(`${comm.id}__${si}__total`, null);
+                if (liveTotal !== null) total = liveTotal;
+
+                const rowData = [
+                    { v: s.name, style: cellStyle(rowBg, COL.darkBlue, true, 'left') },
+                    { v: s.delegation, style: cellStyle(rowBg, COL.gray, false, 'left') },
+                    { v: s.district || '', style: cellStyle(rowBg, COL.gray, false, 'center') },
+                    { v: s.source === 'format1' ? 'F1' : 'F2', style: cellStyle(s.source === 'format1' ? COL.darkBlue : COL.midBlue, COL.white, true, 'center') },
+                    { v: att === 'PV' ? '✓ PV' : '', style: cellStyle(att === 'PV' ? COL.greenBg : rowBg, att === 'PV' ? COL.green : COL.gray, att === 'PV', 'center') },
+                    { v: att === 'A' ? '✗ A' : '', style: cellStyle(att === 'A' ? COL.redBg : rowBg, att === 'A' ? COL.red : COL.gray, att === 'A', 'center') },
+                    { v: typeof pc === 'number' ? pc : parseFloat(pc) || 0, style: cellStyle(rowBg, COL.gray, false, 'center') },
+                    { v: pq === '— Seleccionar —' ? '' : (pq || ''), style: cellStyle(rowBg, COL.gray, false, 'center') },
+                    ...scoreVals.map(v => ({
+                        v: v,
+                        style: {
+                            font: { sz: 10, color: { rgb: COL.darkBlue }, name: 'Calibri', bold: true },
+                            fill: { fgColor: { rgb: rowBg }, patternType: 'solid' },
+                            alignment: { horizontal: 'center', vertical: 'center' },
+                            border: { top: { style: 'thin', color: { rgb: COL.lightBlue } }, bottom: { style: 'thin', color: { rgb: COL.lightBlue } }, left: { style: 'thin', color: { rgb: COL.lightBlue } }, right: { style: 'thin', color: { rgb: COL.lightBlue } } }
+                        }
+                    })),
+                    { v: parseFloat(total.toFixed(1)), style: numCellStyle(total) },
+                    { v: reg ? 'SÍ' : 'NO', style: cellStyle(reg ? COL.greenBg : rowBg, reg ? COL.green : COL.gray, reg, 'center') },
+                ];
+
+                rowData.forEach((cell, ci) => {
+                    const addr = XLSX.utils.encode_cell({ r, c: ci });
+                    ws[addr] = { v: cell.v, t: typeof cell.v === 'number' ? 'n' : 's', s: cell.style };
+                });
+                r++;
+            });
+
+            // ── Averages row ──
+            r++; // empty row
+            const avgLabel = [
+                { v: 'PROMEDIO GENERAL', style: headerStyle(COL.midBlue, COL.white, 10) },
+                { v: '', style: headerStyle(COL.midBlue, COL.white, 10) },
+                { v: '', style: headerStyle(COL.midBlue, COL.white, 10) },
+                { v: '', style: headerStyle(COL.midBlue, COL.white, 10) },
+                { v: '', style: headerStyle(COL.midBlue, COL.white, 10) },
+                { v: '', style: headerStyle(COL.midBlue, COL.white, 10) },
+                { v: '', style: headerStyle(COL.midBlue, COL.white, 10) },
+                { v: '', style: headerStyle(COL.midBlue, COL.white, 10) },
+            ];
+            rubricCriteria.forEach((c, ci) => {
+                let sum = 0;
+                students.forEach((_, si) => {
+                    sum += getLive(`${comm.id}__${si}__score__${ci}`, 0);
+                });
+                const avg = students.length > 0 ? sum / students.length : 0;
+                avgLabel.push({ v: parseFloat(avg.toFixed(1)), style: headerStyle(COL.midBlue, COL.cream, 10) });
+            });
+            // total avg
+            let totalSum = 0;
+            students.forEach((_, si) => { totalSum += getLive(`${comm.id}__${si}__total`, 0); });
+            const totalAvg = students.length > 0 ? totalSum / students.length : 0;
+            avgLabel.push({ v: parseFloat(totalAvg.toFixed(1)), style: numCellStyle(totalAvg) });
+            avgLabel.push({ v: '', style: headerStyle(COL.midBlue, COL.white, 10) });
+
+            avgLabel.forEach((cell, ci) => {
+                const addr = XLSX.utils.encode_cell({ r, c: ci });
+                ws[addr] = { v: cell.v, t: typeof cell.v === 'number' ? 'n' : 's', s: cell.style };
+            });
+            merges.push({ s: { r, c: 0 }, e: { r, c: 7 } });
+            r++;
+        }
+
+        ws['!merges'] = merges;
+
+        // Set sheet range
+        const range = { s: { r: 0, c: 0 }, e: { r: r - 1, c: totalCols - 1 } };
+        ws['!ref'] = XLSX.utils.encode_range(range);
+
+        XLSX.utils.book_append_sheet(wb, ws, comm.name.slice(0, 31));
+    });
+
+    // ── SUMMARY SHEET ──
+    const wsSum = {};
+    const sumMerges = [];
+    let sr = 0;
+
+    // Title
+    wsSum[`A${sr+1}`] = SC('RESUMEN GENERAL — CELIDER DISTRITALES 2026', {
+        font: { bold: true, sz: 16, color: { rgb: 'FFFFFF' }, name: 'Calibri' },
+        fill: { fgColor: { rgb: '0E223A' }, patternType: 'solid' },
+        alignment: { horizontal: 'center', vertical: 'center' }
+    });
+    sumMerges.push({ s: { r: sr, c: 0 }, e: { r: sr, c: 6 } });
+    wsSum['!rows'] = [{ hpt: 28 }];
+    sr++;
+
+    wsSum[`A${sr+1}`] = SC('© Derechos reservados Cristian Vargas — CELIDER Distritales 2026', {
+        font: { italic: true, sz: 9, color: { rgb: '457B9D' }, name: 'Calibri' },
+        fill: { fgColor: { rgb: 'EEF3F8' }, patternType: 'solid' },
+        alignment: { horizontal: 'center', vertical: 'center' }
+    });
+    sumMerges.push({ s: { r: sr, c: 0 }, e: { r: sr, c: 6 } });
+    sr++; sr++; // skip row
+
+    const sumHdrs = ['Comisión', 'Total Delegados', 'Formato 1', 'Formato 2', 'Cupo Máx', 'Disponibles', 'Restricción'];
+    sumHdrs.forEach((h, ci) => {
+        wsSum[XLSX.utils.encode_cell({ r: sr, c: ci })] = SC(h, {
+            font: { bold: true, sz: 11, color: { rgb: 'FFFFFF' }, name: 'Calibri' },
+            fill: { fgColor: { rgb: '0E223A' }, patternType: 'solid' },
+            alignment: { horizontal: 'center', vertical: 'center' },
+            border: { top: { style: 'medium', color: { rgb: '0E223A' } }, bottom: { style: 'medium', color: { rgb: '0E223A' } }, left: { style: 'medium', color: { rgb: '0E223A' } }, right: { style: 'medium', color: { rgb: '0E223A' } } }
+        });
+    });
+    wsSum['!rows'][sr] = { hpt: 22 };
+    sr++;
+
+    // Get all assignments from rubricStudentsMap or local
+    const allAForSummary = Object.values(rubricStudentsMap).flat();
+    let tF1 = 0, tF2 = 0;
+    activeComms.forEach((c, ri) => {
+        const lim = customLimits[c.id] || c.defaultMax || 32;
+        const students = rubricStudentsMap[c.id] || [];
+        const f1 = students.filter(a => a.source === 'format1').length;
+        const f2 = students.filter(a => a.source === 'format2').length;
+        const tot = f1 + f2;
+        tF1 += f1; tF2 += f2;
+        const rowBg = ri % 2 === 0 ? 'FFFFFF' : 'EEF3F8';
+        const rowData = [
+            { v: c.name, s: cellStyle('FFFFFF', '0E223A', true, 'left') },
+            { v: tot, s: cellStyle(rowBg, '0E223A', true, 'center') },
+            { v: f1,  s: cellStyle(rowBg, '0E223A', false, 'center') },
+            { v: f2,  s: cellStyle(rowBg, '457B9D', false, 'center') },
+            { v: lim, s: cellStyle(rowBg, '444444', false, 'center') },
+            { v: Math.max(0, lim - tot), s: cellStyle(rowBg, Math.max(0,lim-tot)===0?'842029':'155724', false, 'center') },
+            { v: c.onlyFormat1 ? 'Solo Formato 1' : 'F1 + F2', s: cellStyle(c.onlyFormat1 ? 'FFF3CD' : 'D4EDDA', c.onlyFormat1 ? '856404' : '155724', false, 'center') },
+        ];
+        rowData.forEach((cell, ci) => {
+            wsSum[XLSX.utils.encode_cell({ r: sr, c: ci })] = { v: cell.v, t: typeof cell.v === 'number' ? 'n' : 's', s: cell.s };
+        });
+        sr++;
+    });
+
+    // Totals row
+    const totalRowData = [
+        { v: 'TOTAL GENERAL', s: headerStyle('0E223A', 'FFFFFF', 11) },
+        { v: tF1+tF2, s: headerStyle('0E223A', 'F8FCE0', 11) },
+        { v: tF1, s: headerStyle('0E223A', 'F8FCE0', 11) },
+        { v: tF2, s: headerStyle('457B9D', 'FFFFFF', 11) },
+        { v: '', s: headerStyle('0E223A', 'FFFFFF', 11) },
+        { v: '', s: headerStyle('0E223A', 'FFFFFF', 11) },
+        { v: '', s: headerStyle('0E223A', 'FFFFFF', 11) },
+    ];
+    totalRowData.forEach((cell, ci) => {
+        wsSum[XLSX.utils.encode_cell({ r: sr, c: ci })] = { v: cell.v, t: typeof cell.v === 'number' ? 'n' : 's', s: cell.s };
+    });
+    sr++;
+
+    wsSum['!cols'] = [{ wch: 22 }, { wch: 16 }, { wch: 12 }, { wch: 12 }, { wch: 10 }, { wch: 14 }, { wch: 16 }];
+    wsSum['!merges'] = sumMerges;
+    wsSum['!ref'] = XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: sr - 1, c: 6 } });
+    XLSX.utils.book_append_sheet(wb, wsSum, 'RESUMEN');
+
+    hideLoading();
+    XLSX.writeFile(wb, 'Rubricas_CELIDER_' + new Date().toISOString().split('T')[0] + '.xlsx');
+}
+
+// ===== ASIGNACIONES =====
+function showAssignments(){
     showLoading();
     db.ref('publicAssignments').once('value').then(snap=>{
-        const allA = snap.val()||[];
-        hideLoading();
-        const content = document.getElementById('assignmentsContent');
-        let html = '';
-        const activeComms = selectedCommissions.length>0 ? commissions.filter(c=>selectedCommissions.includes(c.id)) : commissions;
-        let summaryRows = '';
+        const allA=snap.val()||[]; hideLoading();
+        const activeComms=selectedCommissions.length>0?commissions.filter(c=>selectedCommissions.includes(c.id)):commissions;
+        let sumRows='';
         activeComms.forEach(c=>{
-            const f1 = allA.filter(a=>a.commission===c.id && a.source==='format1').length;
-            const f2 = allA.filter(a=>a.commission===c.id && a.source==='format2').length;
-            const total = f1+f2;
-            if(total===0) return;
-            const limit = customLimits[c.id]||c.defaultMax||32;
-            summaryRows += `<tr>
-                <td><strong>${c.name}</strong></td>
-                <td>${c.onlyFormat1?'<span style="color:#f0a500;">Solo F1</span>':''}</td>
-                <td>${f1}</td><td>${f2}</td>
-                <td><strong>${total}</strong></td>
-                <td>${limit}</td>
-                <td>${Math.max(0,limit-total)}</td>
-            </tr>`;
+            const f1=allA.filter(a=>a.commission===c.id&&a.source==='format1').length;
+            const f2=allA.filter(a=>a.commission===c.id&&a.source==='format2').length;
+            const tot=f1+f2; if(!tot)return;
+            const lim=customLimits[c.id]||c.defaultMax||32;
+            sumRows+=`<tr><td><strong>${c.name}</strong></td><td>${c.onlyFormat1?'<span style="color:#f0a500;">Solo F1</span>':''}</td><td>${f1}</td><td>${f2}</td><td><strong>${tot}</strong></td><td>${lim}</td><td>${Math.max(0,lim-tot)}</td></tr>`;
         });
-        html += `
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;flex-wrap:wrap;gap:10px;">
-            <div style="font-size:1.1em;"><strong>Total delegados:</strong> ${allA.length}
-                &nbsp;|&nbsp; <span style="color:#0E223A;">F1: ${allA.filter(a=>a.source==='format1').length}</span>
-                &nbsp;|&nbsp; <span style="color:#457B9D;">F2: ${allA.filter(a=>a.source==='format2').length}</span>
-            </div>
+        let html=`<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:15px;">
+            <div><strong>Total:</strong> ${allA.length} | <span style="color:#0E223A;">F1: ${allA.filter(a=>a.source==='format1').length}</span> | <span style="color:#457B9D;">F2: ${allA.filter(a=>a.source==='format2').length}</span></div>
             <button class="btn btn-sm" style="background:#c0392b;color:white;" onclick="clearAllAssignments()"><span>🗑️ Limpiar todo</span></button>
         </div>
-        <div style="overflow-x:auto;margin-bottom:30px;">
-        <table><thead><tr><th>Comisión</th><th>Restricción</th><th>Del F1</th><th>Del F2</th><th>Total</th><th>Cupo</th><th>Disponibles</th></tr></thead>
-        <tbody>${summaryRows}</tbody></table></div>`;
+        <div style="overflow-x:auto;margin-bottom:25px;"><table><thead><tr><th>Comisión</th><th>Restricción</th><th>F1</th><th>F2</th><th>Total</th><th>Cupo</th><th>Disponibles</th></tr></thead><tbody>${sumRows}</tbody></table></div>`;
         activeComms.forEach(comm=>{
-            const students = allA.filter(a=>a.commission===comm.id);
-            if(students.length===0) return;
-            html += `<div class="section"><h3 style="color:#0E223A;">${comm.fullName}
-                <span style="background:#457B9D;color:white;padding:3px 10px;border-radius:15px;font-size:0.8em;margin-left:8px;">${students.length} delegados</span>
-                ${comm.onlyFormat1?'<span style="background:#f0a500;color:white;padding:3px 10px;border-radius:15px;font-size:0.75em;margin-left:6px;">Solo F1</span>':''}
-            </h3>
-            <table><thead><tr><th>Nombre</th><th>Centro</th><th>Delegación</th><th>Distrito</th><th>Origen</th></tr></thead><tbody>`;
+            const students=allA.filter(a=>a.commission===comm.id);if(!students.length)return;
+            html+=`<div class="section"><h3 style="color:#0E223A;">${comm.fullName}
+                <span style="background:#457B9D;color:white;padding:3px 10px;border-radius:15px;font-size:.8em;margin-left:8px;">${students.length}</span>
+                ${comm.onlyFormat1?'<span style="background:#f0a500;color:white;padding:3px 10px;border-radius:15px;font-size:.75em;margin-left:6px;">Solo F1</span>':''}
+            </h3><table><thead><tr><th>Nombre</th><th>Centro</th><th>Delegación</th><th>Distrito</th><th>Origen</th></tr></thead><tbody>`;
             students.forEach(s=>{
-                html += `<tr>
-                    <td>${s.name}</td><td>${s.school}</td><td>${s.delegation}</td><td>${s.district||''}</td>
-                    <td><span style="background:${s.source==='format1'?'#0E223A':'#457B9D'};color:white;padding:2px 8px;border-radius:10px;font-size:0.8em;">${s.source==='format1'?'F1':'F2'}</span></td>
-                </tr>`;
+                html+=`<tr><td>${s.name}</td><td>${s.school}</td><td>${s.delegation}</td><td>${s.district||''}</td>
+                    <td><span style="background:${s.source==='format1'?'#0E223A':'#457B9D'};color:white;padding:2px 7px;border-radius:9px;font-size:.78em;">${s.source==='format1'?'F1':'F2'}</span></td></tr>`;
             });
-            html += `</tbody></table></div>`;
+            html+=`</tbody></table></div>`;
         });
-        content.innerHTML = html || '<div class="alert alert-warning">No hay asignaciones publicadas.</div>';
+        document.getElementById('assignmentsContent').innerHTML=html||'<div class="alert alert-warning">No hay asignaciones publicadas.</div>';
         document.getElementById('assignmentsModal').style.display='block';
     }).catch(()=>hideLoading());
 }
-
-function clearAllAssignments() {
-    if(!confirm('⚠️ ¿Eliminar TODAS las asignaciones publicadas? Esta acción no se puede deshacer.')) return;
+function clearAllAssignments(){
+    if(!confirm('⚠️ ¿Eliminar TODAS las asignaciones? Esta acción no se puede deshacer.'))return;
     showLoading('Eliminando...');
     db.ref('publicAssignments').set([]).then(()=>{
-        hideLoading();
-        assignments=[];
-        updateStats();
-        closeModal('assignmentsModal');
-        alert('✅ Asignaciones eliminadas.');
-    }).catch(e=>{ hideLoading(); alert('Error: '+e.message); });
+        hideLoading();assignments=[];rubricStudentsMap={};rubricLiveData={};updateStats();closeModal('assignmentsModal');alert('✅ Asignaciones eliminadas.');
+    }).catch(e=>{hideLoading();alert('Error: '+e.message);});
 }
 
-// ===================== CARGAR DATOS ADMIN =====================
-function loadAdminData() {
+// ===== CARGA ADMIN =====
+function loadAdminData(){
     showLoading('Cargando datos...');
-    Promise.all([
-        db.ref('selectedCommissions').once('value'),
-        db.ref('customLimits').once('value'),
-        db.ref('whatsappLinks').once('value'),
-        db.ref('publicAssignments').once('value')
-    ]).then(([scSnap, clSnap, waSnap, asSnap])=>{
-        selectedCommissions = scSnap.val() || [];
-        customLimits = clSnap.val() || {};
-        whatsappLinks = waSnap.val() || {};
-        assignments = asSnap.val() || [];
-        updateStats();
-        hideLoading();
+    Promise.all([db.ref('selectedCommissions').once('value'),db.ref('customLimits').once('value'),db.ref('whatsappLinks').once('value'),db.ref('publicAssignments').once('value')])
+    .then(([sc,cl,wa,as])=>{
+        selectedCommissions=sc.val()||[];customLimits=cl.val()||{};whatsappLinks=wa.val()||{};assignments=as.val()||[];
+        updateStats();hideLoading();
     }).catch(()=>hideLoading());
 }
-
-function updateStats() {
-    const total = assignments.length;
-    const f1 = assignments.filter(a=>a.source==='format1').length;
-    const f2 = assignments.filter(a=>a.source==='format2').length;
-    document.getElementById('statStudents').textContent = total;
-    document.getElementById('statF1').textContent = f1;
-    document.getElementById('statF2').textContent = f2;
-    document.getElementById('statCommissions').textContent = selectedCommissions.length;
+function updateStats(){
+    document.getElementById('statStudents').textContent=assignments.length;
+    document.getElementById('statF1').textContent=assignments.filter(a=>a.source==='format1').length;
+    document.getElementById('statF2').textContent=assignments.filter(a=>a.source==='format2').length;
+    document.getElementById('statCommissions').textContent=selectedCommissions.length;
 }
-
-db.ref('whatsappLinks').on('value', snap=>{ whatsappLinks = snap.val()||{}; });
+db.ref('whatsappLinks').on('value',snap=>{whatsappLinks=snap.val()||{};});
 </script>
 </body>
 </html>
