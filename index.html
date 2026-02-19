@@ -24,7 +24,7 @@
         .btn span { position:relative; z-index:1; }
         .btn-primary { background:linear-gradient(135deg,#0E223A 0%,#457B9D 100%); color:white; }
         .btn-secondary { background:linear-gradient(135deg,#457B9D 0%,#6a9ab8 100%); color:white; }
-        .btn-success { background:linear-gradient(135deg,#0E223A 0%,#457B9D 100%); color:#F8FCE0; }
+        .btn-success { background:linear-gradient(135deg,#155724 0%,#28a745 100%); color:white; }
         .btn:hover { transform:translateY(-5px); box-shadow:0 12px 35px rgba(0,0,0,0.3); }
         .btn-sm { padding:10px 20px; font-size:1em; }
         .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:1000; overflow-y:auto; }
@@ -116,14 +116,25 @@
         .part-num:focus { border-color:#0E223A; outline:none; }
         .empty-rubric { background:#f5f7fa; border:2px dashed #c3cfe2; border-radius:10px; padding:25px; text-align:center; color:#888; font-size:1em; margin-bottom:20px; }
         .footer-copy { text-align:center; padding:18px; color:#888; font-size:.88em; border-top:2px solid #e8eef5; margin-top:12px; }
-        /* Save rubric button */
-        .save-rubric-btn { background:linear-gradient(135deg,#155724,#28a745); color:white; border:none; padding:8px 18px; border-radius:8px; cursor:pointer; font-size:.9em; font-weight:bold; transition:all .3s; }
-        .save-rubric-btn:hover { transform:scale(1.05); box-shadow:0 4px 12px rgba(0,0,0,0.2); }
-        .saved-indicator { display:inline-block; color:#155724; font-size:.85em; margin-left:10px; opacity:0; transition:opacity .5s; }
-        .saved-indicator.show { opacity:1; }
+        /* Saving indicator */
+        .sync-indicator { position:fixed; bottom:20px; right:20px; background:#0E223A; color:white; padding:10px 20px; border-radius:25px; font-size:.9em; font-weight:bold; z-index:9998; display:none; box-shadow:0 4px 15px rgba(0,0,0,0.3); transition:all .3s; }
+        .sync-indicator.saving { background:#f0a500; display:block; }
+        .sync-indicator.saved  { background:#155724; display:block; }
+        .sync-indicator.error  { background:#842029; display:block; }
+        /* Commission panel styling */
+        .comm-welcome { background:linear-gradient(135deg,#0E223A 0%,#457B9D 70%,#F8FCE0 100%); color:white; padding:50px 40px; border-radius:20px; margin-bottom:40px; box-shadow:0 10px 40px rgba(0,0,0,0.3); text-align:center; }
+        .comm-welcome h2 { font-size:2.8em; margin-bottom:10px; text-shadow:2px 2px 4px rgba(0,0,0,0.3); }
+        .comm-welcome .comm-badge { display:inline-block; background:rgba(255,255,255,.25); padding:12px 30px; border-radius:35px; font-size:1.3em; font-weight:bold; margin:12px 0; border:2px solid rgba(255,255,255,.5); }
+        .comm-welcome p { font-size:1.1em; opacity:.9; margin-top:10px; line-height:1.7; }
+        /* Real-time pulse dot */
+        .rt-dot { display:inline-block; width:10px; height:10px; background:#28a745; border-radius:50%; margin-left:8px; animation:pulse 1.5s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.3);} }
     </style>
 </head>
 <body>
+
+<div class="sync-indicator" id="syncIndicator">💾 Guardando...</div>
+
 <div class="loading-overlay" id="loadingOverlay">
     <div class="loading-spinner"></div>
     <p id="loadingText">Cargando...</p>
@@ -148,7 +159,7 @@
         <div class="footer-copy">© Derechos reservados Cristian Vargas — CELIDER Distritales 2026</div>
     </div>
 
-    <!-- ADMIN -->
+    <!-- ADMIN PANEL -->
     <div class="content hidden" id="adminPanel">
         <div class="welcome-section">
             <h2>🎉 ¡Bienvenido/a, <span id="welcomeUser"></span>!</h2>
@@ -166,8 +177,26 @@
             <button class="btn btn-primary" onclick="showUploadModal()"><span>📤 Publicar Listado</span></button>
             <button class="btn btn-secondary" onclick="showConfigSection()"><span>⚙️ Configurar Comisiones</span></button>
             <button class="btn btn-success" onclick="showWhatsAppLinks()"><span>📱 Links WhatsApp</span></button>
-            <button class="btn btn-primary" onclick="showRubrics()"><span>📊 Rúbricas</span></button>
+            <button class="btn btn-primary" onclick="showRubrics()"><span>📊 Rúbricas (Admin)</span></button>
             <button class="btn btn-secondary" onclick="showAssignments()"><span>👥 Ver Asignaciones</span></button>
+            <button class="btn" style="background:#6c757d;color:white;" onclick="logout()"><span>🚪 Cerrar Sesión</span></button>
+        </div>
+        <div class="footer-copy">© Derechos reservados Cristian Vargas — CELIDER Distritales 2026</div>
+    </div>
+
+    <!-- COMMISSION PANEL (for OTAN, UNICEF, UIT, UNESCO, OIT) -->
+    <div class="content hidden" id="commissionPanel">
+        <div class="comm-welcome">
+            <h2>🏛️ <span id="commWelcomeName"></span></h2>
+            <div class="comm-badge" id="commWelcomeFull"></div>
+            <p id="commWelcomeTopic" style="max-width:700px;margin:12px auto 0;"></p>
+            <p style="margin-top:15px;font-size:.95em;opacity:.8;">
+                Los cambios se guardan automáticamente en tiempo real <span class="rt-dot"></span>
+            </p>
+        </div>
+        <div class="button-group" style="max-width:700px;margin:0 auto;">
+            <button class="btn btn-primary" onclick="showCommissionRubric()"><span>📊 Abrir Rúbrica de Evaluación</span></button>
+            <button class="btn btn-success" onclick="downloadCommissionExcel()"><span>📥 Descargar Excel</span></button>
             <button class="btn" style="background:#6c757d;color:white;" onclick="logout()"><span>🚪 Cerrar Sesión</span></button>
         </div>
         <div class="footer-copy">© Derechos reservados Cristian Vargas — CELIDER Distritales 2026</div>
@@ -275,11 +304,23 @@
     </div>
 </div>
 
-<!-- RÚBRICAS -->
+<!-- RÚBRICAS (ADMIN) -->
 <div id="rubricsModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal('rubricsModal')">&times;</span>
         <div id="rubricsContent"></div>
+        <div class="footer-copy" style="margin-top:20px;">© Derechos reservados Cristian Vargas — CELIDER Distritales 2026</div>
+    </div>
+</div>
+
+<!-- RÚBRICA COMISIÓN (modal for commission users) -->
+<div id="commRubricModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('commRubricModal')">&times;</span>
+        <div id="commRubricContent"></div>
+        <div class="download-buttons">
+            <button class="btn btn-success btn-sm" onclick="downloadCommissionExcel()"><span>📥 Descargar Excel</span></button>
+        </div>
         <div class="footer-copy" style="margin-top:20px;">© Derechos reservados Cristian Vargas — CELIDER Distritales 2026</div>
     </div>
 </div>
@@ -297,78 +338,432 @@
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
+// ============================================================
+// FIREBASE INIT
+// ============================================================
 const firebaseConfig={apiKey:"AIzaSyA2HicfJnEoNOdgjfERIgkiJ0GA260HyLA",authDomain:"celider-distritales-f8753.firebaseapp.com",databaseURL:"https://celider-distritales-f8753-default-rtdb.firebaseio.com",projectId:"celider-distritales-f8753",storageBucket:"celider-distritales-f8753.firebasestorage.app",messagingSenderId:"252428103373",appId:"1:252428103373:web:6a209f9de105f8474d0384"};
 firebase.initializeApp(firebaseConfig);
 const db=firebase.database();
 
-const users={'CUENTA1':{password:'DISTRITO 10-02',district:'10-02'},'CUENTA2':{password:'DISTRITO 10-04',district:'10-04'},'DIRECTIVA10-02':{password:'CELIDER10-02',district:'10-02'},'DIEGO':{password:'REYES 123DIEGO',district:'ADMIN'}};
+// ============================================================
+// USERS — Admin + District + Commission accounts
+// ============================================================
+const users={
+    // Admin / district accounts
+    'CUENTA1':       {password:'DISTRITO 10-02', district:'10-02',   role:'admin'},
+    'CUENTA2':       {password:'DISTRITO 10-04', district:'10-04',   role:'admin'},
+    'DIRECTIVA10-02':{password:'CELIDER10-02',   district:'10-02',   role:'admin'},
+    'DIEGO':         {password:'REYES 123DIEGO', district:'ADMIN',   role:'admin'},
+    // Commission accounts
+    'OTAN':    {password:'otan',    district:'COMMISSION', role:'commission', commission:'otan'},
+    'UNICEF':  {password:'unicef',  district:'COMMISSION', role:'commission', commission:'unicef'},
+    'UIT':     {password:'uit',     district:'COMMISSION', role:'commission', commission:'uit'},
+    'UNESCO':  {password:'unesco',  district:'COMMISSION', role:'commission', commission:'unesco'},
+    'OIT':     {password:'oit',     district:'COMMISSION', role:'commission', commission:'oit'},
+};
 
+// ============================================================
+// COMMISSIONS DATA
+// ============================================================
 const commissions=[
-    {id:'fao',name:'FAO',nivel:'Básico',categoria:'Desarrollo Sostenible',fullName:'FAO – Organización de las Naciones Unidas para la Alimentación y la Agricultura',topic:'Impactos del cambio climático en la producción agrícola familiar y la seguridad alimentaria en el Caribe.',defaultMax:32,type:'delegaciones'},
-    {id:'oms',name:'OMS',nivel:'Básico',categoria:'Salud Pública',fullName:'OMS – Organización Mundial de la Salud',topic:'Acceso equitativo a vacunas y medicamentos en países de ingreso bajo y medio.',defaultMax:32,type:'delegaciones'},
-    {id:'unicef',name:'UNICEF',nivel:'Básico',categoria:'Desarrollo Humano',fullName:'UNICEF – Fondo de las Naciones Unidas para la Infancia',topic:'Protección de los derechos de los niños en el contexto de la migración infantil en América Central.',defaultMax:32,type:'delegaciones'},
-    {id:'uit',name:'UIT',nivel:'Intermedio',categoria:'Tecnología',fullName:'UIT – Unión Internacional de Telecomunicaciones',topic:'Cooperación internacional frente a la vulneración de derechos digitales en niños y adolescentes.',defaultMax:32,type:'delegaciones'},
-    {id:'unesco',name:'UNESCO',nivel:'Intermedio',categoria:'Cultura y Patrimonio',fullName:'UNESCO – Organización de las Naciones Unidas para la Educación, la Ciencia y la Cultura',topic:'Preservación del patrimonio cultural inmaterial frente al turismo masivo y la mercantilización digital.',defaultMax:32,type:'delegaciones'},
-    {id:'oit',name:'OIT',nivel:'Intermedio',categoria:'Comercio y Trabajo',fullName:'OIT – Organización Internacional del Trabajo',topic:'Responsabilidad corporativa ante la explotación laboral de niños en la cadena de suministro global.',defaultMax:32,type:'delegaciones'},
-    {id:'bandung',name:'1955',nivel:'Intermedio',categoria:'Comisión Histórica',fullName:'1955 – Conferencia de Bandung',topic:'Descolonización, cooperación sur-sur y el nacimiento del movimiento de los no alineados.',defaultMax:32,type:'delegaciones'},
-    {id:'cij',name:'CIJ',nivel:'Avanzado',categoria:'Derecho Internacional',fullName:'CIJ – Corte Internacional de Justicia',topic:'Opinión consultiva: Legalidad de la explotación de recursos naturales en zonas marinas continentales en disputa territorial.',defaultMax:32,type:'magistrados'},
-    {id:'interpol',name:'INTERPOL',nivel:'Avanzado',categoria:'Seguridad Internacional',fullName:'INTERPOL – Organización Internacional de Policía Criminal',topic:'Caso para preparar por la Secretaría General Académica del Modelo Distrital.',defaultMax:32,type:'agentes'},
-    {id:'otan',name:'OTAN',nivel:'Avanzado',categoria:'Geopolítica y Defensa',fullName:'OTAN – Organización del Tratado del Atlántico Norte',topic:'Cooperación en defensa ante amenazas híbridas, ciberataques y desinformación en escenarios de guerra contemporánea.',defaultMax:28,type:'delegaciones',onlyFormat1:true},
-    {id:'oas',name:'OAS',nivel:'Advanced',categoria:'To simulate in English',fullName:'OAS – Permanent Council of the Organization of American States',topic:'Strengthening democratic institutions and electoral integrity in Latin America and the Caribbean.',defaultMax:32,type:'states'}
+    {id:'fao',    name:'FAO',    nivel:'Básico',    categoria:'Desarrollo Sostenible',    fullName:'FAO – Organización de las Naciones Unidas para la Alimentación y la Agricultura', topic:'Impactos del cambio climático en la producción agrícola familiar y la seguridad alimentaria en el Caribe.',defaultMax:32,type:'delegaciones'},
+    {id:'oms',    name:'OMS',    nivel:'Básico',    categoria:'Salud Pública',            fullName:'OMS – Organización Mundial de la Salud', topic:'Acceso equitativo a vacunas y medicamentos en países de ingreso bajo y medio.',defaultMax:32,type:'delegaciones'},
+    {id:'unicef', name:'UNICEF', nivel:'Básico',    categoria:'Desarrollo Humano',        fullName:'UNICEF – Fondo de las Naciones Unidas para la Infancia', topic:'Protección de los derechos de los niños en el contexto de la migración infantil en América Central.',defaultMax:32,type:'delegaciones'},
+    {id:'uit',    name:'UIT',    nivel:'Intermedio',categoria:'Tecnología',               fullName:'UIT – Unión Internacional de Telecomunicaciones', topic:'Cooperación internacional frente a la vulneración de derechos digitales en niños y adolescentes.',defaultMax:32,type:'delegaciones'},
+    {id:'unesco', name:'UNESCO', nivel:'Intermedio',categoria:'Cultura y Patrimonio',     fullName:'UNESCO – Organización de las Naciones Unidas para la Educación, la Ciencia y la Cultura', topic:'Preservación del patrimonio cultural inmaterial frente al turismo masivo y la mercantilización digital.',defaultMax:32,type:'delegaciones'},
+    {id:'oit',    name:'OIT',    nivel:'Intermedio',categoria:'Comercio y Trabajo',       fullName:'OIT – Organización Internacional del Trabajo', topic:'Responsabilidad corporativa ante la explotación laboral de niños en la cadena de suministro global.',defaultMax:32,type:'delegaciones'},
+    {id:'bandung',name:'1955',   nivel:'Intermedio',categoria:'Comisión Histórica',       fullName:'1955 – Conferencia de Bandung', topic:'Descolonización, cooperación sur-sur y el nacimiento del movimiento de los no alineados.',defaultMax:32,type:'delegaciones'},
+    {id:'cij',    name:'CIJ',    nivel:'Avanzado',  categoria:'Derecho Internacional',    fullName:'CIJ – Corte Internacional de Justicia', topic:'Opinión consultiva: Legalidad de la explotación de recursos naturales en zonas marinas continentales en disputa territorial.',defaultMax:32,type:'magistrados'},
+    {id:'interpol',name:'INTERPOL',nivel:'Avanzado',categoria:'Seguridad Internacional', fullName:'INTERPOL – Organización Internacional de Policía Criminal', topic:'Caso para preparar por la Secretaría General Académica del Modelo Distrital.',defaultMax:32,type:'agentes'},
+    {id:'otan',   name:'OTAN',   nivel:'Avanzado',  categoria:'Geopolítica y Defensa',    fullName:'OTAN – Organización del Tratado del Atlántico Norte', topic:'Cooperación en defensa ante amenazas híbridas, ciberataques y desinformación en escenarios de guerra contemporánea.',defaultMax:28,type:'delegaciones',onlyFormat1:true},
+    {id:'oas',    name:'OAS',    nivel:'Advanced',  categoria:'To simulate in English',   fullName:'OAS – Permanent Council of the Organization of American States', topic:'Strengthening democratic institutions and electoral integrity in Latin America and the Caribbean.',defaultMax:32,type:'states'}
 ];
 
 const allCountries=['Afghanistan','Albania','Algeria','Andorra','Angola','Antigua and Barbuda','Argentina','Armenia','Australia','Austria','Azerbaijan','Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium','Belize','Benin','Bhutan','Bolivia','Bosnia and Herzegovina','Botswana','Brazil','Brunei','Bulgaria','Burkina Faso','Burundi','Cabo Verde','Cambodia','Cameroon','Canada','Central African Republic','Chad','Chile','China','Colombia','Comoros','Congo','Costa Rica','Croatia','Cuba','Cyprus','Czech Republic','Denmark','Djibouti','Dominica','Dominican Republic','Ecuador','Egypt','El Salvador','Equatorial Guinea','Eritrea','Estonia','Eswatini','Ethiopia','Fiji','Finland','France','Gabon','Gambia','Georgia','Germany','Ghana','Greece','Grenada','Guatemala','Guinea','Guinea-Bissau','Guyana','Haiti','Honduras','Hungary','Iceland','India','Indonesia','Iran','Iraq','Ireland','Israel','Italy','Jamaica','Japan','Jordan','Kazakhstan','Kenya','Kiribati','Kuwait','Kyrgyzstan','Laos','Latvia','Lebanon','Lesotho','Liberia','Libya','Liechtenstein','Lithuania','Luxembourg','Madagascar','Malawi','Malaysia','Maldives','Mali','Malta','Marshall Islands','Mauritania','Mauritius','Mexico','Micronesia','Moldova','Monaco','Mongolia','Montenegro','Morocco','Mozambique','Myanmar','Namibia','Nauru','Nepal','Netherlands','New Zealand','Nicaragua','Niger','Nigeria','North Korea','North Macedonia','Norway','Oman','Pakistan','Palau','Palestine','Panama','Papua New Guinea','Paraguay','Peru','Philippines','Poland','Portugal','Qatar','Romania','Russia','Rwanda','Saint Kitts and Nevis','Saint Lucia','Saint Vincent','Samoa','San Marino','Sao Tome','Saudi Arabia','Senegal','Serbia','Seychelles','Sierra Leone','Singapore','Slovakia','Slovenia','Solomon Islands','Somalia','South Africa','South Korea','South Sudan','Spain','Sri Lanka','Sudan','Suriname','Sweden','Switzerland','Syria','Taiwan','Tajikistan','Tanzania','Thailand','Timor-Leste','Togo','Tonga','Trinidad and Tobago','Tunisia','Turkey','Turkmenistan','Tuvalu','Uganda','Ukraine','United Arab Emirates','United Kingdom','United States','Uruguay','Uzbekistan','Vanuatu','Venezuela','Vietnam','Yemen','Zambia','Zimbabwe'];
 
-const rubricCriteria=[{name:'Investigación académica',max:15},{name:'Pensamiento crítico',max:15},{name:'Oratoria',max:10},{name:'Argumentación',max:10},{name:'Redacción',max:10},{name:'Negociación',max:10},{name:'Resolución de conflictos',max:10},{name:'Liderazgo',max:10},{name:'Colaboración',max:10}];
-const RUBRIC_MAX=rubricCriteria.reduce((s,c)=>s+c.max,0);
+const rubricCriteria=[
+    {name:'Investigación académica',max:15},
+    {name:'Pensamiento crítico',max:15},
+    {name:'Oratoria',max:10},
+    {name:'Argumentación',max:10},
+    {name:'Redacción',max:10},
+    {name:'Negociación',max:10},
+    {name:'Resolución de conflictos',max:10},
+    {name:'Liderazgo',max:10},
+    {name:'Colaboración',max:10}
+];
+const RUBRIC_MAX = rubricCriteria.reduce((s,c)=>s+c.max,0);
 const participacionOpts=['— Seleccionar —','Excelente','Muy Bueno','Bueno','Regular','Malo'];
 
-let currentUser=null,assignments=[],selectedCommissions=[],customLimits={},whatsappLinks={},allAssignments=[],parsedF1=[],parsedF2=[];
+// ============================================================
+// APP STATE
+// ============================================================
+let currentUser=null, assignments=[], selectedCommissions=[], customLimits={}, whatsappLinks={}, allAssignments=[], parsedF1=[], parsedF2=[];
+let rubricLiveData={};   // In-memory cache (commId__si__field -> value)
+let rubricStudentsMap={}; // commId -> array of student objects
+let commissionRubricRef=null;   // Firebase DB ref
+let commissionRubricCb=null;    // Firebase callback (for .off())
+let saveTimeout=null;
 
-// =====================================================================
-// LIVE RUBRIC DATA STORE - THE FIX FOR SCORES NOT SAVING ON DOWNLOAD
-// All input changes are stored here in memory; download reads from here
-// =====================================================================
-let rubricLiveData = {}; // key: "commId_studentIndex_fieldName" => value
-
-function setLive(key, val) { rubricLiveData[key] = val; }
-function getLive(key, fallback) { return rubricLiveData.hasOwnProperty(key) ? rubricLiveData[key] : fallback; }
-
-// Store all rubric students when modal opens (index by commission+studentIndex)
-let rubricStudentsMap = {}; // commId -> array of student objects (as loaded from Firebase)
-
+// ============================================================
+// UTILITIES
+// ============================================================
 function showLoading(t='Cargando...'){document.getElementById('loadingText').textContent=t;document.getElementById('loadingOverlay').style.display='flex';}
 function hideLoading(){document.getElementById('loadingOverlay').style.display='none';}
 function closeModal(id){document.getElementById(id).style.display='none';}
 window.onclick=e=>{if(e.target.classList.contains('modal'))e.target.style.display='none';};
 function switchTab(e,id){document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');e.target.classList.add('active');}
 
+function setLive(key,val){rubricLiveData[key]=val;}
+function getLive(key,fallback){return rubricLiveData.hasOwnProperty(key)?rubricLiveData[key]:fallback;}
+
+// Show sync indicator
+function showSync(state, msg){
+    const el=document.getElementById('syncIndicator');
+    el.className='sync-indicator '+state;
+    el.textContent=msg;
+    if(state==='saved'||state==='error'){
+        setTimeout(()=>{el.style.display='none';el.className='sync-indicator';},2500);
+    }
+}
+
+// ============================================================
+// LOGIN / LOGOUT
+// ============================================================
 function showLogin(){document.getElementById('loginModal').style.display='block';}
-function logout(){currentUser=null;document.getElementById('mainContent').classList.remove('hidden');document.getElementById('adminPanel').classList.add('hidden');}
+
 function login(){
     const u=document.getElementById('username').value.trim().toUpperCase();
     const p=document.getElementById('password').value.trim().toUpperCase();
     const err=document.getElementById('loginError');
-    if(users[u]&&users[u].password.toUpperCase()===p){
-        currentUser={username:u,district:users[u].district};
-        document.getElementById('mainContent').classList.add('hidden');
-        document.getElementById('adminPanel').classList.remove('hidden');
-        document.getElementById('welcomeUser').textContent=u;
-        document.getElementById('welcomeDistrict').textContent=currentUser.district==='ADMIN'?'Administrador General':'Distrito '+currentUser.district;
+    const userData=users[u];
+    if(userData&&userData.password.toUpperCase()===p){
+        currentUser={username:u,...userData};
+        // Detach old listener if any
+        if(commissionRubricRef&&commissionRubricCb){commissionRubricRef.off('value',commissionRubricCb);commissionRubricRef=null;commissionRubricCb=null;}
+        rubricLiveData={};rubricStudentsMap={};
         closeModal('loginModal');err.style.display='none';
         document.getElementById('username').value='';document.getElementById('password').value='';
-        loadAdminData();
-    }else{err.style.display='block';document.getElementById('password').value='';}
+        // Route to correct panel
+        if(currentUser.role==='commission'){
+            showCommissionPanel();
+        } else {
+            document.getElementById('mainContent').classList.add('hidden');
+            document.getElementById('adminPanel').classList.remove('hidden');
+            document.getElementById('commissionPanel').classList.add('hidden');
+            document.getElementById('welcomeUser').textContent=u;
+            document.getElementById('welcomeDistrict').textContent=currentUser.district==='ADMIN'?'Administrador General':'Distrito '+currentUser.district;
+            loadAdminData();
+        }
+    }else{
+        err.style.display='block';
+        document.getElementById('password').value='';
+    }
 }
 
+function logout(){
+    if(commissionRubricRef&&commissionRubricCb){commissionRubricRef.off('value',commissionRubricCb);commissionRubricRef=null;commissionRubricCb=null;}
+    // Cancel any pending debounced saves
+    Object.keys(pendingSaves).forEach(k=>{clearTimeout(pendingSaves[k]);delete pendingSaves[k];});
+    currentUser=null;rubricLiveData={};rubricStudentsMap={};
+    document.getElementById('mainContent').classList.remove('hidden');
+    document.getElementById('adminPanel').classList.add('hidden');
+    document.getElementById('commissionPanel').classList.add('hidden');
+}
+
+// ============================================================
+// COMMISSION PANEL
+// ============================================================
+function showCommissionPanel(){
+    const comm=commissions.find(c=>c.id===currentUser.commission);
+    if(!comm){alert('Error: comisión no encontrada.');return;}
+    document.getElementById('mainContent').classList.add('hidden');
+    document.getElementById('adminPanel').classList.add('hidden');
+    document.getElementById('commissionPanel').classList.remove('hidden');
+    document.getElementById('commWelcomeName').textContent=comm.name+' — CELIDER 2026';
+    document.getElementById('commWelcomeFull').textContent=comm.fullName;
+    document.getElementById('commWelcomeTopic').textContent='📌 '+comm.topic;
+}
+
+// ============================================================
+// SHOW COMMISSION RUBRIC (for commission users)
+// Real-time sync from Firebase
+// ============================================================
+function showCommissionRubric(){
+    if(!currentUser||currentUser.role!=='commission')return;
+    const commId=currentUser.commission;
+    const comm=commissions.find(c=>c.id===commId);
+    if(!comm){alert('Comisión no encontrada.');return;}
+    showLoading('Cargando delegados y rúbrica...');
+    // Detach previous listener
+    if(commissionRubricRef&&commissionRubricCb){commissionRubricRef.off('value',commissionRubricCb);commissionRubricRef=null;commissionRubricCb=null;}
+    // Load students + rubric data in parallel
+    Promise.all([
+        db.ref('publicAssignments').once('value'),
+        db.ref('rubricData/'+commId).once('value')
+    ]).then(([studSnap,rubSnap])=>{
+        const allA=studSnap.val()||[];
+        const students=allA.filter(a=>a.commission===commId);
+        rubricStudentsMap[commId]=students;
+        const savedRubric=rubSnap.val()||{};
+        // Load saved data into live store
+        students.forEach((s,si)=>{
+            const saved=savedRubric[si]||{};
+            setLive(commId+'__'+si+'__attendance',   saved.attendance   || s.attendance   || '');
+            setLive(commId+'__'+si+'__participCount', saved.participCount!==undefined?saved.participCount:(s.participCount||0));
+            setLive(commId+'__'+si+'__participQual', saved.participQual  || s.participQual  || '');
+            setLive(commId+'__'+si+'__regional',      saved.regional     !== undefined ? saved.regional : (s.regional||false));
+            setLive(commId+'__'+si+'__total',         saved.total        || s.total        || 0);
+            rubricCriteria.forEach((c,ci)=>{
+                const v=(saved.scores&&saved.scores[ci]!==undefined)?saved.scores[ci]:((s.scores&&s.scores[c.name]!==undefined)?s.scores[c.name]:0);
+                setLive(commId+'__'+si+'__score__'+ci, parseFloat(v)||0);
+            });
+        });
+        hideLoading();
+        renderCommissionRubric(comm, students, savedRubric);
+        document.getElementById('commRubricModal').style.display='block';
+        // Set up real-time listener AFTER initial render
+        commissionRubricRef=db.ref('rubricData/'+commId);
+        commissionRubricCb=commissionRubricRef.on('value', snap=>{
+            const updated=snap.val()||{};
+            updateRubricFromFirebase(commId, students, updated);
+        });
+    }).catch(e=>{hideLoading();alert('Error al cargar: '+e.message);});
+}
+
+function renderCommissionRubric(comm, students, savedRubric){
+    const commId=comm.id;
+    let html=`<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:15px;">
+        <div>
+            <h2 style="color:#0E223A;">📊 Rúbrica — ${comm.name}</h2>
+            <p style="color:#457B9D;font-size:.9em;">${comm.fullName}</p>
+            <p style="font-size:.85em;color:#666;">💾 Los cambios se guardan automáticamente en Firebase <span class="rt-dot"></span></p>
+        </div>
+        <button class="btn btn-success btn-sm" onclick="downloadCommissionExcel()"><span>📥 Descargar Excel</span></button>
+    </div>`;
+    if(!students.length){
+        html+=`<div class="empty-rubric">📭 No hay delegados registrados en esta comisión aún.<br><small>El administrador debe publicar el listado primero.</small></div>`;
+    } else {
+        html+=`<div style="overflow-x:auto;"><table class="rubric-table"><thead><tr>
+            <th style="min-width:140px;">Nombre</th>
+            <th style="min-width:110px;">Delegación</th>
+            <th>F</th>
+            <th title="Presente y Visible">PV</th>
+            <th title="Ausente">A</th>
+            <th style="min-width:55px;"># Part.</th>
+            <th style="min-width:95px;">Calidad Part.</th>
+            ${rubricCriteria.map(c=>`<th style="min-width:60px;">${c.name}<br><small>(${c.max})</small></th>`).join('')}
+            <th style="min-width:60px;">Total<br><small>/${RUBRIC_MAX}</small></th>
+            <th>Reg.</th>
+        </tr></thead><tbody>`;
+        students.forEach((s,si)=>{
+            const rid=commId+'_'+si;
+            const saved=savedRubric[si]||{};
+            const att=getLive(commId+'__'+si+'__attendance','');
+            const pc=getLive(commId+'__'+si+'__participCount',0);
+            const pq=getLive(commId+'__'+si+'__participQual','');
+            const reg=getLive(commId+'__'+si+'__regional',false);
+            const tot=getLive(commId+'__'+si+'__total',0);
+            const totClass=tot>=85?'high':tot>=60?'mid':'low';
+            html+=`<tr>
+                <td><strong>${s.name}</strong></td>
+                <td style="font-size:.8em;">${s.delegation}</td>
+                <td><span style="background:${s.source==='format1'?'#0E223A':'#457B9D'};color:white;padding:1px 6px;border-radius:8px;font-size:.75em;">${s.source==='format1'?'F1':'F2'}</span></td>
+                <td><input type="radio" name="att_${rid}" id="attPV_${rid}" value="PV" ${att==='PV'?'checked':''} onchange="commOnAtt('${rid}','${commId}',${si},'PV')"></td>
+                <td><input type="radio" name="att_${rid}" id="attA_${rid}"  value="A"  ${att==='A'?'checked':''}  onchange="commOnAtt('${rid}','${commId}',${si},'A')"></td>
+                <td><input type="number" class="part-num" id="pc_${rid}" min="0" max="99" step="1" value="${pc}" oninput="commOnPC('${rid}','${commId}',${si},this.value)"></td>
+                <td><select class="part-select" id="pq_${rid}" onchange="commOnPQ('${rid}','${commId}',${si},this.value)">
+                    ${participacionOpts.map(o=>`<option value="${o}" ${pq===o?'selected':''}>${o}</option>`).join('')}
+                </select></td>
+                ${rubricCriteria.map((c,ci)=>`<td><input type="number" id="sc_${rid}_${ci}" class="score-input"
+                    min="0" max="${c.max}" step="0.5"
+                    value="${getLive(commId+'__'+si+'__score__'+ci,0)||''}"
+                    oninput="commOnScore('${rid}','${commId}',${si})"></td>`).join('')}
+                <td class="total-score-cell ${totClass}" id="tot_${rid}">${typeof tot==='number'?tot.toFixed(1):tot}</td>
+                <td><input type="checkbox" id="reg_${rid}" ${reg?'checked':''} style="width:18px;height:18px;" onchange="commOnReg('${rid}','${commId}',${si},this.checked)"></td>
+            </tr>`;
+        });
+        html+=`</tbody></table></div>`;
+    }
+    document.getElementById('commRubricContent').innerHTML=html;
+}
+
+// Update rubric inputs from Firebase real-time without overwriting what user is currently editing
+function updateRubricFromFirebase(commId, students, updated){
+    students.forEach((s,si)=>{
+        const saved=updated[si]||{};
+        const prefix=commId+'__'+si;
+        // Update attendance
+        const newAtt=saved.attendance||'';
+        if(newAtt!==getLive(prefix+'__attendance','')){
+            setLive(prefix+'__attendance',newAtt);
+            const pvEl=document.getElementById('attPV_'+commId+'_'+si);
+            const aEl=document.getElementById('attA_'+commId+'_'+si);
+            if(pvEl)pvEl.checked=newAtt==='PV';
+            if(aEl)aEl.checked=newAtt==='A';
+        }
+        // participCount
+        const newPC=saved.participCount!==undefined?saved.participCount:0;
+        if(newPC!==getLive(prefix+'__participCount',0)){
+            setLive(prefix+'__participCount',newPC);
+            const pcEl=document.getElementById('pc_'+commId+'_'+si);
+            if(pcEl&&document.activeElement!==pcEl)pcEl.value=newPC;
+        }
+        // participQual
+        const newPQ=saved.participQual||'';
+        if(newPQ!==getLive(prefix+'__participQual','')){
+            setLive(prefix+'__participQual',newPQ);
+            const pqEl=document.getElementById('pq_'+commId+'_'+si);
+            if(pqEl&&document.activeElement!==pqEl)pqEl.value=newPQ;
+        }
+        // regional
+        const newReg=saved.regional||false;
+        if(newReg!==getLive(prefix+'__regional',false)){
+            setLive(prefix+'__regional',newReg);
+            const regEl=document.getElementById('reg_'+commId+'_'+si);
+            if(regEl)regEl.checked=newReg;
+        }
+        // scores
+        if(saved.scores){
+            rubricCriteria.forEach((c,ci)=>{
+                const newV=parseFloat(saved.scores[ci])||0;
+                if(newV!==getLive(prefix+'__score__'+ci,0)){
+                    setLive(prefix+'__score__'+ci,newV);
+                    const scEl=document.getElementById('sc_'+commId+'_'+si+'_'+ci);
+                    if(scEl&&document.activeElement!==scEl)scEl.value=newV||'';
+                }
+            });
+        }
+        // total
+        const newTot=saved.total||0;
+        setLive(prefix+'__total',newTot);
+        const totEl=document.getElementById('tot_'+commId+'_'+si);
+        if(totEl){
+            totEl.textContent=newTot.toFixed?newTot.toFixed(1):newTot;
+            totEl.className='total-score-cell';
+            if(newTot>=85)totEl.classList.add('high');
+            else if(newTot>=60)totEl.classList.add('mid');
+            else totEl.classList.add('low');
+        }
+    });
+}
+
+// ============================================================
+// COMMISSION INPUT HANDLERS — save to Firebase with debounce
+// ============================================================
+function commOnAtt(rid,commId,si,val){
+    setLive(commId+'__'+si+'__attendance',val);
+    scheduleFirebaseSave(commId,si);
+}
+function commOnPC(rid,commId,si,val){
+    setLive(commId+'__'+si+'__participCount',parseFloat(val)||0);
+    scheduleFirebaseSave(commId,si);
+}
+function commOnPQ(rid,commId,si,val){
+    setLive(commId+'__'+si+'__participQual',val);
+    scheduleFirebaseSave(commId,si);
+}
+function commOnReg(rid,commId,si,checked){
+    setLive(commId+'__'+si+'__regional',checked);
+    scheduleFirebaseSave(commId,si);
+}
+function commOnScore(rid,commId,si){
+    let total=0;
+    rubricCriteria.forEach((c,ci)=>{
+        const el=document.getElementById('sc_'+rid+'_'+ci);
+        if(el){
+            let v=parseFloat(el.value)||0;
+            if(v>c.max){el.value=c.max;v=c.max;}
+            if(v<0){el.value=0;v=0;}
+            total+=v;
+            setLive(commId+'__'+si+'__score__'+ci,v);
+        }
+    });
+    setLive(commId+'__'+si+'__total',total);
+    const totEl=document.getElementById('tot_'+rid);
+    if(totEl){
+        totEl.textContent=total.toFixed(1);
+        totEl.className='total-score-cell';
+        if(total>=85)totEl.classList.add('high');
+        else if(total>=60)totEl.classList.add('mid');
+        else totEl.classList.add('low');
+    }
+    scheduleFirebaseSave(commId,si);
+}
+
+// Debounced save per student slot
+const pendingSaves={};
+function scheduleFirebaseSave(commId,si){
+    showSync('saving','💾 Guardando...');
+    const key=commId+'__'+si;
+    if(pendingSaves[key])clearTimeout(pendingSaves[key]);
+    pendingSaves[key]=setTimeout(()=>{
+        firebaseSaveStudent(commId,si);
+        delete pendingSaves[key];
+    },600);
+}
+
+function firebaseSaveStudent(commId,si){
+    const prefix=commId+'__'+si;
+    const scores={};
+    rubricCriteria.forEach((_,ci)=>{scores[ci]=getLive(prefix+'__score__'+ci,0);});
+    const data={
+        attendance:   getLive(prefix+'__attendance',''),
+        participCount:getLive(prefix+'__participCount',0),
+        participQual: getLive(prefix+'__participQual',''),
+        regional:     getLive(prefix+'__regional',false),
+        total:        getLive(prefix+'__total',0),
+        scores:       scores,
+        updatedAt:    Date.now()
+    };
+    db.ref('rubricData/'+commId+'/'+si).set(data)
+    .then(()=>showSync('saved','✅ Guardado'))
+    .catch(e=>showSync('error','❌ Error: '+e.message));
+}
+
+// ============================================================
+// ADMIN: SAVE RUBRIC FIELD (from admin rubric view)
+// Admin edits also persist to Firebase
+// ============================================================
+function calcRow(rid,commId,studentIdx){
+    let total=0;
+    rubricCriteria.forEach((c,ci)=>{
+        const el=document.getElementById('sc_'+rid+'_'+ci);
+        if(el){
+            let v=parseFloat(el.value)||0;
+            if(v>c.max){el.value=c.max;v=c.max;}
+            if(v<0){el.value=0;v=0;}
+            total+=v;
+            setLive(commId+'__'+studentIdx+'__score__'+ci,v);
+        }
+    });
+    const totEl=document.getElementById('tot_'+rid);
+    if(totEl){
+        totEl.textContent=total.toFixed(1);
+        totEl.className='total-score-cell';
+        if(total>=85)totEl.classList.add('high');
+        else if(total>=60)totEl.classList.add('mid');
+        else totEl.classList.add('low');
+    }
+    setLive(commId+'__'+studentIdx+'__total',total);
+    scheduleFirebaseSave(commId,studentIdx);
+}
+function onAttChange(rid,commId,si,val){setLive(commId+'__'+si+'__attendance',val);scheduleFirebaseSave(commId,si);}
+function onPartNumChange(rid,commId,si,val){setLive(commId+'__'+si+'__participCount',parseFloat(val)||0);scheduleFirebaseSave(commId,si);}
+function onPartQualChange(rid,commId,si,val){setLive(commId+'__'+si+'__participQual',val);scheduleFirebaseSave(commId,si);}
+function onRegChange(rid,commId,si,checked){setLive(commId+'__'+si+'__regional',checked);scheduleFirebaseSave(commId,si);}
+
+// ============================================================
+// PUBLIC: STUDENT SEARCH
+// ============================================================
 function showStudentSearch(){
     document.getElementById('studentSearchModal').style.display='block';
     document.getElementById('globalSearch').value='';
     document.getElementById('globalResults').innerHTML='<div class="no-results">⌛ Escribe tu nombre para buscar...</div>';
     showLoading('Cargando asignaciones...');
     db.ref('publicAssignments').once('value').then(snap=>{
-        allAssignments=snap.val()||[]; hideLoading();
-        if(!allAssignments.length) document.getElementById('globalResults').innerHTML='<div class="no-results">📭 Aún no se han publicado asignaciones.</div>';
+        allAssignments=snap.val()||[];hideLoading();
+        if(!allAssignments.length)document.getElementById('globalResults').innerHTML='<div class="no-results">📭 Aún no se han publicado asignaciones.</div>';
     }).catch(()=>{hideLoading();document.getElementById('globalResults').innerHTML='<div class="no-results">⚠️ Error al cargar.</div>';});
 }
 function filterGlobal(){
@@ -387,10 +782,13 @@ function filterGlobal(){
     }).join('');
 }
 
+// ============================================================
+// PUBLIC: SHOW COMMISSIONS
+// ============================================================
 function showCommissions(){
     showLoading();
     db.ref('selectedCommissions').once('value').then(snap=>{
-        const active=snap.val()||commissions.map(c=>c.id); hideLoading();
+        const active=snap.val()||commissions.map(c=>c.id);hideLoading();
         const toShow=commissions.filter(c=>active.includes(c.id));
         document.getElementById('commissionsContent').innerHTML=toShow.length===0
             ?'<div class="alert alert-warning">⚠️ Aún no se han configurado las comisiones activas.</div>'
@@ -402,6 +800,9 @@ function showCommissions(){
     }).catch(()=>hideLoading());
 }
 
+// ============================================================
+// ADMIN: CONFIG
+// ============================================================
 function showConfigSection(){
     document.getElementById('commissionSelector').innerHTML=commissions.map(c=>{
         const sel=selectedCommissions.includes(c.id);
@@ -429,8 +830,7 @@ function renderAccounting(){
         const lim=customLimits[c.id]||c.defaultMax||32;
         const f1=assignments.filter(a=>a.commission===c.id&&a.source==='format1').length;
         const f2=assignments.filter(a=>a.commission===c.id&&a.source==='format2').length;
-        const tot=f1+f2;
-        const pct=Math.min(100,Math.round(tot/lim*100));
+        const tot=f1+f2;const pct=Math.min(100,Math.round(tot/lim*100));
         return `<div class="acc-card"><h4>${c.name}${c.onlyFormat1?' ⚠️':''}</h4>
             <div class="acc-bar"><div class="acc-bar-fill" style="width:${pct}%"></div></div>
             <div class="acc-nums"><span class="f1">F1: ${f1}</span><span class="f2">F2: ${f2}</span><span>${tot}/${lim}</span></div>
@@ -458,7 +858,9 @@ function saveConfig(){
     .catch(e=>{hideLoading();alert('Error: '+e.message);});
 }
 
-// ===== EXCEL READ =====
+// ============================================================
+// EXCEL UPLOAD
+// ============================================================
 function readXL(event,fmt){
     const file=event.target.files[0];if(!file)return;
     showLoading('Leyendo Excel...');
@@ -532,7 +934,9 @@ function renderPrev(divId,data,fmt){
     el.innerHTML=html+'</tbody></table>';
 }
 
-// ===== PROCESAR F1 =====
+// ============================================================
+// PROCESAR FORMATOS
+// ============================================================
 function processF1(){
     if(!parsedF1.length){alert('⚠️ Carga un archivo de Formato 1 primero.');return;}
     showLoading(`Publicando ${parsedF1.length} delegados F1...`);
@@ -547,8 +951,6 @@ function processF1(){
         parsedF1=[];document.getElementById('z1t').textContent='Seleccionar archivo Excel';document.getElementById('z1s').textContent='Haz clic para buscar';document.getElementById('prev1').innerHTML='';
     }).catch(e=>{hideLoading();alert('Error: '+e.message);});
 }
-
-// ===== PROCESAR F2 =====
 function processF2(){
     if(!parsedF2.length){alert('⚠️ Carga un archivo de Formato 2 primero.');return;}
     if(!selectedCommissions.length){alert('⚠️ Configura las comisiones activas primero.');return;}
@@ -591,7 +993,9 @@ function processF2(){
 }
 function showUploadModal(){document.getElementById('uploadResult').innerHTML='';document.getElementById('uploadModal').style.display='block';}
 
-// ===== WHATSAPP =====
+// ============================================================
+// WHATSAPP
+// ============================================================
 function showWhatsAppLinks(){
     const active=selectedCommissions.length>0?commissions.filter(c=>selectedCommissions.includes(c.id)):commissions;
     document.getElementById('whatsappLinksForm').innerHTML=active.map(c=>`<div class="form-group"><label>${c.name} – ${c.fullName.split('–')[0].trim()}:</label>
@@ -605,504 +1009,303 @@ function saveWALinks(){
     db.ref('whatsappLinks').set(whatsappLinks).then(()=>{hideLoading();alert('✅ Links guardados');closeModal('whatsappModal');}).catch(e=>{hideLoading();alert('Error: '+e.message);});
 }
 
-// =====================================================================
-// LIVE SCORE CALCULATION - updates in-memory store on every keystroke
-// =====================================================================
-function calcRow(rid, commId, studentIdx) {
-    let total = 0;
-    rubricCriteria.forEach((c, ci) => {
-        const el = document.getElementById(`sc_${rid}_${ci}`);
-        if (el) {
-            let v = parseFloat(el.value) || 0;
-            if (v > c.max) { el.value = c.max; v = c.max; }
-            if (v < 0) { el.value = 0; v = 0; }
-            total += v;
-            // SAVE to live store
-            setLive(`${commId}__${studentIdx}__score__${ci}`, v);
-        }
-    });
-    const totEl = document.getElementById(`tot_${rid}`);
-    if (totEl) {
-        totEl.textContent = total.toFixed(1);
-        totEl.className = 'total-score-cell';
-        if (total >= 85) totEl.classList.add('high');
-        else if (total >= 60) totEl.classList.add('mid');
-        else totEl.classList.add('low');
-    }
-    // Save total
-    setLive(`${commId}__${studentIdx}__total`, total);
-}
-
-function onAttChange(rid, commId, studentIdx, val) {
-    setLive(`${commId}__${studentIdx}__attendance`, val);
-}
-function onPartNumChange(rid, commId, studentIdx, val) {
-    setLive(`${commId}__${studentIdx}__participCount`, parseFloat(val) || 0);
-}
-function onPartQualChange(rid, commId, studentIdx, val) {
-    setLive(`${commId}__${studentIdx}__participQual`, val);
-}
-function onRegChange(rid, commId, studentIdx, checked) {
-    setLive(`${commId}__${studentIdx}__regional`, checked);
-}
-
-// =====================================================================
-// SHOW RÚBRICAS - FIXED: OTAN always included, all students shown
-// =====================================================================
+// ============================================================
+// ADMIN: SHOW ALL RUBRICS (reads saved data from Firebase)
+// ============================================================
 function showRubrics(){
-    showLoading();
-    db.ref('publicAssignments').once('value').then(snap=>{
-        const allA = snap.val() || [];
+    showLoading('Cargando rúbricas...');
+    Promise.all([
+        db.ref('publicAssignments').once('value'),
+        db.ref('rubricData').once('value')
+    ]).then(([studSnap,rubSnap])=>{
+        const allA=studSnap.val()||[];
+        const allRubric=rubSnap.val()||{};
         hideLoading();
+        const activeComms=selectedCommissions.length>0?commissions.filter(c=>selectedCommissions.includes(c.id)):commissions;
+        rubricStudentsMap={};
 
-        // *** FIX: Include ALL commissions from selectedCommissions - including OTAN ***
-        // OTAN has onlyFormat1:true but that only affects F2 assignment, NOT rubric display
-        const activeComms = selectedCommissions.length > 0
-            ? commissions.filter(c => selectedCommissions.includes(c.id))
-            : commissions;
-
-        // Reset live data and student map when rubrics are freshly opened
-        rubricStudentsMap = {};
-
-        let html = `<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:25px;">
+        let html=`<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:25px;">
             <h2 style="color:#0E223A;">📊 Rúbricas de Evaluación — CELIDER 2026</h2>
-            <button class="btn btn-success btn-sm" onclick="downloadRubricsExcel()"><span>📥 Descargar Excel</span></button>
+            <button class="btn btn-success btn-sm" onclick="downloadRubricsExcel()"><span>📥 Descargar Excel Completo</span></button>
         </div>`;
 
-        activeComms.forEach(comm => {
-            // ADMIN ve todos. No-ADMIN ve su distrito + F1 sin distrito asignado (district vacío).
-            // Los delegados F1 se registran con district:'' porque el Excel de F1 no tiene columna distrito.
-            // Excluirlos por distrito vacío ocultaría toda la OTAN y otros F1.
+        activeComms.forEach(comm=>{
             let students;
-            if (currentUser.district === 'ADMIN') {
-                students = allA.filter(a => a.commission === comm.id);
-            } else {
-                students = allA.filter(a =>
-                    a.commission === comm.id &&
-                    (a.district === currentUser.district || !a.district || a.district === '')
-                );
+            if(currentUser.district==='ADMIN'){
+                students=allA.filter(a=>a.commission===comm.id);
+            }else{
+                students=allA.filter(a=>a.commission===comm.id&&(a.district===currentUser.district||!a.district||a.district===''));
             }
-
-            // Store in map for download
-            rubricStudentsMap[comm.id] = students;
-
-            html += `<div class="rubric-header">
-                <h2>📊 ${comm.name}${comm.onlyFormat1 ? ' ⚠️' : ''}</h2>
+            rubricStudentsMap[comm.id]=students;
+            const savedRubric=allRubric[comm.id]||{};
+            // Merge saved data into live store
+            students.forEach((s,si)=>{
+                const saved=savedRubric[si]||{};
+                setLive(comm.id+'__'+si+'__attendance',   saved.attendance   !== undefined ? saved.attendance   : (s.attendance  ||''));
+                setLive(comm.id+'__'+si+'__participCount', saved.participCount!== undefined ? saved.participCount: (s.participCount||0));
+                setLive(comm.id+'__'+si+'__participQual', saved.participQual  !== undefined ? saved.participQual : (s.participQual ||''));
+                setLive(comm.id+'__'+si+'__regional',      saved.regional     !== undefined ? saved.regional     : (s.regional    ||false));
+                setLive(comm.id+'__'+si+'__total',         saved.total        !== undefined ? saved.total        : (s.total       ||0));
+                rubricCriteria.forEach((c,ci)=>{
+                    const v=(saved.scores&&saved.scores[ci]!==undefined)?saved.scores[ci]:((s.scores&&s.scores[c.name]!==undefined)?s.scores[c.name]:0);
+                    setLive(comm.id+'__'+si+'__score__'+ci, parseFloat(v)||0);
+                });
+            });
+            html+=`<div class="rubric-header">
+                <h2>📊 ${comm.name}${comm.onlyFormat1?' ⚠️':''}</h2>
                 <p style="font-size:.88em;margin-top:4px;opacity:.85;">${comm.fullName}</p>
                 <p style="font-size:.85em;margin-top:5px;">${students.length} delegado(s) | ${comm.nivel} | ${comm.categoria}</p>
             </div>`;
-
-            if (!students.length) {
-                html += `<div class="empty-rubric">📭 Sin delegados registrados en esta comisión aún.<br><small>Sube el listado desde "Publicar Listado" para verlos aquí.</small></div>`;
-            } else {
-                html += `<div style="overflow-x:auto;"><table class="rubric-table"><thead><tr>
+            if(!students.length){
+                html+=`<div class="empty-rubric">📭 Sin delegados registrados en esta comisión aún.</div>`;
+            }else{
+                html+=`<div style="overflow-x:auto;"><table class="rubric-table"><thead><tr>
                     <th style="min-width:140px;">Nombre</th>
                     <th style="min-width:110px;">Delegación</th>
-                    ${currentUser.district === 'ADMIN' ? '<th>Dist.</th>' : ''}
+                    ${currentUser.district==='ADMIN'?'<th>Dist.</th>':''}
                     <th>F</th>
                     <th title="Presente y Visible">PV</th>
                     <th title="Ausente">A</th>
                     <th style="min-width:55px;"># Part.</th>
-                    <th style="min-width:95px;">Calidad Participación</th>
-                    ${rubricCriteria.map(c => `<th style="min-width:60px;">${c.name}<br><small>(${c.max})</small></th>`).join('')}
+                    <th style="min-width:95px;">Calidad Part.</th>
+                    ${rubricCriteria.map(c=>`<th style="min-width:60px;">${c.name}<br><small>(${c.max})</small></th>`).join('')}
                     <th style="min-width:60px;">Total<br><small>/${RUBRIC_MAX}</small></th>
                     <th>Reg.</th>
                 </tr></thead><tbody>`;
-
-                students.forEach((s, si) => {
-                    const rid = `${comm.id}_${si}`;
-                    const tot = s.total || 0;
-                    const totClass = tot >= 85 ? 'high' : tot >= 60 ? 'mid' : 'low';
-
-                    // Pre-populate live data from DB values (so download works even without edits)
-                    setLive(`${comm.id}__${si}__attendance`, s.attendance || '');
-                    setLive(`${comm.id}__${si}__participCount`, s.participCount || 0);
-                    setLive(`${comm.id}__${si}__participQual`, s.participQual || '');
-                    setLive(`${comm.id}__${si}__regional`, s.regional || false);
-                    setLive(`${comm.id}__${si}__total`, s.total || 0);
-                    rubricCriteria.forEach((c, ci) => {
-                        const v = (s.scores && s.scores[c.name] !== undefined) ? s.scores[c.name] : '';
-                        setLive(`${comm.id}__${si}__score__${ci}`, v === '' ? 0 : parseFloat(v) || 0);
-                    });
-
-                    html += `<tr>
+                students.forEach((s,si)=>{
+                    const rid=comm.id+'_'+si;
+                    const att=getLive(comm.id+'__'+si+'__attendance','');
+                    const pc=getLive(comm.id+'__'+si+'__participCount',0);
+                    const pq=getLive(comm.id+'__'+si+'__participQual','');
+                    const reg=getLive(comm.id+'__'+si+'__regional',false);
+                    const tot=getLive(comm.id+'__'+si+'__total',0);
+                    const totClass=tot>=85?'high':tot>=60?'mid':'low';
+                    html+=`<tr>
                         <td><strong>${s.name}</strong></td>
                         <td style="font-size:.8em;">${s.delegation}</td>
-                        ${currentUser.district === 'ADMIN' ? `<td>${s.district || ''}</td>` : ''}
-                        <td><span style="background:${s.source === 'format1' ? '#0E223A' : '#457B9D'};color:white;padding:1px 6px;border-radius:8px;font-size:.75em;">${s.source === 'format1' ? 'F1' : 'F2'}</span></td>
-                        <td><input type="radio" name="att_${rid}" value="PV" ${s.attendance === 'PV' ? 'checked' : ''} onchange="onAttChange('${rid}','${comm.id}',${si},'PV')"></td>
-                        <td><input type="radio" name="att_${rid}" value="A" ${s.attendance === 'A' ? 'checked' : ''} onchange="onAttChange('${rid}','${comm.id}',${si},'A')"></td>
-                        <td><input type="number" class="part-num" id="pc_${rid}" min="0" max="99" step="1" value="${s.participCount || 0}" oninput="onPartNumChange('${rid}','${comm.id}',${si},this.value)"></td>
+                        ${currentUser.district==='ADMIN'?`<td>${s.district||''}</td>`:''}
+                        <td><span style="background:${s.source==='format1'?'#0E223A':'#457B9D'};color:white;padding:1px 6px;border-radius:8px;font-size:.75em;">${s.source==='format1'?'F1':'F2'}</span></td>
+                        <td><input type="radio" name="att_${rid}" value="PV" ${att==='PV'?'checked':''} onchange="onAttChange('${rid}','${comm.id}',${si},'PV')"></td>
+                        <td><input type="radio" name="att_${rid}" value="A"  ${att==='A'?'checked':''}  onchange="onAttChange('${rid}','${comm.id}',${si},'A')"></td>
+                        <td><input type="number" class="part-num" id="pc_${rid}" min="0" max="99" step="1" value="${pc}" oninput="onPartNumChange('${rid}','${comm.id}',${si},this.value)"></td>
                         <td><select class="part-select" id="pq_${rid}" onchange="onPartQualChange('${rid}','${comm.id}',${si},this.value)">
-                            ${participacionOpts.map(o => `<option value="${o}" ${(s.participQual || '') === o ? 'selected' : ''}>${o}</option>`).join('')}
+                            ${participacionOpts.map(o=>`<option value="${o}" ${pq===o?'selected':''}>${o}</option>`).join('')}
                         </select></td>
-                        ${rubricCriteria.map((c, ci) => `<td><input type="number" id="sc_${rid}_${ci}" class="score-input"
+                        ${rubricCriteria.map((c,ci)=>`<td><input type="number" id="sc_${rid}_${ci}" class="score-input"
                             min="0" max="${c.max}" step="0.5"
-                            value="${s.scores && s.scores[c.name] !== undefined ? s.scores[c.name] : ''}"
+                            value="${getLive(comm.id+'__'+si+'__score__'+ci,0)||''}"
                             oninput="calcRow('${rid}','${comm.id}',${si})"></td>`).join('')}
-                        <td class="total-score-cell ${totClass}" id="tot_${rid}">${tot.toFixed ? tot.toFixed(1) : tot}</td>
-                        <td><input type="checkbox" ${s.regional ? 'checked' : ''} style="width:18px;height:18px;" onchange="onRegChange('${rid}','${comm.id}',${si},this.checked)"></td>
+                        <td class="total-score-cell ${totClass}" id="tot_${rid}">${typeof tot==='number'?tot.toFixed(1):tot}</td>
+                        <td><input type="checkbox" ${reg?'checked':''} style="width:18px;height:18px;" onchange="onRegChange('${rid}','${comm.id}',${si},this.checked)"></td>
                     </tr>`;
                 });
-                html += `</tbody></table></div><br>`;
+                html+=`</tbody></table></div><br>`;
             }
         });
-
-        html += `<div class="download-buttons">
+        html+=`<div class="download-buttons">
             <button class="btn btn-success btn-sm" onclick="downloadRubricsExcel()"><span>📥 Descargar Excel Completo</span></button>
         </div>`;
-        document.getElementById('rubricsContent').innerHTML = html;
-        document.getElementById('rubricsModal').style.display = 'block';
-    }).catch(e => { hideLoading(); alert('Error al cargar rúbricas: ' + e.message); });
+        document.getElementById('rubricsContent').innerHTML=html;
+        document.getElementById('rubricsModal').style.display='block';
+    }).catch(e=>{hideLoading();alert('Error al cargar rúbricas: '+e.message);});
 }
 
-// =====================================================================
-// DOWNLOAD RUBRICS EXCEL - FULLY STYLED with decorative tables
-// Reads from rubricLiveData (not DOM) so scores are always captured
-// =====================================================================
+// ============================================================
+// DOWNLOAD EXCEL — Commission user (single sheet)
+// ============================================================
+function downloadCommissionExcel(){
+    const commId=currentUser&&currentUser.role==='commission'?currentUser.commission:null;
+    if(!commId){downloadRubricsExcel();return;}
+    const comm=commissions.find(c=>c.id===commId);
+    if(!comm){alert('Error: comisión no encontrada.');return;}
+    // Reload latest rubric data from Firebase before downloading
+    showLoading('Descargando datos actualizados...');
+    Promise.all([
+        db.ref('publicAssignments').once('value'),
+        db.ref('rubricData/'+commId).once('value')
+    ]).then(([studSnap,rubSnap])=>{
+        const allA=studSnap.val()||[];
+        const students=allA.filter(a=>a.commission===commId);
+        rubricStudentsMap[commId]=students;
+        const savedRubric=rubSnap.val()||{};
+        // Sync live store with latest Firebase data
+        students.forEach((s,si)=>{
+            const saved=savedRubric[si]||{};
+            setLive(commId+'__'+si+'__attendance',   saved.attendance   !== undefined ? saved.attendance   : getLive(commId+'__'+si+'__attendance',''));
+            setLive(commId+'__'+si+'__participCount', saved.participCount!== undefined ? saved.participCount: getLive(commId+'__'+si+'__participCount',0));
+            setLive(commId+'__'+si+'__participQual', saved.participQual  !== undefined ? saved.participQual : getLive(commId+'__'+si+'__participQual',''));
+            setLive(commId+'__'+si+'__regional',      saved.regional     !== undefined ? saved.regional     : getLive(commId+'__'+si+'__regional',false));
+            setLive(commId+'__'+si+'__total',         saved.total        !== undefined ? saved.total        : getLive(commId+'__'+si+'__total',0));
+            rubricCriteria.forEach((c,ci)=>{
+                const v=(saved.scores&&saved.scores[ci]!==undefined)?saved.scores[ci]:getLive(commId+'__'+si+'__score__'+ci,0);
+                setLive(commId+'__'+si+'__score__'+ci, parseFloat(v)||0);
+            });
+        });
+        hideLoading();
+        buildAndDownloadExcel([comm]);
+    }).catch(e=>{hideLoading();alert('Error: '+e.message);});
+}
+
+// ============================================================
+// DOWNLOAD EXCEL — Admin (all commissions)
+// ============================================================
 function downloadRubricsExcel(){
-    showLoading('Preparando Excel con estilos...');
-
-    // Helper: create a styled cell
-    function SC(v, style) {
-        return { v: v, t: typeof v === 'number' ? 'n' : 's', s: style };
-    }
-
-    // Color palette
-    const COL = {
-        darkBlue:  '0E223A',
-        midBlue:   '457B9D',
-        lightBlue: 'C3CFE2',
-        veryLight: 'EEF3F8',
-        white:     'FFFFFF',
-        cream:     'F8FCE0',
-        green:     '155724',
-        greenBg:   'D4EDDA',
-        yellow:    '856404',
-        yellowBg:  'FFF3CD',
-        red:       '842029',
-        redBg:     'F8D7DA',
-        gray:      '444444',
-        lightGray: 'F5F5F5',
-    };
-
-    // Reusable styles
-    function headerStyle(bgColor, fontColor, fontSize, bold) {
-        return {
-            font: { bold: bold !== false, sz: fontSize || 11, color: { rgb: fontColor || COL.white }, name: 'Calibri' },
-            fill: { fgColor: { rgb: bgColor || COL.darkBlue }, patternType: 'solid' },
-            alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
-            border: {
-                top:    { style: 'medium', color: { rgb: COL.darkBlue } },
-                bottom: { style: 'medium', color: { rgb: COL.darkBlue } },
-                left:   { style: 'medium', color: { rgb: COL.darkBlue } },
-                right:  { style: 'medium', color: { rgb: COL.darkBlue } }
-            }
-        };
-    }
-    function cellStyle(bgColor, fontColor, bold, align) {
-        return {
-            font: { bold: !!bold, sz: 10, color: { rgb: fontColor || COL.gray }, name: 'Calibri' },
-            fill: { fgColor: { rgb: bgColor || COL.white }, patternType: 'solid' },
-            alignment: { horizontal: align || 'left', vertical: 'center', wrapText: false },
-            border: {
-                top:    { style: 'thin', color: { rgb: COL.lightBlue } },
-                bottom: { style: 'thin', color: { rgb: COL.lightBlue } },
-                left:   { style: 'thin', color: { rgb: COL.lightBlue } },
-                right:  { style: 'thin', color: { rgb: COL.lightBlue } }
-            }
-        };
-    }
-    function numCellStyle(value) {
-        const pct = RUBRIC_MAX > 0 ? value / RUBRIC_MAX : 0;
-        let bg, fc;
-        if (value >= 85)      { bg = COL.greenBg;  fc = COL.green; }
-        else if (value >= 60) { bg = COL.yellowBg; fc = COL.yellow; }
-        else                  { bg = COL.redBg;    fc = COL.red; }
-        return {
-            font: { bold: true, sz: 11, color: { rgb: fc }, name: 'Calibri' },
-            fill: { fgColor: { rgb: bg }, patternType: 'solid' },
-            alignment: { horizontal: 'center', vertical: 'center' },
-            border: {
-                top:    { style: 'thin', color: { rgb: COL.lightBlue } },
-                bottom: { style: 'thin', color: { rgb: COL.lightBlue } },
-                left:   { style: 'thin', color: { rgb: COL.lightBlue } },
-                right:  { style: 'thin', color: { rgb: COL.lightBlue } }
-            }
-        };
-    }
-
-    const wb = XLSX.utils.book_new();
-
-    const activeComms = selectedCommissions.length > 0
-        ? commissions.filter(c => selectedCommissions.includes(c.id))
-        : commissions;
-
-    activeComms.forEach(comm => {
-        const students = rubricStudentsMap[comm.id] || [];
-        const ws = {};
-        const merges = [];
-
-        // Column widths
-        const baseWidths = [28, 20, 8, 10, 10, 10, 14, 18];
-        const scoreWidths = rubricCriteria.map(() => 18);
-        const endWidths = [12, 8];
-        const allWidths = [...baseWidths, ...scoreWidths, ...endWidths];
-        ws['!cols'] = allWidths.map(w => ({ wch: w }));
-
-        const totalCols = allWidths.length;
-        let r = 0; // current row index
-
-        // ── Row 0: Big title ──
-        const titleCell = `A${r+1}`;
-        ws[titleCell] = SC(`RÚBRICA DE EVALUACIÓN — ${comm.name}`, {
-            font: { bold: true, sz: 16, color: { rgb: COL.white }, name: 'Calibri' },
-            fill: { fgColor: { rgb: COL.darkBlue }, patternType: 'solid' },
-            alignment: { horizontal: 'center', vertical: 'center' },
-            border: { bottom: { style: 'medium', color: { rgb: COL.midBlue } } }
-        });
-        merges.push({ s: { r, c: 0 }, e: { r, c: totalCols - 1 } });
-        ws['!rows'] = ws['!rows'] || []; ws['!rows'][r] = { hpt: 28 };
-        r++;
-
-        // ── Row 1: Full name ──
-        ws[`A${r+1}`] = SC(comm.fullName, headerStyle(COL.midBlue, COL.white, 11));
-        merges.push({ s: { r, c: 0 }, e: { r, c: totalCols - 1 } });
-        r++;
-
-        // ── Row 2: Topic ──
-        ws[`A${r+1}`] = SC(`📌 Tópico: ${comm.topic}`, {
-            font: { italic: true, sz: 10, color: { rgb: COL.darkBlue }, name: 'Calibri' },
-            fill: { fgColor: { rgb: COL.veryLight }, patternType: 'solid' },
-            alignment: { horizontal: 'left', vertical: 'center', wrapText: true },
-            border: { bottom: { style: 'thin', color: { rgb: COL.lightBlue } } }
-        });
-        merges.push({ s: { r, c: 0 }, e: { r, c: totalCols - 1 } });
-        ws['!rows'][r] = { hpt: 36 };
-        r++;
-
-        // ── Row 3: Meta info ──
-        ws[`A${r+1}`] = SC(`Nivel: ${comm.nivel}  |  Categoría: ${comm.categoria}  |  Total delegados: ${students.length}  |  © Cristian Vargas — CELIDER Distritales 2026`, {
-            font: { sz: 9, color: { rgb: COL.midBlue }, name: 'Calibri', italic: true },
-            fill: { fgColor: { rgb: COL.cream }, patternType: 'solid' },
-            alignment: { horizontal: 'center', vertical: 'center' },
-        });
-        merges.push({ s: { r, c: 0 }, e: { r, c: totalCols - 1 } });
-        r++;
-
-        // ── Row 4: Empty separator ──
-        r++;
-
-        // ── Row 5: Column headers ──
-        const hdrs = [
-            'Nombre', 'Delegación', 'Dist.', 'Orig.',
-            'Asist.', 'Ausente', '# Part.',
-            'Calidad Part.',
-            ...rubricCriteria.map(c => `${c.name}\n(/${c.max})`),
-            `TOTAL\n(/${RUBRIC_MAX})`, 'Regional'
-        ];
-        hdrs.forEach((h, ci) => {
-            const addr = XLSX.utils.encode_cell({ r, c: ci });
-            ws[addr] = SC(h, headerStyle(COL.darkBlue, COL.white, 10));
-        });
-        ws['!rows'][r] = { hpt: 32 };
-        r++;
-
-        if (!students.length) {
-            ws[`A${r+1}`] = SC('(Sin delegados registrados en esta comisión)', cellStyle(COL.veryLight, COL.gray, false, 'center'));
-            merges.push({ s: { r, c: 0 }, e: { r, c: totalCols - 1 } });
-            r++;
-        } else {
-            // ── Data rows ──
-            students.forEach((s, si) => {
-                const rowBg = si % 2 === 0 ? COL.white : COL.veryLight;
-
-                // Get live values
-                const att  = getLive(`${comm.id}__${si}__attendance`, s.attendance || '—');
-                const pc   = getLive(`${comm.id}__${si}__participCount`, s.participCount || 0);
-                const pq   = getLive(`${comm.id}__${si}__participQual`, s.participQual || '—');
-                const reg  = getLive(`${comm.id}__${si}__regional`, s.regional || false);
-
-                let total = 0;
-                const scoreVals = rubricCriteria.map((c, ci) => {
-                    let v = getLive(`${comm.id}__${si}__score__${ci}`, 0);
-                    v = Math.min(c.max, parseFloat(v) || 0);
-                    total += v;
-                    return v;
+    const activeComms=selectedCommissions.length>0?commissions.filter(c=>selectedCommissions.includes(c.id)):commissions;
+    // Reload from Firebase to ensure freshness
+    showLoading('Preparando Excel con datos actualizados...');
+    Promise.all([
+        db.ref('publicAssignments').once('value'),
+        db.ref('rubricData').once('value')
+    ]).then(([studSnap,rubSnap])=>{
+        const allA=studSnap.val()||[];
+        const allRubric=rubSnap.val()||{};
+        activeComms.forEach(comm=>{
+            const students=allA.filter(a=>a.commission===comm.id);
+            rubricStudentsMap[comm.id]=students;
+            const savedRubric=allRubric[comm.id]||{};
+            students.forEach((s,si)=>{
+                const saved=savedRubric[si]||{};
+                setLive(comm.id+'__'+si+'__attendance',   saved.attendance   !== undefined ? saved.attendance   : getLive(comm.id+'__'+si+'__attendance',''));
+                setLive(comm.id+'__'+si+'__participCount', saved.participCount!==undefined  ? saved.participCount: getLive(comm.id+'__'+si+'__participCount',0));
+                setLive(comm.id+'__'+si+'__participQual', saved.participQual  !==undefined  ? saved.participQual : getLive(comm.id+'__'+si+'__participQual',''));
+                setLive(comm.id+'__'+si+'__regional',      saved.regional     !==undefined  ? saved.regional     : getLive(comm.id+'__'+si+'__regional',false));
+                setLive(comm.id+'__'+si+'__total',         saved.total        !==undefined  ? saved.total        : getLive(comm.id+'__'+si+'__total',0));
+                rubricCriteria.forEach((c,ci)=>{
+                    const v=(saved.scores&&saved.scores[ci]!==undefined)?saved.scores[ci]:getLive(comm.id+'__'+si+'__score__'+ci,0);
+                    setLive(comm.id+'__'+si+'__score__'+ci, parseFloat(v)||0);
                 });
-                // Override total from live if available
-                const liveTotal = getLive(`${comm.id}__${si}__total`, null);
-                if (liveTotal !== null) total = liveTotal;
+            });
+        });
+        hideLoading();
+        buildAndDownloadExcel(activeComms);
+    }).catch(e=>{hideLoading();alert('Error: '+e.message);});
+}
 
-                const rowData = [
-                    { v: s.name, style: cellStyle(rowBg, COL.darkBlue, true, 'left') },
-                    { v: s.delegation, style: cellStyle(rowBg, COL.gray, false, 'left') },
-                    { v: s.district || '', style: cellStyle(rowBg, COL.gray, false, 'center') },
-                    { v: s.source === 'format1' ? 'F1' : 'F2', style: cellStyle(s.source === 'format1' ? COL.darkBlue : COL.midBlue, COL.white, true, 'center') },
-                    { v: att === 'PV' ? '✓ PV' : '', style: cellStyle(att === 'PV' ? COL.greenBg : rowBg, att === 'PV' ? COL.green : COL.gray, att === 'PV', 'center') },
-                    { v: att === 'A' ? '✗ A' : '', style: cellStyle(att === 'A' ? COL.redBg : rowBg, att === 'A' ? COL.red : COL.gray, att === 'A', 'center') },
-                    { v: typeof pc === 'number' ? pc : parseFloat(pc) || 0, style: cellStyle(rowBg, COL.gray, false, 'center') },
-                    { v: pq === '— Seleccionar —' ? '' : (pq || ''), style: cellStyle(rowBg, COL.gray, false, 'center') },
-                    ...scoreVals.map(v => ({
-                        v: v,
-                        style: {
-                            font: { sz: 10, color: { rgb: COL.darkBlue }, name: 'Calibri', bold: true },
-                            fill: { fgColor: { rgb: rowBg }, patternType: 'solid' },
-                            alignment: { horizontal: 'center', vertical: 'center' },
-                            border: { top: { style: 'thin', color: { rgb: COL.lightBlue } }, bottom: { style: 'thin', color: { rgb: COL.lightBlue } }, left: { style: 'thin', color: { rgb: COL.lightBlue } }, right: { style: 'thin', color: { rgb: COL.lightBlue } } }
-                        }
-                    })),
-                    { v: parseFloat(total.toFixed(1)), style: numCellStyle(total) },
-                    { v: reg ? 'SÍ' : 'NO', style: cellStyle(reg ? COL.greenBg : rowBg, reg ? COL.green : COL.gray, reg, 'center') },
+// ============================================================
+// CORE EXCEL BUILDER (shared by both admin and commission)
+// ============================================================
+function buildAndDownloadExcel(activeComms){
+    showLoading('Generando Excel con estilos...');
+    const COL={darkBlue:'0E223A',midBlue:'457B9D',lightBlue:'C3CFE2',veryLight:'EEF3F8',white:'FFFFFF',cream:'F8FCE0',green:'155724',greenBg:'D4EDDA',yellow:'856404',yellowBg:'FFF3CD',red:'842029',redBg:'F8D7DA',gray:'444444'};
+    function hStyle(bg,fc,sz){return{font:{bold:true,sz:sz||11,color:{rgb:fc||COL.white},name:'Calibri'},fill:{fgColor:{rgb:bg||COL.darkBlue},patternType:'solid'},alignment:{horizontal:'center',vertical:'center',wrapText:true},border:{top:{style:'medium',color:{rgb:COL.darkBlue}},bottom:{style:'medium',color:{rgb:COL.darkBlue}},left:{style:'medium',color:{rgb:COL.darkBlue}},right:{style:'medium',color:{rgb:COL.darkBlue}}}};}
+    function cStyle(bg,fc,bold,align){return{font:{bold:!!bold,sz:10,color:{rgb:fc||COL.gray},name:'Calibri'},fill:{fgColor:{rgb:bg||COL.white},patternType:'solid'},alignment:{horizontal:align||'left',vertical:'center',wrapText:false},border:{top:{style:'thin',color:{rgb:COL.lightBlue}},bottom:{style:'thin',color:{rgb:COL.lightBlue}},left:{style:'thin',color:{rgb:COL.lightBlue}},right:{style:'thin',color:{rgb:COL.lightBlue}}}};}
+    function totStyle(v){let bg,fc;if(v>=85){bg=COL.greenBg;fc=COL.green;}else if(v>=60){bg=COL.yellowBg;fc=COL.yellow;}else{bg=COL.redBg;fc=COL.red;}return{font:{bold:true,sz:11,color:{rgb:fc},name:'Calibri'},fill:{fgColor:{rgb:bg},patternType:'solid'},alignment:{horizontal:'center',vertical:'center'},border:{top:{style:'thin',color:{rgb:COL.lightBlue}},bottom:{style:'thin',color:{rgb:COL.lightBlue}},left:{style:'thin',color:{rgb:COL.lightBlue}},right:{style:'thin',color:{rgb:COL.lightBlue}}}};}
+
+    const wb=XLSX.utils.book_new();
+    const baseW=[28,20,8,10,10,10,14,18];
+    const scoreW=rubricCriteria.map(()=>18);
+    const endW=[12,8];
+    const allW=[...baseW,...scoreW,...endW];
+    const totalCols=allW.length;
+
+    activeComms.forEach(comm=>{
+        const students=rubricStudentsMap[comm.id]||[];
+        const ws={};const merges=[];
+        ws['!cols']=allW.map(w=>({wch:w}));
+        ws['!rows']=[];
+        let r=0;
+        // Title
+        const tAddr=XLSX.utils.encode_cell({r,c:0});
+        ws[tAddr]={v:`RÚBRICA — ${comm.name}`,t:'s',s:{font:{bold:true,sz:16,color:{rgb:COL.white},name:'Calibri'},fill:{fgColor:{rgb:COL.darkBlue},patternType:'solid'},alignment:{horizontal:'center',vertical:'center'}}};
+        merges.push({s:{r,c:0},e:{r,c:totalCols-1}});ws['!rows'][r]={hpt:28};r++;
+        ws[XLSX.utils.encode_cell({r,c:0})]={v:comm.fullName,t:'s',s:hStyle(COL.midBlue,COL.white,11)};
+        merges.push({s:{r,c:0},e:{r,c:totalCols-1}});r++;
+        ws[XLSX.utils.encode_cell({r,c:0})]={v:'📌 Tópico: '+comm.topic,t:'s',s:{font:{italic:true,sz:10,color:{rgb:COL.darkBlue},name:'Calibri'},fill:{fgColor:{rgb:COL.veryLight},patternType:'solid'},alignment:{horizontal:'left',vertical:'center',wrapText:true}}};
+        merges.push({s:{r,c:0},e:{r,c:totalCols-1}});ws['!rows'][r]={hpt:36};r++;
+        ws[XLSX.utils.encode_cell({r,c:0})]={v:`Nivel: ${comm.nivel}  |  Categoría: ${comm.categoria}  |  Delegados: ${students.length}  |  © Cristian Vargas — CELIDER 2026`,t:'s',s:{font:{sz:9,color:{rgb:COL.midBlue},italic:true,name:'Calibri'},fill:{fgColor:{rgb:COL.cream},patternType:'solid'},alignment:{horizontal:'center',vertical:'center'}}};
+        merges.push({s:{r,c:0},e:{r,c:totalCols-1}});r++;r++;
+        // Column headers
+        const hdrs=['Nombre','Delegación','Dist.','Orig.','Asist.','Ausente','# Part.','Calidad Part.',...rubricCriteria.map(c=>`${c.name}\n(/${c.max})`),`TOTAL\n(/${RUBRIC_MAX})`,'Regional'];
+        hdrs.forEach((h,ci)=>{ws[XLSX.utils.encode_cell({r,c:ci})]={v:h,t:'s',s:hStyle(COL.darkBlue,COL.white,10)};});
+        ws['!rows'][r]={hpt:32};r++;
+        if(!students.length){
+            ws[XLSX.utils.encode_cell({r,c:0})]={v:'(Sin delegados registrados)',t:'s',s:cStyle(COL.veryLight,COL.gray,false,'center')};
+            merges.push({s:{r,c:0},e:{r,c:totalCols-1}});r++;
+        }else{
+            students.forEach((s,si)=>{
+                const rowBg=si%2===0?COL.white:COL.veryLight;
+                const att=getLive(comm.id+'__'+si+'__attendance','');
+                const pc=getLive(comm.id+'__'+si+'__participCount',0);
+                const pq=getLive(comm.id+'__'+si+'__participQual','');
+                const reg=getLive(comm.id+'__'+si+'__regional',false);
+                let total=0;
+                const scoreVals=rubricCriteria.map((c,ci)=>{let v=getLive(comm.id+'__'+si+'__score__'+ci,0);v=Math.min(c.max,parseFloat(v)||0);total+=v;return v;});
+                const liveTotal=getLive(comm.id+'__'+si+'__total',null);
+                if(liveTotal!==null)total=liveTotal;
+                const rowData=[
+                    {v:s.name,s:cStyle(rowBg,COL.darkBlue,true,'left')},
+                    {v:s.delegation,s:cStyle(rowBg,COL.gray,false,'left')},
+                    {v:s.district||'',s:cStyle(rowBg,COL.gray,false,'center')},
+                    {v:s.source==='format1'?'F1':'F2',s:cStyle(s.source==='format1'?COL.darkBlue:COL.midBlue,COL.white,true,'center')},
+                    {v:att==='PV'?'✓ PV':'',s:cStyle(att==='PV'?COL.greenBg:rowBg,att==='PV'?COL.green:COL.gray,att==='PV','center')},
+                    {v:att==='A'?'✗ A':'',s:cStyle(att==='A'?COL.redBg:rowBg,att==='A'?COL.red:COL.gray,att==='A','center')},
+                    {v:typeof pc==='number'?pc:parseFloat(pc)||0,s:cStyle(rowBg,COL.gray,false,'center')},
+                    {v:pq==='— Seleccionar —'?'':(pq||''),s:cStyle(rowBg,COL.gray,false,'center')},
+                    ...scoreVals.map(v=>({v,s:{font:{sz:10,color:{rgb:COL.darkBlue},name:'Calibri',bold:true},fill:{fgColor:{rgb:rowBg},patternType:'solid'},alignment:{horizontal:'center',vertical:'center'},border:{top:{style:'thin',color:{rgb:COL.lightBlue}},bottom:{style:'thin',color:{rgb:COL.lightBlue}},left:{style:'thin',color:{rgb:COL.lightBlue}},right:{style:'thin',color:{rgb:COL.lightBlue}}}}})),
+                    {v:parseFloat(total.toFixed(1)),s:totStyle(total)},
+                    {v:reg?'SÍ':'NO',s:cStyle(reg?COL.greenBg:rowBg,reg?COL.green:COL.gray,reg,'center')},
                 ];
-
-                rowData.forEach((cell, ci) => {
-                    const addr = XLSX.utils.encode_cell({ r, c: ci });
-                    ws[addr] = { v: cell.v, t: typeof cell.v === 'number' ? 'n' : 's', s: cell.style };
-                });
+                rowData.forEach((cell,ci)=>{ws[XLSX.utils.encode_cell({r,c:ci})]={v:cell.v,t:typeof cell.v==='number'?'n':'s',s:cell.s};});
                 r++;
             });
-
-            // ── Averages row ──
-            r++; // empty row
-            const avgLabel = [
-                { v: 'PROMEDIO GENERAL', style: headerStyle(COL.midBlue, COL.white, 10) },
-                { v: '', style: headerStyle(COL.midBlue, COL.white, 10) },
-                { v: '', style: headerStyle(COL.midBlue, COL.white, 10) },
-                { v: '', style: headerStyle(COL.midBlue, COL.white, 10) },
-                { v: '', style: headerStyle(COL.midBlue, COL.white, 10) },
-                { v: '', style: headerStyle(COL.midBlue, COL.white, 10) },
-                { v: '', style: headerStyle(COL.midBlue, COL.white, 10) },
-                { v: '', style: headerStyle(COL.midBlue, COL.white, 10) },
-            ];
-            rubricCriteria.forEach((c, ci) => {
-                let sum = 0;
-                students.forEach((_, si) => {
-                    sum += getLive(`${comm.id}__${si}__score__${ci}`, 0);
-                });
-                const avg = students.length > 0 ? sum / students.length : 0;
-                avgLabel.push({ v: parseFloat(avg.toFixed(1)), style: headerStyle(COL.midBlue, COL.cream, 10) });
-            });
-            // total avg
-            let totalSum = 0;
-            students.forEach((_, si) => { totalSum += getLive(`${comm.id}__${si}__total`, 0); });
-            const totalAvg = students.length > 0 ? totalSum / students.length : 0;
-            avgLabel.push({ v: parseFloat(totalAvg.toFixed(1)), style: numCellStyle(totalAvg) });
-            avgLabel.push({ v: '', style: headerStyle(COL.midBlue, COL.white, 10) });
-
-            avgLabel.forEach((cell, ci) => {
-                const addr = XLSX.utils.encode_cell({ r, c: ci });
-                ws[addr] = { v: cell.v, t: typeof cell.v === 'number' ? 'n' : 's', s: cell.style };
-            });
-            merges.push({ s: { r, c: 0 }, e: { r, c: 7 } });
-            r++;
+            r++;// empty
+            const avgLabel=[{v:'PROMEDIO GENERAL',s:hStyle(COL.midBlue,COL.white,10)},...Array(7).fill({v:'',s:hStyle(COL.midBlue,COL.white,10)})];
+            rubricCriteria.forEach((c,ci)=>{let sum=0;students.forEach((_,si)=>{sum+=getLive(comm.id+'__'+si+'__score__'+ci,0);});const avg=students.length>0?sum/students.length:0;avgLabel.push({v:parseFloat(avg.toFixed(1)),s:hStyle(COL.midBlue,COL.cream,10)});});
+            let tSum=0;students.forEach((_,si)=>{tSum+=getLive(comm.id+'__'+si+'__total',0);});const tAvg=students.length>0?tSum/students.length:0;
+            avgLabel.push({v:parseFloat(tAvg.toFixed(1)),s:totStyle(tAvg)});
+            avgLabel.push({v:'',s:hStyle(COL.midBlue,COL.white,10)});
+            avgLabel.forEach((cell,ci)=>{ws[XLSX.utils.encode_cell({r,c:ci})]={v:cell.v,t:typeof cell.v==='number'?'n':'s',s:cell.s};});
+            merges.push({s:{r,c:0},e:{r,c:7}});r++;
         }
-
-        ws['!merges'] = merges;
-
-        // Set sheet range
-        const range = { s: { r: 0, c: 0 }, e: { r: r - 1, c: totalCols - 1 } };
-        ws['!ref'] = XLSX.utils.encode_range(range);
-
-        XLSX.utils.book_append_sheet(wb, ws, comm.name.slice(0, 31));
+        ws['!merges']=merges;
+        ws['!ref']=XLSX.utils.encode_range({s:{r:0,c:0},e:{r:r-1,c:totalCols-1}});
+        XLSX.utils.book_append_sheet(wb,ws,comm.name.slice(0,31));
     });
 
-    // ── SUMMARY SHEET ──
-    const wsSum = {};
-    const sumMerges = [];
-    let sr = 0;
-
-    // Title
-    wsSum[`A${sr+1}`] = SC('RESUMEN GENERAL — CELIDER DISTRITALES 2026', {
-        font: { bold: true, sz: 16, color: { rgb: 'FFFFFF' }, name: 'Calibri' },
-        fill: { fgColor: { rgb: '0E223A' }, patternType: 'solid' },
-        alignment: { horizontal: 'center', vertical: 'center' }
-    });
-    sumMerges.push({ s: { r: sr, c: 0 }, e: { r: sr, c: 6 } });
-    wsSum['!rows'] = [{ hpt: 28 }];
-    sr++;
-
-    wsSum[`A${sr+1}`] = SC('© Derechos reservados Cristian Vargas — CELIDER Distritales 2026', {
-        font: { italic: true, sz: 9, color: { rgb: '457B9D' }, name: 'Calibri' },
-        fill: { fgColor: { rgb: 'EEF3F8' }, patternType: 'solid' },
-        alignment: { horizontal: 'center', vertical: 'center' }
-    });
-    sumMerges.push({ s: { r: sr, c: 0 }, e: { r: sr, c: 6 } });
-    sr++; sr++; // skip row
-
-    const sumHdrs = ['Comisión', 'Total Delegados', 'Formato 1', 'Formato 2', 'Cupo Máx', 'Disponibles', 'Restricción'];
-    sumHdrs.forEach((h, ci) => {
-        wsSum[XLSX.utils.encode_cell({ r: sr, c: ci })] = SC(h, {
-            font: { bold: true, sz: 11, color: { rgb: 'FFFFFF' }, name: 'Calibri' },
-            fill: { fgColor: { rgb: '0E223A' }, patternType: 'solid' },
-            alignment: { horizontal: 'center', vertical: 'center' },
-            border: { top: { style: 'medium', color: { rgb: '0E223A' } }, bottom: { style: 'medium', color: { rgb: '0E223A' } }, left: { style: 'medium', color: { rgb: '0E223A' } }, right: { style: 'medium', color: { rgb: '0E223A' } } }
+    // Summary sheet (only for admin / multi-commission download)
+    if(activeComms.length>1){
+        const wsSum={};const sumMerges=[];let sr=0;
+        wsSum[`A${sr+1}`]={v:'RESUMEN GENERAL — CELIDER DISTRITALES 2026',t:'s',s:{font:{bold:true,sz:16,color:{rgb:'FFFFFF'},name:'Calibri'},fill:{fgColor:{rgb:'0E223A'},patternType:'solid'},alignment:{horizontal:'center',vertical:'center'}}};
+        sumMerges.push({s:{r:sr,c:0},e:{r:sr,c:6}});wsSum['!rows']=[{hpt:28}];sr++;
+        wsSum[XLSX.utils.encode_cell({r:sr,c:0})]={v:'© Derechos reservados Cristian Vargas — CELIDER Distritales 2026',t:'s',s:{font:{italic:true,sz:9,color:{rgb:'457B9D'},name:'Calibri'},fill:{fgColor:{rgb:'EEF3F8'},patternType:'solid'},alignment:{horizontal:'center',vertical:'center'}}};
+        sumMerges.push({s:{r:sr,c:0},e:{r:sr,c:6}});sr++;sr++;
+        ['Comisión','Total Delegados','Formato 1','Formato 2','Cupo Máx','Disponibles','Restricción'].forEach((h,ci)=>{wsSum[XLSX.utils.encode_cell({r:sr,c:ci})]={v:h,t:'s',s:hStyle('0E223A','FFFFFF',11)};});
+        wsSum['!rows']=wsSum['!rows']||[];wsSum['!rows'][sr]={hpt:22};sr++;
+        let tF1=0,tF2=0;
+        activeComms.forEach((c,ri)=>{
+            const lim=customLimits[c.id]||c.defaultMax||32;
+            const students=rubricStudentsMap[c.id]||[];
+            const f1=students.filter(a=>a.source==='format1').length;
+            const f2=students.filter(a=>a.source==='format2').length;
+            const tot=f1+f2;tF1+=f1;tF2+=f2;
+            const bg=ri%2===0?'FFFFFF':'EEF3F8';
+            [{v:c.name,s:cStyle('FFFFFF',COL.darkBlue,true,'left')},{v:tot,s:cStyle(bg,'0E223A',true,'center')},{v:f1,s:cStyle(bg,'0E223A',false,'center')},{v:f2,s:cStyle(bg,'457B9D',false,'center')},{v:lim,s:cStyle(bg,'444444',false,'center')},{v:Math.max(0,lim-tot),s:cStyle(bg,Math.max(0,lim-tot)===0?'842029':'155724',false,'center')},{v:c.onlyFormat1?'Solo F1':'F1 + F2',s:cStyle(c.onlyFormat1?'FFF3CD':'D4EDDA',c.onlyFormat1?'856404':'155724',false,'center')}].forEach((cell,ci)=>{wsSum[XLSX.utils.encode_cell({r:sr,c:ci})]={v:cell.v,t:typeof cell.v==='number'?'n':'s',s:cell.s};});sr++;
         });
-    });
-    wsSum['!rows'][sr] = { hpt: 22 };
-    sr++;
-
-    // Get all assignments from rubricStudentsMap or local
-    const allAForSummary = Object.values(rubricStudentsMap).flat();
-    let tF1 = 0, tF2 = 0;
-    activeComms.forEach((c, ri) => {
-        const lim = customLimits[c.id] || c.defaultMax || 32;
-        const students = rubricStudentsMap[c.id] || [];
-        const f1 = students.filter(a => a.source === 'format1').length;
-        const f2 = students.filter(a => a.source === 'format2').length;
-        const tot = f1 + f2;
-        tF1 += f1; tF2 += f2;
-        const rowBg = ri % 2 === 0 ? 'FFFFFF' : 'EEF3F8';
-        const rowData = [
-            { v: c.name, s: cellStyle('FFFFFF', '0E223A', true, 'left') },
-            { v: tot, s: cellStyle(rowBg, '0E223A', true, 'center') },
-            { v: f1,  s: cellStyle(rowBg, '0E223A', false, 'center') },
-            { v: f2,  s: cellStyle(rowBg, '457B9D', false, 'center') },
-            { v: lim, s: cellStyle(rowBg, '444444', false, 'center') },
-            { v: Math.max(0, lim - tot), s: cellStyle(rowBg, Math.max(0,lim-tot)===0?'842029':'155724', false, 'center') },
-            { v: c.onlyFormat1 ? 'Solo Formato 1' : 'F1 + F2', s: cellStyle(c.onlyFormat1 ? 'FFF3CD' : 'D4EDDA', c.onlyFormat1 ? '856404' : '155724', false, 'center') },
-        ];
-        rowData.forEach((cell, ci) => {
-            wsSum[XLSX.utils.encode_cell({ r: sr, c: ci })] = { v: cell.v, t: typeof cell.v === 'number' ? 'n' : 's', s: cell.s };
-        });
-        sr++;
-    });
-
-    // Totals row
-    const totalRowData = [
-        { v: 'TOTAL GENERAL', s: headerStyle('0E223A', 'FFFFFF', 11) },
-        { v: tF1+tF2, s: headerStyle('0E223A', 'F8FCE0', 11) },
-        { v: tF1, s: headerStyle('0E223A', 'F8FCE0', 11) },
-        { v: tF2, s: headerStyle('457B9D', 'FFFFFF', 11) },
-        { v: '', s: headerStyle('0E223A', 'FFFFFF', 11) },
-        { v: '', s: headerStyle('0E223A', 'FFFFFF', 11) },
-        { v: '', s: headerStyle('0E223A', 'FFFFFF', 11) },
-    ];
-    totalRowData.forEach((cell, ci) => {
-        wsSum[XLSX.utils.encode_cell({ r: sr, c: ci })] = { v: cell.v, t: typeof cell.v === 'number' ? 'n' : 's', s: cell.s };
-    });
-    sr++;
-
-    wsSum['!cols'] = [{ wch: 22 }, { wch: 16 }, { wch: 12 }, { wch: 12 }, { wch: 10 }, { wch: 14 }, { wch: 16 }];
-    wsSum['!merges'] = sumMerges;
-    wsSum['!ref'] = XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: sr - 1, c: 6 } });
-    XLSX.utils.book_append_sheet(wb, wsSum, 'RESUMEN');
+        [{v:'TOTAL',s:hStyle('0E223A','FFFFFF',11)},{v:tF1+tF2,s:hStyle('0E223A','F8FCE0',11)},{v:tF1,s:hStyle('0E223A','F8FCE0',11)},{v:tF2,s:hStyle('457B9D','FFFFFF',11)},{v:'',s:hStyle('0E223A','FFFFFF',11)},{v:'',s:hStyle('0E223A','FFFFFF',11)},{v:'',s:hStyle('0E223A','FFFFFF',11)}].forEach((cell,ci)=>{wsSum[XLSX.utils.encode_cell({r:sr,c:ci})]={v:cell.v,t:typeof cell.v==='number'?'n':'s',s:cell.s};});sr++;
+        wsSum['!cols']=[{wch:22},{wch:16},{wch:12},{wch:12},{wch:10},{wch:14},{wch:16}];
+        wsSum['!merges']=sumMerges;
+        wsSum['!ref']=XLSX.utils.encode_range({s:{r:0,c:0},e:{r:sr-1,c:6}});
+        XLSX.utils.book_append_sheet(wb,wsSum,'RESUMEN');
+    }
 
     hideLoading();
-    XLSX.writeFile(wb, 'Rubricas_CELIDER_' + new Date().toISOString().split('T')[0] + '.xlsx');
+    const prefix=activeComms.length===1?activeComms[0].name+'_':'Completo_';
+    XLSX.writeFile(wb,'Rubricas_'+prefix+'CELIDER_'+new Date().toISOString().split('T')[0]+'.xlsx');
 }
 
-// ===== ASIGNACIONES =====
+// ============================================================
+// ADMIN: ASIGNACIONES
+// ============================================================
 function showAssignments(){
     showLoading();
     db.ref('publicAssignments').once('value').then(snap=>{
-        const allA=snap.val()||[]; hideLoading();
+        const allA=snap.val()||[];hideLoading();
         const activeComms=selectedCommissions.length>0?commissions.filter(c=>selectedCommissions.includes(c.id)):commissions;
         let sumRows='';
         activeComms.forEach(c=>{
             const f1=allA.filter(a=>a.commission===c.id&&a.source==='format1').length;
             const f2=allA.filter(a=>a.commission===c.id&&a.source==='format2').length;
-            const tot=f1+f2; if(!tot)return;
+            const tot=f1+f2;if(!tot)return;
             const lim=customLimits[c.id]||c.defaultMax||32;
             sumRows+=`<tr><td><strong>${c.name}</strong></td><td>${c.onlyFormat1?'<span style="color:#f0a500;">Solo F1</span>':''}</td><td>${f1}</td><td>${f2}</td><td><strong>${tot}</strong></td><td>${lim}</td><td>${Math.max(0,lim-tot)}</td></tr>`;
         });
@@ -1113,14 +1316,9 @@ function showAssignments(){
         <div style="overflow-x:auto;margin-bottom:25px;"><table><thead><tr><th>Comisión</th><th>Restricción</th><th>F1</th><th>F2</th><th>Total</th><th>Cupo</th><th>Disponibles</th></tr></thead><tbody>${sumRows}</tbody></table></div>`;
         activeComms.forEach(comm=>{
             const students=allA.filter(a=>a.commission===comm.id);if(!students.length)return;
-            html+=`<div class="section"><h3 style="color:#0E223A;">${comm.fullName}
-                <span style="background:#457B9D;color:white;padding:3px 10px;border-radius:15px;font-size:.8em;margin-left:8px;">${students.length}</span>
-                ${comm.onlyFormat1?'<span style="background:#f0a500;color:white;padding:3px 10px;border-radius:15px;font-size:.75em;margin-left:6px;">Solo F1</span>':''}
-            </h3><table><thead><tr><th>Nombre</th><th>Centro</th><th>Delegación</th><th>Distrito</th><th>Origen</th></tr></thead><tbody>`;
-            students.forEach(s=>{
-                html+=`<tr><td>${s.name}</td><td>${s.school}</td><td>${s.delegation}</td><td>${s.district||''}</td>
-                    <td><span style="background:${s.source==='format1'?'#0E223A':'#457B9D'};color:white;padding:2px 7px;border-radius:9px;font-size:.78em;">${s.source==='format1'?'F1':'F2'}</span></td></tr>`;
-            });
+            html+=`<div class="section"><h3 style="color:#0E223A;">${comm.fullName}<span style="background:#457B9D;color:white;padding:3px 10px;border-radius:15px;font-size:.8em;margin-left:8px;">${students.length}</span>${comm.onlyFormat1?'<span style="background:#f0a500;color:white;padding:3px 10px;border-radius:15px;font-size:.75em;margin-left:6px;">Solo F1</span>':''}</h3>
+            <table><thead><tr><th>Nombre</th><th>Centro</th><th>Delegación</th><th>Distrito</th><th>Origen</th></tr></thead><tbody>`;
+            students.forEach(s=>{html+=`<tr><td>${s.name}</td><td>${s.school}</td><td>${s.delegation}</td><td>${s.district||''}</td><td><span style="background:${s.source==='format1'?'#0E223A':'#457B9D'};color:white;padding:2px 7px;border-radius:9px;font-size:.78em;">${s.source==='format1'?'F1':'F2'}</span></td></tr>`;});
             html+=`</tbody></table></div>`;
         });
         document.getElementById('assignmentsContent').innerHTML=html||'<div class="alert alert-warning">No hay asignaciones publicadas.</div>';
@@ -1135,7 +1333,9 @@ function clearAllAssignments(){
     }).catch(e=>{hideLoading();alert('Error: '+e.message);});
 }
 
-// ===== CARGA ADMIN =====
+// ============================================================
+// ADMIN: LOAD DATA
+// ============================================================
 function loadAdminData(){
     showLoading('Cargando datos...');
     Promise.all([db.ref('selectedCommissions').once('value'),db.ref('customLimits').once('value'),db.ref('whatsappLinks').once('value'),db.ref('publicAssignments').once('value')])
