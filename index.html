@@ -169,6 +169,7 @@
                 <div class="stat-card"><span class="stat-number" id="statStudents">0</span><span class="stat-label">Delegados Totales</span></div>
                 <div class="stat-card"><span class="stat-number" id="statF1">0</span><span class="stat-label">Del Formato 1</span></div>
                 <div class="stat-card"><span class="stat-number" id="statF2">0</span><span class="stat-label">Del Formato 2</span></div>
+                <div class="stat-card"><span class="stat-number" id="statF3">0</span><span class="stat-label">Del Formato 3 (Extra)</span></div>
                 <div class="stat-card"><span class="stat-number" id="statCommissions">0</span><span class="stat-label">Comisiones Activas</span></div>
             </div>
         </div>
@@ -209,9 +210,9 @@
         <span class="close" onclick="closeModal('loginModal')">&times;</span>
         <h2 style="color:#0E223A;margin-bottom:25px;">🔐 Iniciar Sesión</h2>
         <form onsubmit="login();return false;">
-            <div class="form-group"><label>Usuario:</label><input type="text" id="username" placeholder="Tu usuario"></div>
-            <div class="form-group"><label>Contraseña:</label><input type="password" id="password" placeholder="Tu contraseña"></div>
-            <div id="loginError" style="display:none;color:#c0392b;font-weight:bold;margin-bottom:15px;padding:10px;background:#fdecea;border-radius:8px;">❌ Usuario o contraseña incorrectos</div>
+            <div class="form-group"><label>Correo electrónico:</label><input type="email" id="username" placeholder="correo@ejemplo.com" autocomplete="username"></div>
+            <div class="form-group"><label>Contraseña:</label><input type="password" id="password" placeholder="Tu contraseña" autocomplete="current-password"></div>
+            <div id="loginError" style="display:none;color:#c0392b;font-weight:bold;margin-bottom:15px;padding:10px;background:#fdecea;border-radius:8px;">❌ Correo o contraseña incorrectos</div>
             <button type="submit" class="btn btn-primary" style="width:100%;"><span>Ingresar</span></button>
         </form>
     </div>
@@ -245,6 +246,7 @@
         <div class="tab-buttons">
             <button class="tab-btn active" onclick="switchTab(event,'tab-f1')">📋 Formato 1 — Con Comisión Asignada</button>
             <button class="tab-btn" onclick="switchTab(event,'tab-f2')">📋 Formato 2 — Distribución Automática</button>
+            <button class="tab-btn" onclick="switchTab(event,'tab-f3')">📋 Formato 3 — Delegados Extra</button>
         </div>
         <div id="tab-f1" class="tab-content active">
             <div class="alert alert-info"><strong>📌 Formato 1:</strong> Columnas: <code>Nombres &nbsp; Apellidos &nbsp; Delegacion &nbsp; Centro Educativo &nbsp; Comision</code></div>
@@ -273,6 +275,23 @@
             </div>
             <div id="prev2"></div>
             <button class="btn btn-primary" style="margin-top:10px;" onclick="processF2()"><span>📥 Procesar y Publicar Formato 2</span></button>
+        </div>
+        <div id="tab-f3" class="tab-content">
+            <div class="alert alert-info"><strong>📌 Formato 3:</strong> Columnas: <code>Nombres &nbsp; Apellidos &nbsp; Delegacion &nbsp; Comision</code></div>
+            <div class="formato-info">Nombres&nbsp;&nbsp;&nbsp;Apellidos&nbsp;&nbsp;&nbsp;Delegacion&nbsp;&nbsp;&nbsp;Comision<br>María&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;García&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alemania&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTAN</div>
+            <div class="alert alert-warning" style="background:#e8f0fb;border-color:#457B9D;color:#0E223A;">
+                ℹ️ <strong>Formato 3</strong> agrega delegados extras directamente a cualquier comisión <strong>sin verificar el cupo máximo</strong>.<br>
+                Úsalo para casos especiales como los 2 delegados adicionales de OTAN (que lleva 28+2 = 30).
+            </div>
+            <div class="upload-zone" onclick="document.getElementById('ef3').click()">
+                <div class="icon">📂</div>
+                <strong style="font-size:1.2em;" id="z3t">Seleccionar archivo Excel (.xlsx / .xls)</strong><br>
+                <small style="color:#666;" id="z3s">Haz clic aquí para buscar el archivo</small>
+                <div class="file-name" id="z3f"></div>
+                <input type="file" id="ef3" accept=".xlsx,.xls" style="display:none" onchange="readXL(event,'f3')">
+            </div>
+            <div id="prev3"></div>
+            <button class="btn btn-primary" style="margin-top:10px;" onclick="processF3()"><span>📥 Procesar y Publicar Formato 3</span></button>
         </div>
         <div id="uploadResult" style="margin-top:20px;"></div>
     </div>
@@ -336,6 +355,7 @@
 
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 // ============================================================
@@ -344,22 +364,23 @@
 const firebaseConfig={apiKey:"AIzaSyA2HicfJnEoNOdgjfERIgkiJ0GA260HyLA",authDomain:"celider-distritales-f8753.firebaseapp.com",databaseURL:"https://celider-distritales-f8753-default-rtdb.firebaseio.com",projectId:"celider-distritales-f8753",storageBucket:"celider-distritales-f8753.firebasestorage.app",messagingSenderId:"252428103373",appId:"1:252428103373:web:6a209f9de105f8474d0384"};
 firebase.initializeApp(firebaseConfig);
 const db=firebase.database();
+const auth=firebase.auth();
 
 // ============================================================
-// USERS — Admin + District + Commission accounts
+// EMAIL → ROLE MAPPING (no passwords here — auth handled by Firebase)
 // ============================================================
-const users={
-    // Admin / district accounts
-    'CUENTA1':       {password:'DISTRITO 10-02', district:'10-02',   role:'admin'},
-    'CUENTA2':       {password:'DISTRITO 10-04', district:'10-04',   role:'admin'},
-    'DIRECTIVA10-02':{password:'CELIDER10-02',   district:'10-02',   role:'admin'},
-    'DIEGO':         {password:'REYES 123DIEGO', district:'ADMIN',   role:'admin'},
-    // Commission accounts
-    'OTAN':    {password:'otan',    district:'COMMISSION', role:'commission', commission:'otan'},
-    'UNICEF':  {password:'unicef',  district:'COMMISSION', role:'commission', commission:'unicef'},
-    'UIT':     {password:'uit',     district:'COMMISSION', role:'commission', commission:'uit'},
-    'UNESCO':  {password:'unesco',  district:'COMMISSION', role:'commission', commission:'unesco'},
-    'OIT':     {password:'oit',     district:'COMMISSION', role:'commission', commission:'oit'},
+const emailRoles = {
+    // Administradores
+    'cuenta1@celider.com':      { role:'admin', district:'10-02' },
+    'cuenta2@celider.com':      { role:'admin', district:'10-04' },
+    'directiva@celider.com':    { role:'admin', district:'10-02' },
+    'diego@celider.com':        { role:'admin', district:'ADMIN' },
+    // Comisiones
+    'otan@celider.com':         { role:'commission', commission:'otan',   district:'COMMISSION' },
+    'unicef@celider.com':       { role:'commission', commission:'unicef', district:'COMMISSION' },
+    'uit@celider.com':          { role:'commission', commission:'uit',    district:'COMMISSION' },
+    'unesco@celider.com':       { role:'commission', commission:'unesco', district:'COMMISSION' },
+    'oit@celider.com':          { role:'commission', commission:'oit',    district:'COMMISSION' },
 };
 
 // ============================================================
@@ -398,7 +419,7 @@ const participacionOpts=['— Seleccionar —','Excelente','Muy Bueno','Bueno','
 // ============================================================
 // APP STATE
 // ============================================================
-let currentUser=null, assignments=[], selectedCommissions=[], customLimits={}, whatsappLinks={}, allAssignments=[], parsedF1=[], parsedF2=[];
+let currentUser=null, assignments=[], selectedCommissions=[], customLimits={}, whatsappLinks={}, allAssignments=[], parsedF1=[], parsedF2=[], parsedF3=[];
 let rubricLiveData={};   // In-memory cache (commId__si__field -> value)
 let rubricStudentsMap={}; // commId -> array of student objects
 let commissionRubricRef=null;   // Firebase DB ref
@@ -433,43 +454,78 @@ function showSync(state, msg){
 function showLogin(){document.getElementById('loginModal').style.display='block';}
 
 function login(){
-    const u=document.getElementById('username').value.trim().toUpperCase();
-    const p=document.getElementById('password').value.trim().toUpperCase();
+    const email=document.getElementById('username').value.trim();
+    const pass=document.getElementById('password').value;
     const err=document.getElementById('loginError');
-    const userData=users[u];
-    if(userData&&userData.password.toUpperCase()===p){
-        currentUser={username:u,...userData};
-        // Detach old listener if any
+    if(!email||!pass){err.style.display='block';return;}
+    // Disable button to prevent double-click
+    const btn=document.querySelector('#loginModal .btn-primary');
+    if(btn)btn.disabled=true;
+    showLoading('Verificando credenciales...');
+    auth.signInWithEmailAndPassword(email, pass)
+    .then(cred=>{
+        const emailKey = cred.user.email.toLowerCase();
+        const roleData = emailRoles[emailKey];
+        if(!roleData){
+            auth.signOut();
+            throw new Error('Este usuario no tiene permisos asignados. Contacta al administrador.');
+        }
+        return { uid:cred.user.uid, email:cred.user.email, ...roleData };
+    })
+    .then(userData=>{
+        hideLoading();
+        currentUser=userData;
         if(commissionRubricRef&&commissionRubricCb){commissionRubricRef.off('value',commissionRubricCb);commissionRubricRef=null;commissionRubricCb=null;}
         rubricLiveData={};rubricStudentsMap={};
         closeModal('loginModal');err.style.display='none';
         document.getElementById('username').value='';document.getElementById('password').value='';
-        // Route to correct panel
+        if(btn)btn.disabled=false;
         if(currentUser.role==='commission'){
             showCommissionPanel();
-        } else {
+        }else{
             document.getElementById('mainContent').classList.add('hidden');
             document.getElementById('adminPanel').classList.remove('hidden');
             document.getElementById('commissionPanel').classList.add('hidden');
-            document.getElementById('welcomeUser').textContent=u;
+            document.getElementById('welcomeUser').textContent=currentUser.email.split('@')[0];
             document.getElementById('welcomeDistrict').textContent=currentUser.district==='ADMIN'?'Administrador General':'Distrito '+currentUser.district;
             loadAdminData();
         }
-    }else{
+    })
+    .catch(e=>{
+        hideLoading();
+        if(btn)btn.disabled=false;
         err.style.display='block';
+        // User-friendly error messages in Spanish
+        const msg=e.message||'';
+        if(msg.includes('user-not-found')||msg.includes('wrong-password')||msg.includes('invalid-credential')||msg.includes('INVALID_LOGIN_CREDENTIALS')){
+            err.textContent='❌ Correo o contraseña incorrectos';
+        }else if(msg.includes('too-many-requests')){
+            err.textContent='❌ Demasiados intentos. Espera unos minutos.';
+        }else if(msg.includes('permisos')){
+            err.textContent='❌ '+msg;
+        }else{
+            err.textContent='❌ Error al iniciar sesión. Intenta de nuevo.';
+        }
         document.getElementById('password').value='';
-    }
+    });
 }
 
 function logout(){
     if(commissionRubricRef&&commissionRubricCb){commissionRubricRef.off('value',commissionRubricCb);commissionRubricRef=null;commissionRubricCb=null;}
-    // Cancel any pending debounced saves
     Object.keys(pendingSaves).forEach(k=>{clearTimeout(pendingSaves[k]);delete pendingSaves[k];});
     currentUser=null;rubricLiveData={};rubricStudentsMap={};
+    auth.signOut();
     document.getElementById('mainContent').classList.remove('hidden');
     document.getElementById('adminPanel').classList.add('hidden');
     document.getElementById('commissionPanel').classList.add('hidden');
 }
+
+// Auto-logout if session is revoked externally
+auth.onAuthStateChanged(user=>{
+    if(!user && currentUser){
+        logout();
+    }
+});
 
 // ============================================================
 // COMMISSION PANEL
@@ -877,13 +933,20 @@ function readXL(event,fmt){
                 document.getElementById('z1f').style.display='block';
                 document.getElementById('z1f').textContent=parsedF1.length+' delegados válidos';
                 renderPrev('prev1',parsedF1,'f1');
-            }else{
+            }else if(fmt==='f2'){
                 parsedF2=parseF2(rows);
                 document.getElementById('z2t').textContent='✅ '+file.name;
                 document.getElementById('z2s').textContent=(rows.length-1)+' filas';
                 document.getElementById('z2f').style.display='block';
                 document.getElementById('z2f').textContent=parsedF2.length+' delegados válidos';
                 renderPrev('prev2',parsedF2,'f2');
+            }else{
+                parsedF3=parseF3(rows);
+                document.getElementById('z3t').textContent='✅ '+file.name;
+                document.getElementById('z3s').textContent=(rows.length-1)+' filas';
+                document.getElementById('z3f').style.display='block';
+                document.getElementById('z3f').textContent=parsedF3.length+' delegados válidos';
+                renderPrev('prev3',parsedF3,'f3');
             }
         }catch(err){hideLoading();alert('❌ Error: '+err.message);}
     };
@@ -923,11 +986,13 @@ function renderPrev(divId,data,fmt){
     let html=`<div class="alert alert-success">✅ <strong>${data.length} delegados</strong> listos. Vista previa (5):</div>
         <table style="font-size:.85em;"><thead><tr>`;
     if(fmt==='f1')html+='<th>Nombre</th><th>Centro</th><th>Comisión</th><th>Delegación</th>';
+    else if(fmt==='f3')html+='<th>Nombre</th><th>Comisión</th><th>Delegación</th>';
     else html+='<th>Nombre</th><th>Centro</th><th>Distrito</th>';
     html+='</tr></thead><tbody>';
     data.slice(0,5).forEach(s=>{
         html+='<tr>';
         if(fmt==='f1')html+=`<td>${s.name}</td><td>${s.school}</td><td>${s.commissionName||s.commission}</td><td>${s.delegation||'—'}</td>`;
+        else if(fmt==='f3')html+=`<td>${s.name}</td><td>${s.commissionName||s.commission}</td><td>${s.delegation||'—'}</td>`;
         else html+=`<td>${s.name}</td><td>${s.school}</td><td>${s.district}</td>`;
         html+='</tr>';
     });
@@ -989,6 +1054,36 @@ function processF2(){
                 <table style="font-size:.9em;margin-top:10px;"><thead><tr><th>Comisión</th><th>F1</th><th>F2</th><th>Total/Cupo</th></tr></thead><tbody>${lines}</tbody></table>${ov}`;
             parsedF2=[];document.getElementById('z2t').textContent='Seleccionar archivo Excel';document.getElementById('z2s').textContent='Haz clic para buscar';document.getElementById('prev2').innerHTML='';
         });
+    }).catch(e=>{hideLoading();alert('Error: '+e.message);});
+}
+function parseF3(rows){
+    if(!rows||rows.length<2)return[];
+    const start=(rows[0]||[]).some(c=>typeof c==='string'&&c.toLowerCase().match(/nombre|apellido/))?1:0;
+    const out=[];
+    for(let i=start;i<rows.length;i++){
+        const cols=rows[i]||[];
+        const nom=String(cols[0]||'').trim(),ape=String(cols[1]||'').trim();
+        const del=String(cols[2]||'').trim();
+        const cn=String(cols[3]||'').trim().toUpperCase();
+        const full=ape?nom+' '+ape:nom;
+        if(!full.trim())continue;
+        const comm=commissions.find(c=>c.id.toUpperCase()===cn||c.name.toUpperCase()===cn||cn.includes(c.name.toUpperCase()));
+        out.push({name:full.trim(),school:'',district:'',commission:comm?comm.id:cn.toLowerCase(),commissionName:comm?comm.fullName:cn,delegation:del,source:'format3',attendance:'',participCount:0,participQual:'',scores:{},total:0,regional:false});
+    }
+    return out;
+}
+function processF3(){
+    if(!parsedF3.length){alert('⚠️ Carga un archivo de Formato 3 primero.');return;}
+    showLoading(`Publicando ${parsedF3.length} delegados F3...`);
+    db.ref('publicAssignments').once('value').then(snap=>{
+        const ex=snap.val()||[];
+        return db.ref('publicAssignments').set([...ex,...parsedF3]);
+    }).then(()=>{
+        hideLoading();assignments=[...assignments,...parsedF3];updateStats();
+        const sum={};parsedF3.forEach(s=>{sum[s.commission]=(sum[s.commission]||0)+1;});
+        const lines=Object.entries(sum).map(([k,v])=>{const c=commissions.find(x=>x.id===k);return`<li><strong>${c?c.name:k.toUpperCase()}</strong>: ${v} delegado(s) extra</li>`;}).join('');
+        document.getElementById('uploadResult').innerHTML=`<div class="alert alert-success">✅ <strong>${parsedF3.length} delegados F3 extra publicados.</strong><ul style="margin-top:8px;padding-left:20px;">${lines}</ul></div>`;
+        parsedF3=[];document.getElementById('z3t').textContent='Seleccionar archivo Excel';document.getElementById('z3s').textContent='Haz clic para buscar';document.getElementById('prev3').innerHTML='';
     }).catch(e=>{hideLoading();alert('Error: '+e.message);});
 }
 function showUploadModal(){document.getElementById('uploadResult').innerHTML='';document.getElementById('uploadModal').style.display='block';}
@@ -1348,6 +1443,7 @@ function updateStats(){
     document.getElementById('statStudents').textContent=assignments.length;
     document.getElementById('statF1').textContent=assignments.filter(a=>a.source==='format1').length;
     document.getElementById('statF2').textContent=assignments.filter(a=>a.source==='format2').length;
+    document.getElementById('statF3').textContent=assignments.filter(a=>a.source==='format3').length;
     document.getElementById('statCommissions').textContent=selectedCommissions.length;
 }
 db.ref('whatsappLinks').on('value',snap=>{whatsappLinks=snap.val()||{};});
